@@ -12,5 +12,6 @@ namespace PizzeriaAPI.Domain.DbContext
         public DbSet<Item> Items { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
     }
 }

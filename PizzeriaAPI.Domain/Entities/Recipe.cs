@@ -24,7 +24,7 @@ namespace PizzeriaAPI.Domain.Entities
         [Required, Column("quantity")]
         public required int Quantity { get; set; }
 
-        [ForeignKey("Item")]
+        [ForeignKey("ItemId")]
         public Item Item { get; set; } = null!;
     }
 }
