@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "connectionInfo": "App registration: PizzeriaAPI, Tenant: Національний університет \"Львівська політехніка\" (edu.lpnu.ua - Microsoft Entra ID)",
+      "type": "identityapp.default"
+    }
+  }
+}
