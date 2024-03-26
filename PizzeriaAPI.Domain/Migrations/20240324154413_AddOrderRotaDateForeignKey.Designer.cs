@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzeriaAPI.Domain.DbContext;
 
@@ -11,9 +12,11 @@ using PizzeriaAPI.Domain.DbContext;
 namespace PizzeriaAPI.Domain.Migrations
 {
     [DbContext(typeof(PizzeriaDbContext))]
-    partial class PizzeriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240324154413_AddOrderRotaDateForeignKey")]
+    partial class AddOrderRotaDateForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,11 +229,14 @@ namespace PizzeriaAPI.Domain.Migrations
                         .HasColumnType("int")
                         .HasColumnName("quantity");
 
+                    b.Property<Guid?>("RotaDate")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("RowId");
 
-                    b.HasIndex("CreatedAt");
-
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("RotaDate");
 
                     b.ToTable("orders");
                 });
@@ -376,18 +382,15 @@ namespace PizzeriaAPI.Domain.Migrations
 
             modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("PizzeriaAPI.Domain.Entities.Rota", "Rota")
-                        .WithMany()
-                        .HasForeignKey("CreatedAt")
-                        .HasPrincipalKey("Date")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PizzeriaAPI.Domain.Entities.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("PizzeriaAPI.Domain.Entities.Rota", "Rota")
+                        .WithMany()
+                        .HasForeignKey("RotaDate");
 
                     b.Navigation("Customer");
 

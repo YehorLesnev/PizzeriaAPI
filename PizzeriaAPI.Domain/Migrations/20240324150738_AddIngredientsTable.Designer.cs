@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzeriaAPI.Domain.DbContext;
 
@@ -11,9 +12,11 @@ using PizzeriaAPI.Domain.DbContext;
 namespace PizzeriaAPI.Domain.Migrations
 {
     [DbContext(typeof(PizzeriaDbContext))]
-    partial class PizzeriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240324150738_AddIngredientsTable")]
+    partial class AddIngredientsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,31 +124,6 @@ namespace PizzeriaAPI.Domain.Migrations
                     b.ToTable("ingredients");
                 });
 
-            modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Inventory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("inventory_id");
-
-                    b.Property<Guid>("IngredientId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ingredient_id");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
-                        .HasColumnName("quantity");
-
-                    b.Property<Guid>("RecipeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("inventory");
-                });
-
             modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Item", b =>
                 {
                     b.Property<Guid>("Id")
@@ -228,8 +206,6 @@ namespace PizzeriaAPI.Domain.Migrations
 
                     b.HasKey("RowId");
 
-                    b.HasIndex("CreatedAt");
-
                     b.HasIndex("CustomerId");
 
                     b.ToTable("orders");
@@ -266,70 +242,6 @@ namespace PizzeriaAPI.Domain.Migrations
                     b.ToTable("recipe");
                 });
 
-            modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Rota", b =>
-                {
-                    b.Property<Guid>("RowId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("row_id");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("DateTime")
-                        .HasColumnName("date");
-
-                    b.Property<Guid>("RotaId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("rota_id");
-
-                    b.Property<Guid>("ShiftId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("shift_id");
-
-                    b.Property<Guid>("StaffId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("staff_id");
-
-                    b.HasKey("RowId");
-
-                    b.HasIndex("StaffId");
-
-                    b.ToTable("rota");
-                });
-
-            modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Staff", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("staff_id");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(55)
-                        .HasColumnType("varchar")
-                        .HasColumnName("first_name");
-
-                    b.Property<decimal>("HourlyRate")
-                        .HasColumnType("Decimal")
-                        .HasColumnName("hourly_rate");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(55)
-                        .HasColumnType("varchar")
-                        .HasColumnName("last_name");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar")
-                        .HasColumnName("position");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("staff");
-                });
-
             modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Address", b =>
                 {
                     b.HasOne("PizzeriaAPI.Domain.Entities.Order", "Order")
@@ -342,17 +254,6 @@ namespace PizzeriaAPI.Domain.Migrations
                 });
 
             modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Ingredient", b =>
-                {
-                    b.HasOne("PizzeriaAPI.Domain.Entities.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
-                });
-
-            modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Inventory", b =>
                 {
                     b.HasOne("PizzeriaAPI.Domain.Entities.Recipe", "Recipe")
                         .WithMany()
@@ -376,13 +277,6 @@ namespace PizzeriaAPI.Domain.Migrations
 
             modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("PizzeriaAPI.Domain.Entities.Rota", "Rota")
-                        .WithMany()
-                        .HasForeignKey("CreatedAt")
-                        .HasPrincipalKey("Date")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PizzeriaAPI.Domain.Entities.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
@@ -390,8 +284,6 @@ namespace PizzeriaAPI.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
-
-                    b.Navigation("Rota");
                 });
 
             modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Recipe", b =>
@@ -403,17 +295,6 @@ namespace PizzeriaAPI.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("Item");
-                });
-
-            modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Rota", b =>
-                {
-                    b.HasOne("PizzeriaAPI.Domain.Entities.Staff", "Staff")
-                        .WithMany()
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Staff");
                 });
 
             modelBuilder.Entity("PizzeriaAPI.Domain.Entities.Customer", b =>

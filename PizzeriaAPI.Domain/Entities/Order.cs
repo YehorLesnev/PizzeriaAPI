@@ -39,5 +39,8 @@ namespace PizzeriaAPI.Domain.Entities
 
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; } = null!;
+
+        [ForeignKey("CreatedAt")]
+        public Rota Rota { get; set; } = null!;
     }
 }

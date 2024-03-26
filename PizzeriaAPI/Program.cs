@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
-using PizzeriaAPI.Domain.DbContext;
+using Pizzeria.Domain.Models;
+using Pizzeria.Domain.Repository.Implementations;
+using Pizzeria.Domain.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +16,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<PizzeriaDbContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DatabaseSQL"), b => b.MigrationsAssembly("PizzeriaAPI.Domain"))
-);
+builder.Services.AddDbContext<PizzeriaDbContext>(options =>
+options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DatabaseSQL"),
+    b => b.MigrationsAssembly("Pizzeria.Domain" +
+    "")
+    ));
+
+//test
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 var app = builder.Build();
 
