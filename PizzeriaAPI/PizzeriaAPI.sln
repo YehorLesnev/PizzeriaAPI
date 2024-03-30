@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzeriaAPI", "PizzeriaAPI.csproj", "{E33DCDD7-F2F6-4CD3-9CED-82E3ED755C01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzeria.Domain", "..\Pizzeria.Domain\Pizzeria.Domain.csproj", "{26A7C8FE-8995-405E-A7D7-B34F71EA5807}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pizzeria.Domain", "..\Pizzeria.Domain\Pizzeria.Domain.csproj", "{26A7C8FE-8995-405E-A7D7-B34F71EA5807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

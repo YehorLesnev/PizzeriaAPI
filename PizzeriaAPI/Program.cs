@@ -7,6 +7,7 @@ using Pizzeria.Domain.Extensions;
 using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Repository.Implementations;
 using Pizzeria.Domain.Repository.Interfaces;
+using Pizzeria.Domain.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,9 @@ builder.Services.RegisterRepositories();
 
 // Add services
 builder.Services.RegisterServices();
+
+// Database Seeder
+builder.Services.AddScoped<ISeeder, Seeder>();
 
 var app = builder.Build();
 
