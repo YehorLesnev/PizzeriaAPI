@@ -7,6 +7,7 @@ using Pizzeria.Domain.Services.CustomerService;
 using Pizzeria.Domain.Services.IngredientService;
 using Pizzeria.Domain.Services.ItemService;
 using Pizzeria.Domain.Services.StaffServcice;
+using Pizzeria.Domain.Services.RecipeService;
 
 namespace Pizzeria.Domain.Extensions
 {
@@ -39,6 +40,7 @@ namespace Pizzeria.Domain.Extensions
             serviceCollection.AddScoped<IIngredientService, IngredientService>();
             serviceCollection.AddScoped<IItemService, ItemService>();
             serviceCollection.AddScoped<IStaffService, StaffService>();
+            serviceCollection.AddScoped<IRecipeService, RecipeService>();
 
             return serviceCollection;
         }

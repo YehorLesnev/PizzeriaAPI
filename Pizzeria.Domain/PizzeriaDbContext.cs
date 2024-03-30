@@ -128,7 +128,7 @@ public partial class PizzeriaDbContext : DbContext
             entity.Property(e => e.RecipeId).HasColumnName("recipe_id");
 
             entity.HasOne(d => d.ItemNavigation).WithOne(p => p.Item)
-                .HasForeignKey<Item>(d => d.ItemId)
+                .HasForeignKey<Item>(d => d.RecipeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_items_recipes");
         });
