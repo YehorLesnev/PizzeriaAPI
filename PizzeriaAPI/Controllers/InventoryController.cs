@@ -5,7 +5,7 @@ using Pizzeria.Domain.Services.InventoryService;
 
 namespace PizzeriaAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class InventoryController(IInventoryService inventoryService) 
         : ControllerBase
