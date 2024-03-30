@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pizzeria.Domain;
 
@@ -11,9 +12,11 @@ using Pizzeria.Domain;
 namespace Pizzeria.Domain.Migrations
 {
     [DbContext(typeof(PizzeriaDbContext))]
-    partial class PizzeriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240330163823_ChangeInventoryIngredientRelation")]
+    partial class ChangeInventoryIngredientRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,12 +116,24 @@ namespace Pizzeria.Domain.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("ingredient_weight_measure");
 
-                    b.Property<long>("QuantityInStock")
-                        .HasColumnType("bigint");
-
                     b.HasKey("IngredientId");
 
                     b.ToTable("ingredients", (string)null);
+                });
+
+            modelBuilder.Entity("Pizzeria.Domain.Models.Inventory", b =>
+                {
+                    b.Property<Guid>("IngredientId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ingredient_id");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
+                        .HasColumnName("quantity");
+
+                    b.HasKey("IngredientId");
+
+                    b.ToTable("inventory", (string)null);
                 });
 
             modelBuilder.Entity("Pizzeria.Domain.Models.Item", b =>
@@ -298,6 +313,17 @@ namespace Pizzeria.Domain.Migrations
                     b.ToTable("staff", (string)null);
                 });
 
+            modelBuilder.Entity("Pizzeria.Domain.Models.Ingredient", b =>
+                {
+                    b.HasOne("Pizzeria.Domain.Models.Inventory", "Inventory")
+                        .WithOne("Ingredient")
+                        .HasForeignKey("Pizzeria.Domain.Models.Ingredient", "IngredientId")
+                        .IsRequired()
+                        .HasConstraintName("FK_inventory_ingredients");
+
+                    b.Navigation("Inventory");
+                });
+
             modelBuilder.Entity("Pizzeria.Domain.Models.Item", b =>
                 {
                     b.HasOne("Pizzeria.Domain.Models.Recipe", "ItemNavigation")
@@ -385,6 +411,11 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Ingredient", b =>
                 {
                     b.Navigation("RecipeIngredients");
+                });
+
+            modelBuilder.Entity("Pizzeria.Domain.Models.Inventory", b =>
+                {
+                    b.Navigation("Ingredient");
                 });
 
             modelBuilder.Entity("Pizzeria.Domain.Models.Item", b =>

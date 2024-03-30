@@ -15,9 +15,11 @@ public partial class Ingredient
     [MaxLength(50)]
     public string IngredientWeightMeasure { get; set; } = null!;
 
-    public decimal IngredientPrice { get; set; }
+    [Required]
+    public required decimal IngredientPrice { get; set; }
 
-    public virtual Inventory IngredientNavigation { get; set; } = null!;
+    [Required]
+    public required long QuantityInStock { get; set; }
 
     public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
 }

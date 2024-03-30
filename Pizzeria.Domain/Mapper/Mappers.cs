@@ -1,7 +1,6 @@
 ﻿using Pizzeria.Domain.Dto.AddressDto;
 using Pizzeria.Domain.Dto.CustomerDto;
 using Pizzeria.Domain.Dto.IngredientDto;
-using Pizzeria.Domain.Dto.InventoryDto;
 using Pizzeria.Domain.Dto.ItemDto;
 using Pizzeria.Domain.Dto.OrderDto;
 using Pizzeria.Domain.Dto.OrderItemDto;
@@ -19,7 +18,6 @@ namespace Pizzeria.Domain.Mapper
         public static partial ResponseAddressDto MapAddressToResponseDto(Address address);
         public static partial ResponseCustomerDto MapCustomerToResponseDto(Customer customer);
         public static partial ResponseIngredientDto MapIngredientToResponseDto(Ingredient ingredient);
-        public static partial InventoryDto MapInventoryToDto(Inventory inventory);
         public static partial ResponseItemDto MapItemToResponseDto(Item item);
         public static partial ResponseOrderDto MapOrderToResponseDto(Order order);
         public static partial ResponseOrderItemDto MapOrderItemToResponseDto(OrderItem orderItem);
@@ -30,7 +28,6 @@ namespace Pizzeria.Domain.Mapper
         public static partial IEnumerable<ResponseAddressDto> MapAddressToResponseDto(IEnumerable<Address> addresses);
         public static partial IEnumerable<ResponseCustomerDto> MapCustomerToResponseDto(IEnumerable<Customer> customers);
         public static partial IEnumerable<ResponseIngredientDto> MapIngredientToResponseDto(IEnumerable<Ingredient> ingredients);
-        public static partial IEnumerable<InventoryDto> MapInventoryToDto(IEnumerable<Inventory> inventories);
         public static partial IEnumerable<ResponseItemDto> MapItemToResponseDto(IEnumerable<Item> items);
         public static partial IEnumerable<ResponseOrderDto> MapOrderToResponseDto(IEnumerable<Order> orders);
         public static partial IEnumerable<ResponseOrderItemDto> MapOrderItemToResponseDto(IEnumerable<OrderItem> orderItems);
@@ -41,7 +38,6 @@ namespace Pizzeria.Domain.Mapper
         public static partial Address MapRequestDtoToAddress(RequestAddressDto requestAddress);
         public static partial Customer MapRequestDtoToCustomer(RequestCustomerDto requestCustomer);
         public static partial Ingredient MapRequestDtoToIngredient(RequestIngredientDto requestIngredient);
-        public static partial Inventory MapDtoToInventory(InventoryDto inventory);
         public static partial Item MapRequestDtoToItem(RequestItemDto requestItem);
         public static partial Order MapRequestDtoToOrder(RequestOrderDto requestOrder);
         public static partial OrderItem MapDtoToOrderItem(RequestOrderItemDto orderItem);

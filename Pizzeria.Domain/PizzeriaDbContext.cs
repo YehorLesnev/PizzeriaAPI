@@ -20,8 +20,6 @@ public partial class PizzeriaDbContext : DbContext
 
     public virtual DbSet<Ingredient> Ingredients { get; set; }
 
-    public virtual DbSet<Inventory> Inventories { get; set; }
-
     public virtual DbSet<Item> Items { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -100,23 +98,6 @@ public partial class PizzeriaDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("ingredient_weight_measure");
-
-            entity.HasOne(d => d.IngredientNavigation).WithOne(p => p.Ingredient)
-                .HasForeignKey<Ingredient>(d => d.IngredientId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ingredients_inventory");
-        });
-
-        modelBuilder.Entity<Inventory>(entity =>
-        {
-            entity.HasKey(e => e.IngredientId);
-
-            entity.ToTable("inventory");
-
-            entity.Property(e => e.IngredientId)
-                .ValueGeneratedNever()
-                .HasColumnName("ingredient_id");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
         });
 
         modelBuilder.Entity<Item>(entity =>

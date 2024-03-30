@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Pizzeria.Domain.Repository.Interfaces;
-using System.Reflection;
 using Pizzeria.Domain.Repository.Implementations;
 using Pizzeria.Domain.Services.OrderService;
 using Pizzeria.Domain.Services.AddressService;
 using Pizzeria.Domain.Services.CustomerService;
 using Pizzeria.Domain.Services.IngredientService;
-using Pizzeria.Domain.Services.InventoryService;
 using Pizzeria.Domain.Services.ItemService;
 using Pizzeria.Domain.Services.StaffServcice;
 
@@ -21,7 +19,6 @@ namespace Pizzeria.Domain.Extensions
             serviceCollection.AddScoped<IAddressRepository, AddressRepository>();
             serviceCollection.AddScoped<ICustomerRepository, CustomerRepository>();
             serviceCollection.AddScoped<IIngredientRepository, IngredientRepository>();
-            serviceCollection.AddScoped<IInventoryRepository, InventoryRepository>();
             serviceCollection.AddScoped<IItemRepository, ItemRepository>();
             serviceCollection.AddScoped<IOrderItemRepository, OrderItemRepository>();
             serviceCollection.AddScoped<IOrderRepository, OrderRepository>();
@@ -40,7 +37,6 @@ namespace Pizzeria.Domain.Extensions
             serviceCollection.AddScoped<IAddressService,  AddressService>();
             serviceCollection.AddScoped<ICustomerService, CustomerService>();
             serviceCollection.AddScoped<IIngredientService, IngredientService>();
-            serviceCollection.AddScoped<IInventoryService, InventoryService>();
             serviceCollection.AddScoped<IItemService, ItemService>();
             serviceCollection.AddScoped<IStaffService, StaffService>();
 

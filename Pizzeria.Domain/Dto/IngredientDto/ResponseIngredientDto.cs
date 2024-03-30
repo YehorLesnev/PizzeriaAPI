@@ -15,5 +15,8 @@ namespace Pizzeria.Domain.Dto.IngredientDto
 
         [Required]
         public required decimal IngredientPrice { get; set; }
+
+        [Required]
+        public required long QuantityInStock { get; set; }
     }
 }
