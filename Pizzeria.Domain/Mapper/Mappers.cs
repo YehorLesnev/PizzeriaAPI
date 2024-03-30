@@ -24,7 +24,7 @@ namespace Pizzeria.Domain.Mapper
         public static partial ResponseOrderDto MapOrderToResponseDto(Order order);
         public static partial ResponseOrderItemDto MapOrderItemToResponseDto(OrderItem orderItem);
         public static partial ResponseRecipeDto MapRecipeToResponseDto(Recipe recipe);
-        public static partial RecipeIngredientDto MapRecipeIngredientToDto(RecipeIngredient recipeIngredient);
+        public static partial ResponseRecipeIngredientDto MapRecipeIngredientToResponseDto(RecipeIngredient recipeIngredient);
         public static partial ResponseStaffDto MapStaffToResponseDto(Staff staff);
 
         public static partial IEnumerable<ResponseAddressDto> MapAddressToResponseDto(IEnumerable<Address> addresses);
@@ -35,7 +35,7 @@ namespace Pizzeria.Domain.Mapper
         public static partial IEnumerable<ResponseOrderDto> MapOrderToResponseDto(IEnumerable<Order> orders);
         public static partial IEnumerable<ResponseOrderItemDto> MapOrderItemToResponseDto(IEnumerable<OrderItem> orderItems);
         public static partial IEnumerable<ResponseRecipeDto> MapRecipeToResponseDto(IEnumerable<Recipe> recipes);
-        public static partial IEnumerable<RecipeIngredientDto> MapRecipeIngredientToDto(IEnumerable<RecipeIngredient> recipeIngredients);
+        public static partial IEnumerable<ResponseRecipeIngredientDto> MapRecipeIngredientToResponseDto(IEnumerable<RecipeIngredient> recipeIngredients);
         public static partial IEnumerable<ResponseStaffDto> MapStaffToResponseDto(IEnumerable<Staff> staff);
 
         public static partial Address MapRequestDtoToAddress(RequestAddressDto requestAddress);
@@ -46,7 +46,7 @@ namespace Pizzeria.Domain.Mapper
         public static partial Order MapRequestDtoToOrder(RequestOrderDto requestOrder);
         public static partial OrderItem MapDtoToOrderItem(RequestOrderItemDto orderItem);
         public static partial Recipe MapRequestDtoToRecipe(RequestRecipeDto requestRecipe);
-        public static partial RecipeIngredient MapDtoToRecipeIngredient(RecipeIngredientDto recipeIngredient);
+        public static partial RecipeIngredient MapRequestDtoToRecipeIngredient(RequestRecipeIngredientDto responseRecipeIngredient);
         public static partial Staff MapRequestDtoToStaff(RequestStaffDto requestStaff);
     }
 }
