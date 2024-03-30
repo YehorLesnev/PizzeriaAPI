@@ -11,6 +11,6 @@ namespace Pizzeria.Domain.Dto.RecipeIngredientDto
         public required Guid IngredientId { get; set; }
 
         [Required]
-        public required int IngredientWeight { get; set; }
+        public required float IngredientWeight { get; set; }
     }
 }

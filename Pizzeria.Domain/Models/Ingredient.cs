@@ -19,7 +19,7 @@ public partial class Ingredient
     public required decimal IngredientPrice { get; set; }
 
     [Required]
-    public required long QuantityInStock { get; set; }
+    public required float QuantityInStock { get; set; }
 
     public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
 }

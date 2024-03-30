@@ -9,7 +9,7 @@ public partial class RecipeIngredient
 
     public Guid IngredientId { get; set; }
 
-    public int IngredientWeight { get; set; }
+    public float IngredientWeight { get; set; }
 
     public virtual Ingredient Ingredient { get; set; } = null!;
 
