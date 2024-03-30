@@ -98,6 +98,9 @@ public partial class PizzeriaDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("ingredient_weight_measure");
+            
+            entity.Property(e => e.QuantityInStock)
+                .HasColumnName("quantity_in_stock");
         });
 
         modelBuilder.Entity<Item>(entity =>
