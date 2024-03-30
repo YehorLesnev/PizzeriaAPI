@@ -46,7 +46,7 @@ namespace Pizzeria.Domain.Repository
 
         public async Task CreateAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
+             await _dbSet.AddAsync(entity);
         }
 
         public async Task CreateAllAsync(IEnumerable<T> entities)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Pizzeria.Domain.Models;
+using Pizzeria.Domain.Dto.AddressDto;
+using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.AddressService;
 
 namespace PizzeriaAPI.Controllers
@@ -11,15 +12,59 @@ namespace PizzeriaAPI.Controllers
         ) : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Address> Get()
+        public IEnumerable<ResponseAddressDto> GetAll()
         {
-            return addressService.GetAll();
+            return Mappers.MapAddressToResponseDto(addressService.GetAll(asNoTracking: true));
         }
 
-        [HttpGet("{id}")]
-        public async Task<Address?> Get(Guid id)
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ResponseAddressDto>> Get(Guid id)
         {
-            return await addressService.GetAsync(a => a.AddressId.Equals(id));
+            var address = await addressService.GetAsync(a => a.AddressId.Equals(id), true);
+
+            if(address is null) return NotFound();
+
+            return Ok(Mappers.MapAddressToResponseDto(address));
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ResponseAddressDto>> Create([FromBody] RequestAddressDto requestAddressDto)
+        {
+            var address = Mappers.MapRequestDtoToAddress(requestAddressDto);
+            
+            await addressService.CreateAsync(address);
+
+            return Ok(Mappers.MapAddressToResponseDto(address));
+        }
+
+        [HttpPut("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ResponseAddressDto>> Update([FromRoute] Guid id, [FromBody] RequestAddressDto requestAddressDto)
+        {
+            var initialAddress = await addressService.GetAsync(o => o.AddressId.Equals(id), true);
+
+            if(initialAddress is null) return NotFound();
+
+            var updatedAddress = Mappers.MapRequestDtoToAddress(requestAddressDto);
+            updatedAddress.AddressId = initialAddress.AddressId;
+
+            await addressService.UpdateAsync(updatedAddress);
+            
+            return Ok(Mappers.MapAddressToResponseDto(updatedAddress));
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task Delete([FromRoute] Guid id)
+        {
+            var order = await addressService.GetAsync(o => o.AddressId.Equals(id));
+
+            if(order is null) return;
+
+            await addressService.DeleteAsync(order);
         }
     }
 }
