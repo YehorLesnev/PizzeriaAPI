@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Pizzeria.Domain.Dto.OrderItemDto;
 
 namespace Pizzeria.Domain.Dto.OrderDto
 {
@@ -23,7 +19,7 @@ namespace Pizzeria.Domain.Dto.OrderDto
         public required Guid? CustomerId { get; set; }
 
         [Required]
-        public required ICollection<OrderItemDto.OrderItemDto> OrderItems { get; set; } 
+        public required ICollection<ResponseOrderItemDto> OrderItems { get; set; } 
 
         [DefaultValue(false)]
         public bool Delivery { get; set; } = false;

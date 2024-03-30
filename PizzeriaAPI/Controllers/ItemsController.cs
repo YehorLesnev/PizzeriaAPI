@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.ItemDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.ItemService;
 
 namespace PizzeriaAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ItemsController(IItemService itemService)
         : ControllerBase

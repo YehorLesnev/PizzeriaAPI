@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.OrderItemDto
 {
-    public class OrderItemDto
+    public class ResponseOrderItemDto
     {
         [Required]
         public required Guid OrderId { get; set; }

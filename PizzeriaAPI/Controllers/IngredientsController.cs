@@ -5,7 +5,7 @@ using Pizzeria.Domain.Services.IngredientService;
 
 namespace PizzeriaAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class IngredientsController(IIngredientService ingredientService)
         : ControllerBase

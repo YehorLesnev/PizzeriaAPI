@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Pizzeria.Domain.Dto.AddressDto;
 using Pizzeria.Domain.Dto.OrderDto;
 using Pizzeria.Domain.Mapper;
-using Pizzeria.Domain.Services.AddressService;
 using Pizzeria.Domain.Services.OrderService;
 
 namespace PizzeriaAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class OrdersController(IOrderService orderService)
         : ControllerBase
