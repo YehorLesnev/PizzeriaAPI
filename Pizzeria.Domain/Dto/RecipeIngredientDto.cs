@@ -5,9 +5,12 @@ namespace Pizzeria.Domain.Dto
     public class RecipeIngredientDto
     {
         [Required]
-        public required int IngredientWeight { get; set; }
+        public required Guid RecipeId { get; set; }
 
         [Required]
-        public required IngredientDto Ingredient { get; set; } 
+        public required Guid IngredientId { get; set; }
+
+        [Required]
+        public required int IngredientWeight { get; set; }
     }
 }

@@ -9,10 +9,10 @@ namespace Pizzeria.Domain.Dto
         public required DateTime Date { get; set; }
 
         [Required]
-        public required CustomerDto Customer { get; set; }
-        
+        public required Guid StaffId { get; set; }
+
         [Required]
-        public required StaffDto Staff { get; set; }
+        public required Guid? CustomerId { get; set; }
 
         [Required]
         public required ICollection<OrderItemDto> OrderItems { get; set; } 
@@ -20,6 +20,6 @@ namespace Pizzeria.Domain.Dto
         [DefaultValue(false)]
         public bool Delivery { get; set; } = false;
 
-        public AddressDto? DeliveryAddress { get; set; }
+        public Guid? DeliveryAddressId { get; set; }
     }
 }

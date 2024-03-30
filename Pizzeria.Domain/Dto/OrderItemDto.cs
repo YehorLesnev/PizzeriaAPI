@@ -5,9 +5,12 @@ namespace Pizzeria.Domain.Dto
     public class OrderItemDto
     {
         [Required]
-        public required int Quantity { get; set; }
+        public required Guid OrderId { get; set; }
 
         [Required]
-        public required ItemDto Item { get; set; }
+        public required Guid ItemId { get; set; }
+
+        [Required]
+        public required int Quantity { get; set; }
     }
 }

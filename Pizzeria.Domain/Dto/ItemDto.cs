@@ -15,5 +15,8 @@ namespace Pizzeria.Domain.Dto
 
         [Required]
         public required decimal ItemPrice { get; set; }
+
+        [Required]
+        public required Guid RecipeId { get; set; }
     }
 }

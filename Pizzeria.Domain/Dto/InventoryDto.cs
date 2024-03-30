@@ -8,6 +8,6 @@ namespace Pizzeria.Domain.Dto
         public required int Quantity { get; set; }
 
         [Required]
-        public required IngredientDto Ingredient { get; set; }
+        public required Guid IngredientId { get; set; }
     }
 }

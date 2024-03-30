@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Pizzeria.Domain.Models;
 
 namespace Pizzeria.Domain.Dto
 {
@@ -10,9 +9,6 @@ namespace Pizzeria.Domain.Dto
 
         [Required]
         public required TimeOnly CookingTime { get; set; }
-
-        [Required]
-        public required Item? Item { get; set; }
 
         [Required]
         public required ICollection<RecipeIngredientDto> RecipeIngredients { get; set; }
