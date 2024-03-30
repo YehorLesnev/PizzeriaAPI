@@ -30,18 +30,18 @@ namespace Pizzeria.Domain.Services
             return repository.SaveAsync();
         }
 
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
             repository.Update(entity);
 
-            repository.SaveAsync();
+            await repository.SaveAsync();
         }
 
-        public void Delete(T entity)
+        public async Task DeleteAsync(T entity)
         {
             repository.Delete(entity);
 
-            repository.SaveAsync();
+            await repository.SaveAsync();
         }
     }
 }

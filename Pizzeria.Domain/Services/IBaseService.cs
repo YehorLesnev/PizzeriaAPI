@@ -12,8 +12,8 @@ namespace Pizzeria.Domain.Services
 
         Task CreateAllAsync(IEnumerable<T> entities);
 
-        void Update(T entity);
+        Task UpdateAsync(T entity);
 
-        void Delete(T entity);
+        Task DeleteAsync(T entity);
     }
 }
