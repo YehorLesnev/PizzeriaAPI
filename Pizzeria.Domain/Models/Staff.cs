@@ -7,7 +7,7 @@ namespace Pizzeria.Domain.Models;
 
 public partial class Staff
 {
-    public Guid StaffId { get; set; }
+    public Guid StaffId { get; set; } = Guid.NewGuid();
 
     [Column(TypeName = "varchar")]
     [MaxLength(55)]

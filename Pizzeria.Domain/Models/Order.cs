@@ -5,7 +5,7 @@ namespace Pizzeria.Domain.Models;
 
 public partial class Order
 {
-    public Guid OrderId { get; set; }
+    public Guid OrderId { get; set; } = Guid.NewGuid();
 
     public DateTime Date { get; set; }
 

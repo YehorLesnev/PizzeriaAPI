@@ -7,7 +7,7 @@ namespace Pizzeria.Domain.Models;
 
 public partial class Address
 {
-    public Guid AddressId { get; set; }
+    public Guid AddressId { get; set; } = Guid.NewGuid();
 
     [Column(TypeName = "varchar")]
     [MaxLength(200)]
