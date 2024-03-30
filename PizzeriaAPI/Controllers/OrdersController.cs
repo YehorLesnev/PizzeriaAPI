@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Pizzeria.Domain.Dto;
+using Pizzeria.Domain.Dto.OrderDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.OrderService;
 
@@ -11,15 +11,15 @@ namespace PizzeriaAPI.Controllers
         : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<OrderDto> GetAll()
+        public IEnumerable<ResponseOrderDto> GetAll()
         {
-            return Mappers.MapOrderToDto(orderService.GetAll());
+            return Mappers.MapOrderToResponseDto(orderService.GetAll());
         }
 
         [HttpPost]
-        public async Task Create([FromBody] OrderDto orderDto)
+        public async Task Create([FromBody] RequestOrderDto requestOrderDto)
         {
-            var order = Mappers.MapDtoToOrder(orderDto);
+            var order = Mappers.MapRequestDtoToOrder(requestOrderDto);
             
             await orderService.CreateAsync(order);
         }

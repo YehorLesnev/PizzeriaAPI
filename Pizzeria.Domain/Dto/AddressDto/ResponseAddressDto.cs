@@ -1,9 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Pizzeria.Domain.Dto
+namespace Pizzeria.Domain.Dto.AddressDto
 {
-    public class AddressDto
+    public class ResponseAddressDto
     {
+        [Required]
+        public required Guid AddressId { get; set; }
+
         [Required, MaxLength(200)]
         public required string Address1 { get; set; }
 

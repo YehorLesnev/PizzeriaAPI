@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Pizzeria.Domain.Dto
+namespace Pizzeria.Domain.Dto.RecipeDto
 {
-    public class RecipeDto
+    public class RequestRecipeDto
     {
         [Required, MaxLength(55)]
         public required string RecipeName { get; set; }
@@ -11,6 +11,6 @@ namespace Pizzeria.Domain.Dto
         public required TimeOnly CookingTime { get; set; }
 
         [Required]
-        public required ICollection<RecipeIngredientDto> RecipeIngredients { get; set; }
+        public required ICollection<RecipeIngredientDto.RecipeIngredientDto> RecipeIngredients { get; set; }
     }
 }

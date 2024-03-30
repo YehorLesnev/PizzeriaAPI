@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Pizzeria.Domain.Dto
+namespace Pizzeria.Domain.Dto.IngredientDto
 {
-    public class IngredientDto
+    public class RequestIngredientDto
     {
         [Required, MaxLength(100)]
         public required string IngredientName { get; set; }

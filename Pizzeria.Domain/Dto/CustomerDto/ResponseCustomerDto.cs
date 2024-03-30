@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Pizzeria.Domain.Dto
+namespace Pizzeria.Domain.Dto.CustomerDto
 {
-    public class CustomerDto
+    public class ResponseCustomerDto
     {
+        [Required]
+        public required Guid CustomerId { get; set; }
+
         [MaxLength(55)]
         public string? FirstName { get; set; }
 

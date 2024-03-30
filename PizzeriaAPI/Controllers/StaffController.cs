@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto;
+using Pizzeria.Domain.Dto.StaffDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.StaffServcice;
 
@@ -12,15 +13,15 @@ namespace PizzeriaAPI.Controllers
         : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<StaffDto> GetAll()
+        public IEnumerable<ResponseStaffDto> GetAll()
         {
-            return Mappers.MapStaffToDto(staffService.GetAll());
+            return Mappers.MapStaffToResponseDto(staffService.GetAll());
         }
 
         [HttpPost]
-        public async Task Create([FromBody] StaffDto staffDto)
+        public async Task Create([FromBody] RequestStaffDto requestStaffDto)
         {
-            var staff = Mappers.MapDtoToStaff(staffDto);
+            var staff = Mappers.MapRequestDtoToStaff(requestStaffDto);
 
             await staffService.CreateAsync(staff);
         }
