@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Pizzeria.Domain.Models;
-using Pizzeria.Domain.Repository.Interfaces;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
-namespace Pizzeria.Domain.Repository.Implementations
+namespace Pizzeria.Domain.Repository
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
@@ -16,25 +14,34 @@ namespace Pizzeria.Domain.Repository.Implementations
             _dbSet = _dbContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
         {
             IQueryable<T> query = _dbSet;
 
             if(filter is not null) 
                 query = query.Where(filter);
 
-            return query;
+            return asNoTracking ? query.AsNoTracking() : query;
+        }
+        
+        public IEnumerable<T> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if(filter is not null) 
+                query = query.Where(filter);
+            
+            return asNoTracking ? query.AsNoTracking() : query;
         }
 
-        public async Task<T?> GetAsync(Expression<Func<T, bool>>? filter = null)
+        public async Task<T?> GetAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
         {
             IQueryable<T> query = _dbSet;
 
-            
             if(filter is not null) 
                 query = query.Where(filter);
 
-            return await query.FirstOrDefaultAsync();
+            return asNoTracking ? await query.AsNoTracking().FirstOrDefaultAsync() : await query.FirstOrDefaultAsync();
         }
 
         public async Task CreateAsync(T entity)

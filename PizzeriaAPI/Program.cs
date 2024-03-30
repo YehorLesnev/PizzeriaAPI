@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Pizzeria.Domain;
+using Pizzeria.Domain.Extensions;
 using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Repository.Implementations;
 using Pizzeria.Domain.Repository.Interfaces;
@@ -23,8 +25,11 @@ options.UseSqlServer(
     "")
     ));
 
-//test
-builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+// Add repositories
+builder.Services.RegisterRepositories();
+
+// Add services
+builder.Services.RegisterServices();
 
 var app = builder.Build();
 
