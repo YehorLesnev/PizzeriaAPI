@@ -11,7 +11,7 @@ namespace PizzeriaAPI.Controllers
         [HttpPut]
         public async Task Seed()
         {
-            await seeder.SeedItems();
+            await seeder.Seed();
         }
     }
 }

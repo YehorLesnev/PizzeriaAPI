@@ -204,7 +204,7 @@
             "Mashed potato"
         ];
 
-        public static List<string>HotDogItemNames =
+        public static List<string> HotDogItemNames =
         [
             "Branded",
             "German",
@@ -215,5 +215,131 @@
             "Double",
             "Long One"
         ];
+
+
+        public static List<string> StaffPositions =
+        [
+            "Runner",
+            "Junior Waiter",
+            "Waiter",
+            "Senior Waiter",
+            "Junior Cashier",
+            "Cashier",
+            "Senior Cashier",
+            "Administrator",
+            "Cook",
+            "Pizzaiola",
+            "Chef",
+        ];
+
+        public static List<decimal> StaffPayRates =
+        [
+            6.49m,
+            8.00m,
+            10.00m,
+            12.00m,
+            8.99m,
+            9.49m,
+            12.00m,
+            17.00m,
+            9.00m,
+            11.00m,
+            15.00m,
+        ];
+
+        public static List<string> PeopleNames =
+            [
+                "James",
+                "Robert",
+                "John",
+                "Michael",
+                "David",
+                "Richard",
+                "William",
+                "Joseph",
+                "Thomas",
+                "Christopher",
+                "Charles",
+                "Daniel",
+                "Mary",
+                "Patricia",
+                "Jennifer",
+                "Linda",
+                "Elizabeth",
+                "Barbara",
+                "Susan",
+                "Jessica",
+                "Sarah",
+                "Karen",
+                "Lisa",
+                "Nancy",
+                "Matthew",
+                "Betty",
+                "Betty",
+                "Anthony",
+                "Sandra",
+                "Mark",
+                "Margaret",
+                "Donald",
+                "Ashley",
+                "Steven",
+                "Kimberly",
+                "Andrew",
+                "Emily",
+            ];
+
+        public static List<string> PeopleLastNames =
+        [
+            "Smith",
+            "Adams",
+            "Allen",
+            "Anderson",
+            "Atkins",
+            "Baker",
+            "Barnes",
+            "Bell",
+            "Bennett",
+            "Berry",
+            "Bishop",
+            "Black",
+            "Brown",
+            "Burns",
+            "Campbell",
+            "Carter",
+            "Clark",
+            "Collins",
+            "Cook",
+            "Cooper",
+            "Cox",
+            "Davidson",
+            "Davies",
+            "Davis",
+            "Dawson",
+            "Edwards",
+            "Evans",
+            "Fleming",
+            "Forester",
+            "Foster",
+            "Fox",
+            "Gardener",
+            "Gibbs",
+            "Gray",
+            "Green",
+            "Hall",
+            "Hamilton",
+            "Harris",
+            "Henderson",
+            "Hill",
+            "Holmes",
+            "Hughes",
+            "Hunt",
+            "Jackson",
+            "Johnson",
+            "Jones",
+            "Lee",
+        ];
+
+        public const int NumOfStaff = 50;
+        public const int NumOfCustomers = 3000;
     }
 }

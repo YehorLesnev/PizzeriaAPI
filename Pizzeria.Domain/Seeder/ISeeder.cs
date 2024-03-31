@@ -2,6 +2,6 @@
 {
     public interface ISeeder
     {
-        Task SeedItems();
+        Task Seed();
     }
 }
