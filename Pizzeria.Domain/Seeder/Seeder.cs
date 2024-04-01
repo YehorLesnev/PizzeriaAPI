@@ -176,8 +176,8 @@ namespace Pizzeria.Domain.Seeder
                     IngredientId = Guid.NewGuid(),
                     IngredientName = ingrName,
                     IngredientWeightMeasure = isKg == 0 ? "kg" : "g",
-                    IngredientPrice = isKg == 0 ? (decimal)_random.Next(1, 3) + (decimal)_random.NextDouble() : (decimal)(_random.NextDouble() * 0.01),
-                    QuantityInStock = isKg == 0 ? _random.Next(10, 50) : _random.Next(500, 5000),
+                    IngredientPrice = isKg == 0 ? (decimal)_random.Next(1, 3) + (decimal)_random.NextDouble() : (decimal)(_random.NextDouble() * 0.1 + 0.01),
+                    QuantityInStock = isKg == 0 ? _random.Next(10, 101) : _random.Next(500, 50001),
                 });
             }
 
@@ -214,7 +214,7 @@ namespace Pizzeria.Domain.Seeder
                         {
                             RecipeId = recipeId,
                             IngredientId = ingredient.IngredientId,
-                            IngredientWeight = (float)0.1 * (1 + iSize) * (ingredient.IngredientWeightMeasure == "kg" ? (float)_random.Next(0, 1) + (float)_random.NextDouble() : (float)_random.Next(10, 300)),
+                            IngredientWeight = (float)0.1 * (1 + iSize) * (ingredient.IngredientWeightMeasure == "kg" ? (float)_random.Next(0, 1) + (float)_random.NextDouble() : (float)_random.Next(10, 201)),
                         });
                     }
 

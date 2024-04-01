@@ -2,7 +2,12 @@
 {
     public static class Constants
     {
-        public static readonly DateTime OrdersStartDate = new(2021, 01, 1, 8, 0, 0);
+        public static readonly DateTime OrdersStartDate = new(2023, 01, 1, 8, 0, 0);
+
+        
+        public const int NumOfStaff = 50;
+        public const int MinNumOfCustomers = 500;
+        public const int MaxNumOfCustomers = 1000;
 
         public static List<string> IngredientNames =
         [
@@ -385,9 +390,5 @@
             "Lennon",
             "Gasper",
         ];
-
-        public const int NumOfStaff = 50;
-        public const int MinNumOfCustomers = 5000;
-        public const int MaxNumOfCustomers = 10000;
     }
 }
