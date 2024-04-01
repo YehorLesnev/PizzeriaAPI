@@ -387,7 +387,7 @@
         ];
 
         public const int NumOfStaff = 50;
-        public const int MaxNumOfCustomers = 5000;
-        public const int MinNumOfCustomers = 10000;
+        public const int MinNumOfCustomers = 5000;
+        public const int MaxNumOfCustomers = 10000;
     }
 }

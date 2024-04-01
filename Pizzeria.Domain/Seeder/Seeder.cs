@@ -474,7 +474,7 @@ namespace Pizzeria.Domain.Seeder
                     {
                         OrderId = orderId,
                         ItemId = itemId,
-                        Quantity = random.Next(1, 5),
+                        Quantity = random.Next(1, 7),
                     });
                 }
 
