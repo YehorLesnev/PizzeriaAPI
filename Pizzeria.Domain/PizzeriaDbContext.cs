@@ -188,6 +188,10 @@ public partial class PizzeriaDbContext : DbContext
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_order_items_orders");
+
+            //Indexes
+            entity.HasIndex(e => e.ItemId)
+                .IncludeProperties(p => new { p.OrderId, p.Quantity });
         });
 
         modelBuilder.Entity<Recipe>(entity =>
