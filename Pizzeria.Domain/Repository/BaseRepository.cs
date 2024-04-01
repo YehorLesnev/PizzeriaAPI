@@ -6,17 +6,17 @@ namespace Pizzeria.Domain.Repository
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         private readonly PizzeriaDbContext _dbContext;
-        private readonly DbSet<T> _dbSet;
+        protected readonly DbSet<T> DbSet;
 
         protected BaseRepository(PizzeriaDbContext dbContext)
         {
             _dbContext = dbContext;
-            _dbSet = _dbContext.Set<T>();
+            DbSet = _dbContext.Set<T>();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
+        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
         {
-            IQueryable<T> query = _dbSet;
+            IQueryable<T> query = DbSet;
 
             if(filter is not null) 
                 query = query.Where(filter);
@@ -24,19 +24,9 @@ namespace Pizzeria.Domain.Repository
             return asNoTracking ? query.AsNoTracking() : query;
         }
         
-        public IEnumerable<T> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
+        public virtual async Task<T?> GetAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
         {
-            IQueryable<T> query = _dbSet;
-
-            if(filter is not null) 
-                query = query.Where(filter);
-            
-            return asNoTracking ? query.AsNoTracking() : query;
-        }
-
-        public async Task<T?> GetAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
-        {
-            IQueryable<T> query = _dbSet;
+            IQueryable<T> query = DbSet;
 
             if(filter is not null) 
                 query = query.Where(filter);
@@ -44,27 +34,27 @@ namespace Pizzeria.Domain.Repository
             return asNoTracking ? await query.AsNoTracking().FirstOrDefaultAsync() : await query.FirstOrDefaultAsync();
         }
 
-        public async Task CreateAsync(T entity)
+        public virtual async Task CreateAsync(T entity)
         {
-             await _dbSet.AddAsync(entity);
+             await DbSet.AddAsync(entity);
         }
 
-        public async Task CreateAllAsync(IEnumerable<T> entities)
+        public virtual async Task CreateAllAsync(IEnumerable<T> entities)
         {
-            await _dbSet.AddRangeAsync(entities);
+            await DbSet.AddRangeAsync(entities);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
-            _dbSet.Update(entity);
+            DbSet.Update(entity);
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
-            _dbSet.Remove(entity);
+            DbSet.Remove(entity);
         }
 
-        public async Task SaveAsync()
+        public virtual async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
         }

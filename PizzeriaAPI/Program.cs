@@ -1,12 +1,8 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Pizzeria.Domain;
 using Pizzeria.Domain.Extensions;
-using Pizzeria.Domain.Models;
-using Pizzeria.Domain.Repository.Implementations;
-using Pizzeria.Domain.Repository.Interfaces;
 using Pizzeria.Domain.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +39,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
