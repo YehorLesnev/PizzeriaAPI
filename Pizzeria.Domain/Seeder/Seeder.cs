@@ -109,7 +109,9 @@ namespace Pizzeria.Domain.Seeder
                 var customerList = new List<Customer>();
                 var random = new Random();
 
-                for (int i = 0; i < Constants.Constants.NumOfCustomers; ++i)
+                var numOfCustomers = random.Next(Constants.Constants.MinNumOfCustomers, Constants.Constants.MaxNumOfCustomers);
+
+                for (int i = 0; i < numOfCustomers; ++i)
                 {
                     var isLastName = random.Next(0, 5);
                     var isPhoneNum = random.Next(0, 10);
@@ -434,7 +436,7 @@ namespace Pizzeria.Domain.Seeder
             // Orders
             var orders = new List<Order>();
 
-            var startDate = new DateTime(2023, 01, 1, 8, 0, 0);
+            var startDate = Constants.Constants.OrdersStartDate;
             var startWorkingDayTime = new TimeOnly(8, 0, 0);
             var endWorkingDayTime = new TimeOnly(22, 0, 0);
             var random = new Random();
@@ -490,6 +492,12 @@ namespace Pizzeria.Domain.Seeder
             }
 
             await orderService.CreateAllAsync(orders);
+
+            ingredients = null;
+            recipes = null;
+            items = null;
+            customers = null;
+            staff = null;
         }
     }
 }

@@ -2,6 +2,8 @@
 {
     public static class Constants
     {
+        public static readonly DateTime OrdersStartDate = new(2021, 01, 1, 8, 0, 0);
+
         public static List<string> IngredientNames =
         [
             "flour",
@@ -337,9 +339,55 @@
             "Johnson",
             "Jones",
             "Lee",
+            "Elsher",
+            "Solace",
+            "Levine",
+            "Thatcher",
+            "Raven",
+            "Bardot",
+            "Hansley",
+            "St. James",
+            "Cromwell",
+            "Ashley",
+            "Monroe",
+            "West",
+            "Langley",
+            "Daughtler",
+            "Madison",
+            "Marley",
+            "Ellis",
+            "Hope",
+            "Cassidy",
+            "Lopez",
+            "Jenkins",
+            "Poverly",
+            "McKenna",
+            "Gonzales",
+            "Keller",
+            "Collymore",
+            "Stoll",
+            "Verlice",
+            "Adler",
+            "Huxley",
+            "Ledger",
+            "Hayes",
+            "Ford",
+            "Finnegan",
+            "Beckett",
+            "Gatlin",
+            "Pierce",
+            "Zimmerman",
+            "Dawson",
+            "Wilson",
+            "Adair",
+            "Carter",
+            "Hendrix",
+            "Lennon",
+            "Gasper",
         ];
 
         public const int NumOfStaff = 50;
-        public const int NumOfCustomers = 3000;
+        public const int MaxNumOfCustomers = 5000;
+        public const int MinNumOfCustomers = 10000;
     }
 }
