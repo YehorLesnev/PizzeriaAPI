@@ -161,9 +161,12 @@ public partial class PizzeriaDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_orders_staff");
 
-            // Index
+            // Indexes
             entity.HasIndex(e => e.Date)
             .IncludeProperties(p => new { p.OrderId, p.CustomerId, p.StaffId });
+
+            entity.HasIndex(e => e.StaffId)
+            .IncludeProperties(p => new { p.OrderId, p.Date, p.CustomerId });
         });
 
         modelBuilder.Entity<OrderItem>(entity =>
