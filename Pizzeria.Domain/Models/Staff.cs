@@ -19,8 +19,12 @@ public partial class Staff
     [MaxLength(100)]
     public string Position { get; set; } = null!;
 
+    [Column(TypeName = "varchar")]
+    [MaxLength(15)]
+    public string PhoneNumber { get; set; } = null!;
+    
     public decimal HourlyRate { get; set; }
-
+    
     public virtual ICollection<Order> Orders { get; init; } = new List<Order>();
 
     public virtual ICollection<ShiftStaff> ShiftStaff { get; init; } = new List<ShiftStaff>();
