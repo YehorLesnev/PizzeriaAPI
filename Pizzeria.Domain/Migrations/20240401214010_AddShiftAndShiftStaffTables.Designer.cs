@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pizzeria.Domain;
 
@@ -11,9 +12,11 @@ using Pizzeria.Domain;
 namespace Pizzeria.Domain.Migrations
 {
     [DbContext(typeof(PizzeriaDbContext))]
-    partial class PizzeriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240401214010_AddShiftAndShiftStaffTables")]
+    partial class AddShiftAndShiftStaffTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,6 +190,10 @@ namespace Pizzeria.Domain.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("delivery_address_id");
 
+                    b.Property<Guid>("ShiftId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("shift_id");
+
                     b.Property<Guid>("StaffId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("staff_id");
@@ -200,6 +207,8 @@ namespace Pizzeria.Domain.Migrations
                     SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex("Date"), new[] { "OrderId", "CustomerId", "StaffId" });
 
                     b.HasIndex("DeliveryAddressId");
+
+                    b.HasIndex("ShiftId");
 
                     b.HasIndex("StaffId");
 
@@ -365,6 +374,12 @@ namespace Pizzeria.Domain.Migrations
                         .HasForeignKey("DeliveryAddressId")
                         .HasConstraintName("FK_orders_address");
 
+                    b.HasOne("Pizzeria.Domain.Models.Shift", "Shift")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShiftId")
+                        .IsRequired()
+                        .HasConstraintName("FK_orders_shift");
+
                     b.HasOne("Pizzeria.Domain.Models.Staff", "Staff")
                         .WithMany("Orders")
                         .HasForeignKey("StaffId")
@@ -374,6 +389,8 @@ namespace Pizzeria.Domain.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("DeliveryAddress");
+
+                    b.Navigation("Shift");
 
                     b.Navigation("Staff");
                 });
@@ -469,6 +486,8 @@ namespace Pizzeria.Domain.Migrations
 
             modelBuilder.Entity("Pizzeria.Domain.Models.Shift", b =>
                 {
+                    b.Navigation("Orders");
+
                     b.Navigation("ShiftStaff");
                 });
 

@@ -18,9 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PizzeriaDbContext>(options =>
 options.UseSqlServer(
     builder.Configuration.GetConnectionString("DatabaseSQL"),
-    b => b.MigrationsAssembly("Pizzeria.Domain" +
-    "")
-    ));
+    b => b.MigrationsAssembly("Pizzeria.Domain")));
 
 // Add repositories
 builder.Services.RegisterRepositories();

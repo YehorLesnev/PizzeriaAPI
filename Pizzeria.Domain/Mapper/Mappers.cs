@@ -6,6 +6,8 @@ using Pizzeria.Domain.Dto.OrderDto;
 using Pizzeria.Domain.Dto.OrderItemDto;
 using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Dto.RecipeIngredientDto;
+using Pizzeria.Domain.Dto.ShiftDto;
+using Pizzeria.Domain.Dto.ShiftStaffDto;
 using Pizzeria.Domain.Dto.StaffDto;
 using Pizzeria.Domain.Models;
 using Riok.Mapperly.Abstractions;
@@ -24,6 +26,8 @@ namespace Pizzeria.Domain.Mapper
         public static partial ResponseRecipeDto MapRecipeToResponseDto(Recipe recipe);
         public static partial ResponseRecipeIngredientDto MapRecipeIngredientToResponseDto(RecipeIngredient recipeIngredient);
         public static partial ResponseStaffDto MapStaffToResponseDto(Staff staff);
+        public static partial ResponseShiftDto MapShiftToResponseDto(Shift shift);
+        public static partial ResponseShiftStaffDto MapShiftStaffToResponseDto(ShiftStaff shiftStaff);
 
         public static partial IEnumerable<ResponseAddressDto> MapAddressToResponseDto(IEnumerable<Address> addresses);
         public static partial IEnumerable<ResponseCustomerDto> MapCustomerToResponseDto(IEnumerable<Customer> customers);
@@ -34,6 +38,8 @@ namespace Pizzeria.Domain.Mapper
         public static partial IEnumerable<ResponseRecipeDto> MapRecipeToResponseDto(IEnumerable<Recipe> recipes);
         public static partial IEnumerable<ResponseRecipeIngredientDto> MapRecipeIngredientToResponseDto(IEnumerable<RecipeIngredient> recipeIngredients);
         public static partial IEnumerable<ResponseStaffDto> MapStaffToResponseDto(IEnumerable<Staff> staff);
+        public static partial IEnumerable<ResponseShiftDto> MapShiftToResponseDto(IEnumerable<Shift> shifts);
+        public static partial IEnumerable<ResponseShiftStaffDto> MapShiftStaffToResponseDto(IEnumerable<ShiftStaff> shiftStaff);
 
         public static partial Address MapRequestDtoToAddress(RequestAddressDto requestAddress);
         public static partial Customer MapRequestDtoToCustomer(RequestCustomerDto requestCustomer);
@@ -44,5 +50,7 @@ namespace Pizzeria.Domain.Mapper
         public static partial Recipe MapRequestDtoToRecipe(RequestRecipeDto requestRecipe);
         public static partial RecipeIngredient MapRequestDtoToRecipeIngredient(RequestRecipeIngredientDto responseRecipeIngredient);
         public static partial Staff MapRequestDtoToStaff(RequestStaffDto requestStaff);
+        public static partial ShiftStaff MapRequestDtoToShiftStaff(RequestShiftStaffDto requestShiftStaff);
+        public static partial Shift MapRequestDtoToShift(RequestShiftDto requestShift);
     }
 }

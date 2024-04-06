@@ -31,9 +31,43 @@ public partial class PizzeriaDbContext : DbContext
     public virtual DbSet<RecipeIngredient> RecipeIngredients { get; set; }
 
     public virtual DbSet<Staff> Staff { get; set; }
+    public virtual DbSet<Shift> Shifts { get; set; }
+    public virtual DbSet<ShiftStaff> ShiftStaff { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Shift>(entity =>
+        {
+            entity.ToTable("shifts");
+
+            entity.Property(e => e.ShiftId)
+                .ValueGeneratedNever()
+                .HasColumnName("shift_id");
+            entity.Property(e => e.ShiftDate)
+                .IsRequired()
+                .HasColumnName("shift_date");
+        });
+
+        modelBuilder.Entity<ShiftStaff>(entity =>
+        {
+            entity.HasKey(e => new { e.ShiftId, e.StaffId });
+
+            entity.ToTable("shift_staff");
+
+            entity.Property(e => e.ShiftId).HasColumnName("shift_id");
+            entity.Property(e => e.StaffId).HasColumnName("staff_id");
+
+            entity.HasOne(d => d.Shift).WithMany(p => p.ShiftStaff)
+                .HasForeignKey(d => d.ShiftId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_shift_staff_shift");
+
+            entity.HasOne(d => d.Staff).WithMany(p => p.ShiftStaff)
+                .HasForeignKey(d => d.StaffId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_shift_staff_staff");
+        });
+
         modelBuilder.Entity<Address>(entity =>
         {
             entity.ToTable("address");
@@ -201,7 +235,8 @@ public partial class PizzeriaDbContext : DbContext
             entity.Property(e => e.RecipeId)
                 .ValueGeneratedNever()
                 .HasColumnName("recipe_id");
-            entity.Property(e => e.CookingTime).HasColumnName("cooking_time");
+            entity.Property(e => e.CookingTime)
+                .HasColumnName("cooking_time");
             entity.Property(e => e.RecipeName)
                 .HasMaxLength(55)
                 .IsUnicode(false)

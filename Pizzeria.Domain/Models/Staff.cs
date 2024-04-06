@@ -21,5 +21,7 @@ public partial class Staff
 
     public decimal HourlyRate { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Orders { get; init; } = new List<Order>();
+
+    public virtual ICollection<ShiftStaff> ShiftStaff { get; init; } = new List<ShiftStaff>();
 }

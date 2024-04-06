@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Pizzeria.Domain.Models;
+﻿namespace Pizzeria.Domain.Models;
 
 public partial class Order
 {
     public Guid OrderId { get; set; } = Guid.NewGuid();
 
     public DateTime Date { get; set; }
-
+    
     public Guid StaffId { get; set; }
 
     public Guid? CustomerId { get; set; }
