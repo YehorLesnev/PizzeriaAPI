@@ -16,5 +16,16 @@ namespace Pizzeria.Domain.Repository.ShiftRepository
 
             return asNoTracking ? query.Include("ShiftStaff").AsNoTracking() : query.Include("ShiftStaff");
         }
+
+        public override async Task<Shift?> GetAsync(Expression<Func<Shift, bool>>? filter = null, bool asNoTracking = false)
+        {
+            IQueryable<Shift> query = DbSet;
+
+            if (filter is not null)
+                query = query.Where(filter);
+
+            return asNoTracking ? await query.Include("ShiftStaff").AsNoTracking().FirstOrDefaultAsync()
+                : await query.Include("ShiftStaff").FirstOrDefaultAsync();
+        }
     }
 }
