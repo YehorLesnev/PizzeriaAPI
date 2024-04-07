@@ -116,7 +116,7 @@ namespace Pizzeria.Domain.Seeder
                 var ingredientsCount = ingredients.Count;
                 var itemIngredients = new List<Ingredient>(recipeIngredientsCount);
 
-                for (int i = 0; i < ingredientsCount; ++i)
+                for (int i = 0; i < recipeIngredientsCount; ++i)
                 {
                     var ingredient = ingredients[_random.Next(0, ingredientsCount)];
 
@@ -173,7 +173,7 @@ namespace Pizzeria.Domain.Seeder
                 var ingredientsCount = ingredients.Count;
                 var itemIngredients = new List<Ingredient>(recipeIngredientsCount);
 
-                for (int i = 0; i < ingredientsCount; ++i)
+                for (int i = 0; i < recipeIngredientsCount; ++i)
                 {
                     var ingredient = ingredients[_random.Next(0, ingredientsCount)];
 
@@ -230,7 +230,7 @@ namespace Pizzeria.Domain.Seeder
                 var ingredientsCount = ingredients.Count;
                 var itemIngredients = new List<Ingredient>(recipeIngredientsCount);
 
-                for (int i = 0; i < ingredientsCount; ++i)
+                for (int i = 0; i < recipeIngredientsCount; ++i)
                 {
                     var ingredient = ingredients[_random.Next(0, ingredientsCount)];
 
@@ -287,7 +287,7 @@ namespace Pizzeria.Domain.Seeder
                 var ingredientsCount = ingredients.Count;
                 var itemIngredients = new List<Ingredient>(recipeIngredientsCount);
 
-                for (int i = 0; i < ingredientsCount; ++i)
+                for (int i = 0; i < recipeIngredientsCount; ++i)
                 {
                     var ingredient = ingredients[_random.Next(0, ingredientsCount)];
 
