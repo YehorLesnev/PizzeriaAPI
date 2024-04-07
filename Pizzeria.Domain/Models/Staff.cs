@@ -20,7 +20,7 @@ public partial class Staff
     public string Position { get; set; } = null!;
 
     [Column(TypeName = "varchar")]
-    [MaxLength(15)]
+    [MaxLength(25)]
     public string PhoneNumber { get; set; } = null!;
     
     public decimal HourlyRate { get; set; }

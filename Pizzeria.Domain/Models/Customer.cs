@@ -16,7 +16,7 @@ public partial class Customer
     public string? LastName { get; set; }
 
     [Column(TypeName = "varchar")]
-    [MaxLength(15)]
+    [MaxLength(25)]
     public string? PhoneNumber { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
