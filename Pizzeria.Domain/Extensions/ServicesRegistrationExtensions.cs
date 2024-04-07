@@ -7,6 +7,7 @@ using Pizzeria.Domain.Repository.OrderItemRepository;
 using Pizzeria.Domain.Repository.OrderRepository;
 using Pizzeria.Domain.Repository.RecipeIngredientRepository;
 using Pizzeria.Domain.Repository.RecipeRepository;
+using Pizzeria.Domain.Repository.ShiftRepository;
 using Pizzeria.Domain.Repository.StaffRepository;
 using Pizzeria.Domain.Services.OrderService;
 using Pizzeria.Domain.Services.AddressService;
@@ -15,6 +16,7 @@ using Pizzeria.Domain.Services.IngredientService;
 using Pizzeria.Domain.Services.ItemService;
 using Pizzeria.Domain.Services.StaffServcice;
 using Pizzeria.Domain.Services.RecipeService;
+using Pizzeria.Domain.Services.ShiftService;
 
 namespace Pizzeria.Domain.Extensions
 {
@@ -33,6 +35,7 @@ namespace Pizzeria.Domain.Extensions
             serviceCollection.AddScoped<IRecipeRepository, RecipeRepository>();
             serviceCollection.AddScoped<IRecipeIngredientRepository, RecipeIngredientRepository>();
             serviceCollection.AddScoped<IStaffRepository, StaffRepository>();
+            serviceCollection.AddScoped<IShiftRepository, ShiftRepository>();
 
             return serviceCollection;
         }
@@ -48,6 +51,7 @@ namespace Pizzeria.Domain.Extensions
             serviceCollection.AddScoped<IItemService, ItemService>();
             serviceCollection.AddScoped<IStaffService, StaffService>();
             serviceCollection.AddScoped<IRecipeService, RecipeService>();
+            serviceCollection.AddScoped<IShiftService, ShiftService>();
 
             return serviceCollection;
         }
