@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using Pizzeria.Domain;
 using Pizzeria.Domain.Extensions;
 using Pizzeria.Domain.Seeder;
+using PizzeriaAPI.Identity.Roles;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +18,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Authorization
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-        .AddEntityFrameworkStores<PizzeriaDbContext>();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<PizzeriaDbContext>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -67,5 +69,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Add roles
+await app.AddIdentityRoles();
 
 app.Run();

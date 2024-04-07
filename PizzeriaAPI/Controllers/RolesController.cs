@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Pizzeria.Domain.Seeder;
 using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
@@ -8,13 +8,12 @@ namespace PizzeriaAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = UserRoleNames.Admin)]
-    public class SeederController(ISeeder seeder)
-        : ControllerBase
+    public class RolesController(RoleManager<IdentityRole> roleManager) : ControllerBase
     {
-        [HttpPut]
-        public async Task Seed()
+        [HttpGet]
+        public IEnumerable<IdentityRole> GetAllRoles()
         {
-            await seeder.Seed();
+            return roleManager.Roles;
         }
     }
 }

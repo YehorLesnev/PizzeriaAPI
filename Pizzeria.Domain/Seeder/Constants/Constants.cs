@@ -232,7 +232,7 @@
             "Junior Cashier",
             "Cashier",
             "Senior Cashier",
-            "Administrator",
+            "Manager",
             "Cook",
             "Pizzaiola",
             "Chef",
