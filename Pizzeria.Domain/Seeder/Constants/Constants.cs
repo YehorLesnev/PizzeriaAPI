@@ -2,12 +2,12 @@
 {
     public static class Constants
     {
-        public static readonly DateTime OrdersStartDate = new(2023, 01, 1, 8, 0, 0);
+        public static readonly DateTime OrdersStartDate = new(2022, 1, 1, 8, 0, 0);
 
         
         public const int NumOfStaff = 70;
-        public const int MinNumOfCustomers = 5000;
-        public const int MaxNumOfCustomers = 10000;
+        public const int MinNumOfCustomers = 10000;
+        public const int MaxNumOfCustomers = 25000;
 
         public static List<string> IngredientNames =
         [
