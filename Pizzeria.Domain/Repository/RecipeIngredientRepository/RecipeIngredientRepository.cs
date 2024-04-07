@@ -1,7 +1,6 @@
 ﻿using Pizzeria.Domain.Models;
-using Pizzeria.Domain.Repository.Interfaces;
 
-namespace Pizzeria.Domain.Repository.Implementations
+namespace Pizzeria.Domain.Repository.RecipeIngredientRepository
 {
     public class RecipeIngredientRepository(PizzeriaDbContext dbContext)
         : BaseRepository<RecipeIngredient>(dbContext), IRecipeIngredientRepository

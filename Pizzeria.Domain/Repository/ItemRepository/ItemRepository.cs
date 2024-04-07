@@ -1,7 +1,6 @@
 ﻿using Pizzeria.Domain.Models;
-using Pizzeria.Domain.Repository.Interfaces;
 
-namespace Pizzeria.Domain.Repository.Implementations
+namespace Pizzeria.Domain.Repository.ItemRepository
 {
     public class ItemRepository(PizzeriaDbContext dbContext) 
         : BaseRepository<Item>(dbContext), IItemRepository

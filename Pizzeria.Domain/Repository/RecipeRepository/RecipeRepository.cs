@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Pizzeria.Domain.Models;
-using Pizzeria.Domain.Repository.Interfaces;
-using System.Linq.Expressions;
 
-namespace Pizzeria.Domain.Repository.Implementations
+namespace Pizzeria.Domain.Repository.RecipeRepository
 {
     public class RecipeRepository(PizzeriaDbContext dbContext) 
         : BaseRepository<Recipe>(dbContext), IRecipeRepository

@@ -1,5 +1,5 @@
 ﻿using Pizzeria.Domain.Models;
-using Pizzeria.Domain.Repository.Interfaces;
+using Pizzeria.Domain.Repository.OrderRepository;
 
 namespace Pizzeria.Domain.Services.OrderService
 {

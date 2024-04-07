@@ -1,6 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Pizzeria.Domain.Repository.Interfaces;
-using Pizzeria.Domain.Repository.Implementations;
+using Pizzeria.Domain.Repository.AddressRepository;
+using Pizzeria.Domain.Repository.CustomerRepository;
+using Pizzeria.Domain.Repository.IngredientRepository;
+using Pizzeria.Domain.Repository.ItemRepository;
+using Pizzeria.Domain.Repository.OrderItemRepository;
+using Pizzeria.Domain.Repository.OrderRepository;
+using Pizzeria.Domain.Repository.RecipeIngredientRepository;
+using Pizzeria.Domain.Repository.RecipeRepository;
+using Pizzeria.Domain.Repository.StaffRepository;
 using Pizzeria.Domain.Services.OrderService;
 using Pizzeria.Domain.Services.AddressService;
 using Pizzeria.Domain.Services.CustomerService;
