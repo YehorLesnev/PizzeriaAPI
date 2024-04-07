@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Pizzeria.Domain.Models;
 
 namespace Pizzeria.Domain;
 
-public partial class PizzeriaDbContext : DbContext
+public partial class PizzeriaDbContext : IdentityDbContext
 {
     public PizzeriaDbContext()
     {
@@ -289,6 +290,7 @@ public partial class PizzeriaDbContext : DbContext
         });
 
         OnModelCreatingPartial(modelBuilder);
+        base.OnModelCreating(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
