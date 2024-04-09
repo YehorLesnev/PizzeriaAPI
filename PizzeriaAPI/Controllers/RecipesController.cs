@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.RecipeService;
+using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
     public class RecipesController(IRecipeService recipeService) : ControllerBase
     {
         [HttpGet]

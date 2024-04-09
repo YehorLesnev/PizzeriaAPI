@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.ShiftDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.ShiftService;
+using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
     public class ShiftsController(
         IShiftService shiftService) : ControllerBase
     {

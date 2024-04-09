@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.StaffDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.StaffServcice;
+using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
     public class StaffController(IStaffService staffService)
         : ControllerBase
     {

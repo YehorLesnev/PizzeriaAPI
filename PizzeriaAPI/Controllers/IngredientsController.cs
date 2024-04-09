@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.IngredientDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.IngredientService;
+using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
 {
@@ -11,6 +13,7 @@ namespace PizzeriaAPI.Controllers
         : ControllerBase
     {
         [HttpGet]
+        [AllowAnonymous]
         public IEnumerable<ResponseIngredientDto> GetAll()
         {
             return Mappers.MapIngredientToResponseDto(ingredientService.GetAll(asNoTracking: true));
@@ -19,6 +22,7 @@ namespace PizzeriaAPI.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
         public async Task<ActionResult<ResponseIngredientDto>> Get(Guid id)
         {
             var ingredient = await ingredientService.GetAsync(a => a.IngredientId.Equals(id), true);
@@ -30,6 +34,7 @@ namespace PizzeriaAPI.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task<ActionResult<ResponseIngredientDto>> Create([FromBody] RequestIngredientDto requestIngredientDto)
         {
             var ingredient = Mappers.MapRequestDtoToIngredient(requestIngredientDto);
@@ -42,6 +47,7 @@ namespace PizzeriaAPI.Controllers
         [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task<ActionResult<ResponseIngredientDto>> Update([FromRoute] Guid id, [FromBody] RequestIngredientDto requestIngredientDto)
         {
             var initialIngredient = await ingredientService.GetAsync(o => o.IngredientId.Equals(id), true);
@@ -57,6 +63,7 @@ namespace PizzeriaAPI.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task Delete([FromRoute] Guid id)
         {
             var ingredient = await ingredientService.GetAsync(o => o.IngredientId.Equals(id));

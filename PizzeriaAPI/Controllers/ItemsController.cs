@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.ItemDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.ItemService;
+using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
 {
@@ -11,6 +13,7 @@ namespace PizzeriaAPI.Controllers
         : ControllerBase
     {
         [HttpGet]
+        [AllowAnonymous]
         public IEnumerable<ResponseItemDto> GetAll()
         {
             return Mappers.MapItemToResponseDto(itemService.GetAll(asNoTracking: true));
@@ -19,6 +22,7 @@ namespace PizzeriaAPI.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
         public async Task<ActionResult<ResponseItemDto>> Get(Guid id)
         {
             var item = await itemService.GetAsync(a => a.ItemId.Equals(id), true);
@@ -30,6 +34,7 @@ namespace PizzeriaAPI.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task<ActionResult<ResponseItemDto>> Create([FromBody] RequestItemDto requestItemDto)
         {
             var item = Mappers.MapRequestDtoToItem(requestItemDto);
@@ -42,6 +47,7 @@ namespace PizzeriaAPI.Controllers
         [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task<ActionResult<ResponseItemDto>> Update([FromRoute] Guid id, [FromBody] RequestItemDto requestItemDto)
         {
             var initialItem = await itemService.GetAsync(o => o.ItemId.Equals(id), true);
@@ -57,6 +63,7 @@ namespace PizzeriaAPI.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task Delete([FromRoute] Guid id)
         {
             var item = await itemService.GetAsync(o => o.ItemId.Equals(id));
