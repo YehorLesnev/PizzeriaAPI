@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using Pizzeria.Domain;
 using Pizzeria.Domain.Extensions;
 using Pizzeria.Domain.Seeder;
-using PizzeriaAPI.Identity.Roles;
+using PizzeriaAPI.Identity.Extensions;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
