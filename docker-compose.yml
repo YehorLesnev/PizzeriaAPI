@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  pizzeriaapi:
+    image: ${DOCKER_REGISTRY-}pizzeriaapi
+    build:
+      context: .
+      dockerfile: PizzeriaAPI/Dockerfile
+
+  seq:
+    image:  datalust/seq:latest
+    container_name: pazzeriaapi-seq
+    environment:
+    - ACCEPT_EULA=Y
+    ports:
+    - 5341:5341
+    - 8081:80

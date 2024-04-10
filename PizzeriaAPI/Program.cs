@@ -7,9 +7,17 @@ using Pizzeria.Domain;
 using Pizzeria.Domain.Extensions;
 using Pizzeria.Domain.Seeder;
 using PizzeriaAPI.Identity.Extensions;
+using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Logger
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
