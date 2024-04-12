@@ -20,6 +20,9 @@ namespace Pizzeria.Domain.Dto.ItemDto
         public required decimal ItemPrice { get; set; }
 
         [Required]
+        public required string ImagePath { get; set; }
+
+        [Required]
         public required Guid RecipeId { get; set; }
     }
 }

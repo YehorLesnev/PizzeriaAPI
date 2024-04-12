@@ -27,7 +27,7 @@ namespace PizzeriaAPI.Controllers
         {
             var item = await itemService.GetAsync(a => a.ItemId.Equals(id), true);
 
-            if(item is null) return NotFound();
+            if (item is null) return NotFound();
 
             return Ok(Mappers.MapItemToResponseDto(item));
         }
@@ -35,10 +35,16 @@ namespace PizzeriaAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
-        public async Task<ActionResult<ResponseItemDto>> Create([FromBody] RequestItemDto requestItemDto)
+        [RequestFormLimits(MultipartBodyLengthLimit = 2_097_152)]
+        public async Task<ActionResult<ResponseItemDto>> Create([FromForm] RequestItemDto requestItemDto)
         {
             var item = Mappers.MapRequestDtoToItem(requestItemDto);
-            
+
+            item.ImagePath = await itemService.SaveItemImageAsync(
+                requestItemDto.Image,
+                requestItemDto.ItemCategory,
+                requestItemDto.ItemName);
+
             await itemService.CreateAsync(item);
 
             return Ok(Mappers.MapItemToResponseDto(item));
@@ -52,13 +58,13 @@ namespace PizzeriaAPI.Controllers
         {
             var initialItem = await itemService.GetAsync(o => o.ItemId.Equals(id), true);
 
-            if(initialItem is null) return NotFound();
+            if (initialItem is null) return NotFound();
 
             var updatedItem = Mappers.MapRequestDtoToItem(requestItemDto);
             updatedItem.ItemId = initialItem.ItemId;
 
             await itemService.UpdateAsync(updatedItem);
-            
+
             return Ok(Mappers.MapItemToResponseDto(updatedItem));
         }
 
@@ -68,7 +74,7 @@ namespace PizzeriaAPI.Controllers
         {
             var item = await itemService.GetAsync(o => o.ItemId.Equals(id));
 
-            if(item is null) return;
+            if (item is null) return;
 
             await itemService.DeleteAsync(item);
         }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.ItemDto
 {
@@ -15,6 +16,9 @@ namespace Pizzeria.Domain.Dto.ItemDto
 
         [Required]
         public required decimal ItemPrice { get; set; }
+
+        [Required]
+        public required IFormFile Image {get; set;}
 
         [Required]
         public required Guid RecipeId { get; set; }
