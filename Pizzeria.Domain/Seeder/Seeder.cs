@@ -32,7 +32,7 @@ namespace Pizzeria.Domain.Seeder
                 .RuleFor(x => x.Address1, f => f.Address.StreetAddress())
                 .RuleFor(x => x.Address2, f => isSecondAddress == 0 ? f.Address.StreetAddress() : null)
                 .RuleFor(x => x.City, f => f.Address.City())
-                .RuleFor(x => x.Zipcode, f => f.Address.ZipCode());       
+                .RuleFor(x => x.Zipcode, f => f.Address.ZipCode());
         }
 
         private async Task<List<Customer>> GetCustomerListAsync()
@@ -122,7 +122,7 @@ namespace Pizzeria.Domain.Seeder
 
                     if (itemIngredients.Any(x => x.IngredientId.Equals(ingredient.IngredientId))) continue;
 
-                    itemIngredients.Add(ingredient); 
+                    itemIngredients.Add(ingredient);
                 }
 
                 for (int iSize = 0; iSize < Constants.Constants.ItemSizeNames.Count; ++iSize)
@@ -138,8 +138,8 @@ namespace Pizzeria.Domain.Seeder
                         recipeIngredients.Add(new Faker<RecipeIngredient>()
                             .RuleFor(x => x.RecipeId, recipeId)
                             .RuleFor(x => x.IngredientId, ingredient.IngredientId)
-                            .RuleFor(x => x.IngredientWeight, f => 
-                            (float) (0.1 * (1 + iSize) * (ingredient.IngredientWeightMeasure == "kg" ? f.Random.Number(0, 1) + f.Random.Float() : f.Random.Number(10, 200)))));
+                            .RuleFor(x => x.IngredientWeight, f =>
+                            (float)(0.1 * (1 + iSize) * (ingredient.IngredientWeightMeasure == "kg" ? f.Random.Number(0, 1) + f.Random.Float() : f.Random.Number(10, 200)))));
                     }
 
                     // Calculate overall item price by ingredients
@@ -160,7 +160,8 @@ namespace Pizzeria.Domain.Seeder
                         .RuleFor(x => x.ItemCategory, itemCategory)
                         .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
                         .RuleFor(x => x.ItemPrice, f => ingredientsPrice + f.Random.Number(5, 10) + f.Random.Decimal())
-                        .RuleFor(x => x.RecipeId, recipeId));
+                        .RuleFor(x => x.RecipeId, recipeId)
+                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.Constants.ImageExtension}"));
                 }
             }
 
@@ -179,7 +180,7 @@ namespace Pizzeria.Domain.Seeder
 
                     if (itemIngredients.Any(x => x.IngredientId.Equals(ingredient.IngredientId))) continue;
 
-                    itemIngredients.Add(ingredient); 
+                    itemIngredients.Add(ingredient);
                 }
 
                 for (int iSize = 0; iSize < Constants.Constants.ItemSizeNames.Count; ++iSize)
@@ -195,7 +196,7 @@ namespace Pizzeria.Domain.Seeder
                         recipeIngredients.Add(new Faker<RecipeIngredient>()
                             .RuleFor(x => x.RecipeId, recipeId)
                             .RuleFor(x => x.IngredientId, ingredient.IngredientId)
-                            .RuleFor(x => x.IngredientWeight, f => 
+                            .RuleFor(x => x.IngredientWeight, f =>
                             (float)(0.1 * (1 + iSize) * (ingredient.IngredientWeightMeasure == "kg" ? f.Random.Number(0, 1) + f.Random.Float() : f.Random.Number(10, 200)))));
                     }
 
@@ -217,7 +218,8 @@ namespace Pizzeria.Domain.Seeder
                         .RuleFor(x => x.ItemCategory, itemCategory)
                         .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
                         .RuleFor(x => x.ItemPrice, f => ingredientsPrice + f.Random.Number(5, 10) + f.Random.Decimal())
-                        .RuleFor(x => x.RecipeId, recipeId));
+                        .RuleFor(x => x.RecipeId, recipeId)
+                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.Constants.ImageExtension}"));
                 }
             }
 
@@ -236,7 +238,7 @@ namespace Pizzeria.Domain.Seeder
 
                     if (itemIngredients.Any(x => x.IngredientId.Equals(ingredient.IngredientId))) continue;
 
-                    itemIngredients.Add(ingredient); 
+                    itemIngredients.Add(ingredient);
                 }
 
                 for (int iSize = 0; iSize < Constants.Constants.ItemSizeNames.Count; ++iSize)
@@ -252,7 +254,7 @@ namespace Pizzeria.Domain.Seeder
                         recipeIngredients.Add(new Faker<RecipeIngredient>()
                             .RuleFor(x => x.RecipeId, recipeId)
                             .RuleFor(x => x.IngredientId, ingredient.IngredientId)
-                            .RuleFor(x => x.IngredientWeight, f => 
+                            .RuleFor(x => x.IngredientWeight, f =>
                             (float)(0.1 * (1 + iSize) * (ingredient.IngredientWeightMeasure == "kg" ? f.Random.Number(0, 1) + f.Random.Float() : f.Random.Number(10, 200)))));
                     }
 
@@ -274,7 +276,8 @@ namespace Pizzeria.Domain.Seeder
                         .RuleFor(x => x.ItemCategory, itemCategory)
                         .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
                         .RuleFor(x => x.ItemPrice, f => ingredientsPrice + f.Random.Number(5, 10) + f.Random.Decimal())
-                        .RuleFor(x => x.RecipeId, recipeId));
+                        .RuleFor(x => x.RecipeId, recipeId)
+                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.Constants.ImageExtension}"));
                 }
             }
 
@@ -293,7 +296,7 @@ namespace Pizzeria.Domain.Seeder
 
                     if (itemIngredients.Any(x => x.IngredientId.Equals(ingredient.IngredientId))) continue;
 
-                    itemIngredients.Add(ingredient); 
+                    itemIngredients.Add(ingredient);
                 }
 
                 for (int iSize = 0; iSize < Constants.Constants.ItemSizeNames.Count; ++iSize)
@@ -309,7 +312,7 @@ namespace Pizzeria.Domain.Seeder
                         recipeIngredients.Add(new Faker<RecipeIngredient>()
                             .RuleFor(x => x.RecipeId, recipeId)
                             .RuleFor(x => x.IngredientId, ingredient.IngredientId)
-                            .RuleFor(x => x.IngredientWeight, f => 
+                            .RuleFor(x => x.IngredientWeight, f =>
                             (float)(0.1 * (1 + iSize) * (ingredient.IngredientWeightMeasure == "kg" ? f.Random.Number(1) + f.Random.Float() : f.Random.Number(10, 200)))));
                     }
 
@@ -331,7 +334,8 @@ namespace Pizzeria.Domain.Seeder
                         .RuleFor(x => x.ItemCategory, itemCategory)
                         .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
                         .RuleFor(x => x.ItemPrice, f => ingredientsPrice + f.Random.Number(5, 10) + f.Random.Decimal())
-                        .RuleFor(x => x.RecipeId, recipeId));
+                        .RuleFor(x => x.RecipeId, recipeId)
+                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.Constants.ImageExtension}"));
                 }
             }
 
@@ -363,10 +367,10 @@ namespace Pizzeria.Domain.Seeder
 
                 for (int i = 0; i < shiftStaffCount; ++i)
                 {
-                   shiftStaff.Add(new Faker<ShiftStaff>()
-                       .RuleFor(x => x.ShiftId, shiftId)
-                       .RuleFor(x => x.StaffId, f => 
-                            f.PickRandom(staff.Result.Where(s => !shiftStaff.Select(sh => sh.StaffId).Contains(s.StaffId))).StaffId));
+                    shiftStaff.Add(new Faker<ShiftStaff>()
+                        .RuleFor(x => x.ShiftId, shiftId)
+                        .RuleFor(x => x.StaffId, f =>
+                             f.PickRandom(staff.Result.Where(s => !shiftStaff.Select(sh => sh.StaffId).Contains(s.StaffId))).StaffId));
                 }
 
                 shifts.Add(new Faker<Shift>()
@@ -381,6 +385,7 @@ namespace Pizzeria.Domain.Seeder
                 if (TimeOnly.FromDateTime(date) > endWorkingDayTime)
                 {
                     date = new DateTime(DateOnly.FromDateTime(date).AddDays(1), startWorkingDayTime);
+                    continue;
                 }
 
                 var orderId = Guid.NewGuid();

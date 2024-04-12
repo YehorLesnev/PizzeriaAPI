@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Pizzeria.Domain;
@@ -72,6 +73,22 @@ app.UseCors();
 app.UseHttpsRedirection();
 
 app.MapIdentityApi<IdentityUser>();
+
+var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append(
+            "Cache-Control", $"public, max-age={cacheMaxAgeOneWeek}");
+    },
+
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Static")),
+
+    RequestPath = "/static"
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
