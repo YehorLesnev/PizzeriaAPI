@@ -258,12 +258,14 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.HasOne(d => d.Ingredient).WithMany(p => p.RecipeIngredients)
                 .HasForeignKey(d => d.IngredientId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_recipe_ingredients_ingredients");
+                .HasConstraintName("FK_recipe_ingredients_ingredients")
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.Recipe).WithMany(p => p.RecipeIngredients)
                 .HasForeignKey(d => d.RecipeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_recipe_ingredients_recipes");
+                .HasConstraintName("FK_recipe_ingredients_recipes")
+                .OnDelete(DeleteBehavior.Cascade);;
         });
 
         modelBuilder.Entity<Staff>(entity =>
