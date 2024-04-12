@@ -161,6 +161,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
                 .IsUnicode(false)
                 .HasColumnName("item_size");
             entity.Property(e => e.RecipeId).HasColumnName("recipe_id");
+            entity.Property(e => e.ImagePath).HasColumnName("image_path");
 
             entity.HasOne(d => d.ItemNavigation).WithOne(p => p.Item)
                 .HasForeignKey<Item>(d => d.RecipeId)

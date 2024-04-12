@@ -21,6 +21,9 @@ public partial class Item
 
     public decimal ItemPrice { get; set; }
 
+    [MaxLength(200)]
+    public string ImagePath { get; set; } = null!;
+
     public Guid RecipeId { get; set; }
 
     public virtual Recipe ItemNavigation { get; set; } = null!;
