@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   pizzeriaapi:
+    container_name: pizzeria-api
     image: ${DOCKER_REGISTRY-}pizzeriaapi
     build:
       context: .
@@ -18,9 +19,10 @@ services:
         - ~/.aspnet/https:/https
     depends_on:
       - mssql
+      - seq
 
   mssql:
-    container_name: sql-server-pizzeriaapi
+    container_name: sql-server-pizzeria-api
     image: mcr.microsoft.com/mssql/server:latest
     environment:
       - SA_PASSWORD=StrongPassword123!
@@ -29,8 +31,8 @@ services:
       - "1401:1433"
 
   seq:
+    container_name: seq-pazzeria-api
     image:  datalust/seq:latest
-    container_name: seq-pazzeriaapi
     environment:
     - ACCEPT_EULA=Y
     ports:
@@ -38,7 +40,7 @@ services:
     - 8081:80
 
   redis:
+    container_name: redis
     image: redis:latest
     ports:
     - "6379:6379"
-    container_name: redis
