@@ -62,13 +62,20 @@ builder.Services.AddScoped<ISeeder, Seeder>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Development.DockerCompose"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.ApplyMigrations();
+
+app.UseCors(c =>
+{
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+    c.AllowAnyOrigin();
+});
 
 app.UseHttpsRedirection();
 
