@@ -265,7 +265,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
                 .HasForeignKey(d => d.RecipeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_recipe_ingredients_recipes")
-                .OnDelete(DeleteBehavior.Cascade);;
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Staff>(entity =>
