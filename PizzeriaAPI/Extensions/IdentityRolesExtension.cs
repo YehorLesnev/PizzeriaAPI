@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PizzeriaAPI.Identity.Roles;
 
-namespace PizzeriaAPI.Identity.Extensions
+namespace PizzeriaAPI.Extensions
 {
     public static class IdentityRolesExtension
     {

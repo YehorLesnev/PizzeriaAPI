@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 using Pizzeria.Domain;
 using Pizzeria.Domain.Extensions;
 using Pizzeria.Domain.Seeder;
-using PizzeriaAPI.Identity.Extensions;
+using PizzeriaAPI.Extensions;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -59,6 +59,8 @@ builder.Services.RegisterServices();
 // Database Seeder
 builder.Services.AddScoped<ISeeder, Seeder>();
 
+builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -99,6 +101,8 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.MapControllers();
 
