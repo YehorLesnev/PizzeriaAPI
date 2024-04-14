@@ -100,7 +100,7 @@ namespace Pizzeria.Domain.Seeder
                     .RuleFor(x => x.IngredientName, ingrName)
                     .RuleFor(x => x.IngredientWeightMeasure, isKg == 0 ? "kg" : "g")
                     .RuleFor(x => x.IngredientPrice, f => isKg == 0 ? f.Finance.Amount(1, 3) : f.Finance.Amount(0.01m, 0.1m))
-                    .RuleFor(x => x.QuantityInStock, f => isKg == 0 ? f.Random.Number(10, 100) : f.Random.Number(500, 50001)));
+                    .RuleFor(x => x.QuantityInStock, f => isKg == 0 ? f.Random.Number(1000, 100000) : f.Random.Number(500000, 10000000)));
             }
 
             await ingredientService.CreateAllAsync(ingredients);
