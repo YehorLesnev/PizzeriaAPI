@@ -42,7 +42,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.ToTable("shifts");
 
             entity.Property(e => e.ShiftId)
-                .ValueGeneratedNever()
+                .HasDefaultValueSql("NEWID()")
                 .HasColumnName("shift_id");
             entity.Property(e => e.ShiftDate)
                 .IsRequired()
@@ -74,7 +74,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.ToTable("address");
 
             entity.Property(e => e.AddressId)
-                .ValueGeneratedNever()
+                .HasDefaultValueSql("NEWID()")
                 .HasColumnName("address_id");
             entity.Property(e => e.Address1)
                 .HasMaxLength(200)
@@ -99,7 +99,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.ToTable("customers");
 
             entity.Property(e => e.CustomerId)
-                .ValueGeneratedNever()
+                .HasDefaultValueSql("NEWID()")
                 .HasColumnName("customer_id");
             entity.Property(e => e.FirstName)
                 .HasMaxLength(55)
@@ -110,7 +110,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
                 .IsFixedLength()
                 .HasColumnName("last_name");
             entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(15)
+                .HasMaxLength(25)
                 .IsFixedLength()
                 .HasColumnName("phone_number");
         });
@@ -120,7 +120,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.ToTable("ingredients");
 
             entity.Property(e => e.IngredientId)
-                .ValueGeneratedNever()
+                .HasDefaultValueSql("NEWID()")
                 .HasColumnName("ingredient_id");
             entity.Property(e => e.IngredientName)
                 .HasMaxLength(100)
@@ -143,7 +143,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.ToTable("items");
 
             entity.Property(e => e.ItemId)
-                .ValueGeneratedNever()
+                .HasDefaultValueSql("NEWID()")
                 .HasColumnName("item_id");
             entity.Property(e => e.ItemCategory)
                 .HasMaxLength(100)
@@ -174,7 +174,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.ToTable("orders");
 
             entity.Property(e => e.OrderId)
-                .ValueGeneratedNever()
+                .HasDefaultValueSql("NEWID()")
                 .HasColumnName("order_id");
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");
             entity.Property(e => e.Date)
@@ -235,7 +235,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.ToTable("recipes");
 
             entity.Property(e => e.RecipeId)
-                .ValueGeneratedNever()
+                .HasDefaultValueSql("NEWID()")
                 .HasColumnName("recipe_id");
             entity.Property(e => e.CookingTime)
                 .HasColumnName("cooking_time");
@@ -273,7 +273,7 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.ToTable("staff");
 
             entity.Property(e => e.StaffId)
-                .ValueGeneratedNever()
+                .HasDefaultValueSql("NEWID()")
                 .HasColumnName("staff_id");
             entity.Property(e => e.FirstName)
                 .HasMaxLength(55)
@@ -290,6 +290,10 @@ public partial class PizzeriaDbContext : IdentityDbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("position");
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(25)
+                .IsFixedLength()
+                .HasColumnName("phone_number");
         });
 
         OnModelCreatingPartial(modelBuilder);
