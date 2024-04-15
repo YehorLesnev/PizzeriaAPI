@@ -217,13 +217,13 @@ public partial class PizzeriaDbContext : IdentityDbContext
 
             entity.HasOne(d => d.Item).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.ItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_order_items_items");
+                .HasConstraintName("FK_order_items_items")
+                .OnDelete(DeleteBehavior.ClientSetNull);;
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_order_items_orders");
+                .HasConstraintName("FK_order_items_orders")
+                .OnDelete(DeleteBehavior.Cascade);
 
             //Indexes
             entity.HasIndex(e => e.ItemId)
