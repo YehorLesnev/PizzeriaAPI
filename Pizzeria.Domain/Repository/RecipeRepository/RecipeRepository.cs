@@ -14,7 +14,7 @@ namespace Pizzeria.Domain.Repository.RecipeRepository
             if (filter is not null)
                 query = query.Where(filter);
 
-            return asNoTracking ? query.Include("RecipeIngredients").AsNoTracking() : query.Include("RecipeIngredients");
+            return asNoTracking ? query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient").AsNoTracking() : query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient");
         }
 
         public override async Task<Recipe?> GetAsync(Expression<Func<Recipe, bool>>? filter = null, bool asNoTracking = false)
