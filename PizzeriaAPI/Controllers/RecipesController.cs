@@ -13,6 +13,7 @@ namespace PizzeriaAPI.Controllers
     public class RecipesController(IRecipeService recipeService) : ControllerBase
     {
         [HttpGet]
+        [AllowAnonymous]
         public IEnumerable<ResponseRecipeDto> GetAll()
         {
             return Mappers.MapRecipeToResponseDto(recipeService.GetAll(asNoTracking: true));
@@ -21,6 +22,7 @@ namespace PizzeriaAPI.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
         public async Task<ActionResult<ResponseRecipeDto>> Get(Guid id)
         {
             var recipe = await recipeService.GetAsync(a => a.RecipeId.Equals(id), true);
