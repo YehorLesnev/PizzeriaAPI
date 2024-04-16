@@ -19,6 +19,17 @@ namespace PizzeriaAPI.Controllers
             return Ok(roleManager.Roles);
         }
 
+        [HttpGet($"user/{{{nameof(userEmail)}}}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<string>>> GetUserRole([FromRoute] string userEmail)
+        {
+            var user = await userManager.FindByEmailAsync(userEmail);
+
+            if(user is null) return NotFound();
+
+            return Ok(await userManager.GetRolesAsync(user));
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateRole([FromBody] string roleName)
         {
