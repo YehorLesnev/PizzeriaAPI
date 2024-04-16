@@ -28,7 +28,6 @@ namespace Pizzeria.Domain.Seeder
             var isSecondAddress = random.Next(0, 15);
 
             return new Faker<Address>()
-                .RuleFor(x => x.AddressId, Guid.NewGuid())
                 .RuleFor(x => x.Address1, f => f.Address.StreetAddress())
                 .RuleFor(x => x.Address2, f => isSecondAddress == 0 ? f.Address.StreetAddress() : null)
                 .RuleFor(x => x.City, f => f.Address.City())
@@ -47,7 +46,6 @@ namespace Pizzeria.Domain.Seeder
                 for (int i = 0; i < numOfCustomers; ++i)
                 {
                     customerList.Add(new Faker<Customer>()
-                        .RuleFor(x => x.CustomerId, Guid.NewGuid())
                         .RuleFor(x => x.FirstName, f => f.Name.FirstName())
                         .RuleFor(x => x.LastName, f => f.Name.LastName())
                         .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumberFormat()));
@@ -69,7 +67,6 @@ namespace Pizzeria.Domain.Seeder
                     var iPosition = random.Next(0, Constants.Constants.StaffPositions.Count);
 
                     staffList.Add(new Faker<Staff>()
-                        .RuleFor(x => x.StaffId, Guid.NewGuid())
                         .RuleFor(x => x.FirstName, f => f.Name.FirstName())
                         .RuleFor(x => x.LastName, f => f.Name.LastName())
                         .RuleFor(x => x.Position, Constants.Constants.StaffPositions[iPosition])
@@ -96,7 +93,7 @@ namespace Pizzeria.Domain.Seeder
                 var isKg = _random.Next(0, 2);
 
                 ingredients.Add(new Faker<Ingredient>()
-                    .RuleFor(x => x.IngredientId, Guid.NewGuid())
+                    
                     .RuleFor(x => x.IngredientName, ingrName)
                     .RuleFor(x => x.IngredientWeightMeasure, isKg == 0 ? "kg" : "g")
                     .RuleFor(x => x.IngredientPrice, f => isKg == 0 ? f.Finance.Amount(1, 3) : f.Finance.Amount(0.01m, 0.1m))
@@ -155,7 +152,6 @@ namespace Pizzeria.Domain.Seeder
                         .RuleFor(x => x.RecipeIngredients, recipeIngredients));
 
                     items.Add(new Faker<Item>()
-                        .RuleFor(x => x.ItemId, Guid.NewGuid())
                         .RuleFor(x => x.ItemName, item)
                         .RuleFor(x => x.ItemCategory, itemCategory)
                         .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
@@ -213,7 +209,6 @@ namespace Pizzeria.Domain.Seeder
                         .RuleFor(x => x.RecipeIngredients, recipeIngredients));
 
                     items.Add(new Faker<Item>()
-                        .RuleFor(x => x.ItemId, Guid.NewGuid())
                         .RuleFor(x => x.ItemName, item)
                         .RuleFor(x => x.ItemCategory, itemCategory)
                         .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
@@ -271,7 +266,6 @@ namespace Pizzeria.Domain.Seeder
                         .RuleFor(x => x.RecipeIngredients, recipeIngredients));
 
                     items.Add(new Faker<Item>()
-                        .RuleFor(x => x.ItemId, Guid.NewGuid())
                         .RuleFor(x => x.ItemName, item)
                         .RuleFor(x => x.ItemCategory, itemCategory)
                         .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
@@ -329,7 +323,6 @@ namespace Pizzeria.Domain.Seeder
                         .RuleFor(x => x.RecipeIngredients, recipeIngredients));
 
                     items.Add(new Faker<Item>()
-                        .RuleFor(x => x.ItemId, Guid.NewGuid())
                         .RuleFor(x => x.ItemName, item)
                         .RuleFor(x => x.ItemCategory, itemCategory)
                         .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])

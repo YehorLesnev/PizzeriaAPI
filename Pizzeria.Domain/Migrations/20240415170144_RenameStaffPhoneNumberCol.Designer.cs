@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pizzeria.Domain;
 
@@ -11,9 +12,11 @@ using Pizzeria.Domain;
 namespace Pizzeria.Domain.Migrations
 {
     [DbContext(typeof(PizzeriaDbContext))]
-    partial class PizzeriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240415170144_RenameStaffPhoneNumberCol")]
+    partial class RenameStaffPhoneNumberCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,10 +226,8 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Address", b =>
                 {
                     b.Property<Guid>("AddressId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("address_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("address_id");
 
                     b.Property<string>("Address1")
                         .IsRequired()
@@ -263,10 +264,8 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Customer", b =>
                 {
                     b.Property<Guid>("CustomerId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("customer_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("customer_id");
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(55)
@@ -294,10 +293,8 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Ingredient", b =>
                 {
                     b.Property<Guid>("IngredientId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ingredient_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("ingredient_id");
 
                     b.Property<string>("IngredientName")
                         .IsRequired()
@@ -329,10 +326,8 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Item", b =>
                 {
                     b.Property<Guid>("ItemId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("item_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("item_id");
 
                     b.Property<string>("ImagePath")
                         .IsRequired()
@@ -380,10 +375,8 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Order", b =>
                 {
                     b.Property<Guid>("OrderId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("order_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("order_id");
 
                     b.Property<Guid?>("CustomerId")
                         .HasColumnType("uniqueidentifier")
@@ -448,10 +441,8 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Recipe", b =>
                 {
                     b.Property<Guid>("RecipeId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("recipe_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("recipe_id");
 
                     b.Property<TimeOnly>("CookingTime")
                         .HasColumnType("time")
@@ -493,10 +484,8 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Shift", b =>
                 {
                     b.Property<Guid>("ShiftId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("shift_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("shift_id");
 
                     b.Property<DateOnly>("ShiftDate")
                         .HasColumnType("date")
@@ -527,10 +516,8 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Staff", b =>
                 {
                     b.Property<Guid>("StaffId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("staff_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("staff_id");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

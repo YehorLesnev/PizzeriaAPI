@@ -2,7 +2,7 @@
 
 public partial class Order
 {
-    public Guid OrderId { get; set; } = Guid.NewGuid();
+    public Guid OrderId { get; set; }
 
     public DateTime Date { get; set; }
     

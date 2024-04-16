@@ -4,7 +4,7 @@ namespace Pizzeria.Domain.Models
 {
     public class Shift
     {
-        public Guid ShiftId { get; set; } = Guid.NewGuid();
+        public Guid ShiftId { get; set; }
         
         public DateOnly ShiftDate { get; init; }
 
