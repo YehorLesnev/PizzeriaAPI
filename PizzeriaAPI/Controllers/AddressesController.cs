@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.AddressDto;
+using Pizzeria.Domain.Dto.StaffDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.AddressService;
+using Pizzeria.Domain.Services.StaffServcice;
 using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
@@ -15,9 +17,15 @@ namespace PizzeriaAPI.Controllers
     {
         [HttpGet]
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Cashier}")]
-        public IEnumerable<ResponseAddressDto> GetAll()
+        public IEnumerable<ResponseAddressDto> GetAll(
+            [FromQuery] int? pageNumber = null,
+            [FromQuery] int? pageSize = null
+        )
         {
-            return Mappers.MapAddressToResponseDto(addressService.GetAll(asNoTracking: true));
+            return Mappers.MapAddressToResponseDto(addressService.GetAll(
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                asNoTracking: true));
         }
 
         [HttpGet("{id:guid}")]

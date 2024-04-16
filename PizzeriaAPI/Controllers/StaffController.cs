@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Pizzeria.Domain.Dto.ShiftDto;
 using Pizzeria.Domain.Dto.StaffDto;
 using Pizzeria.Domain.Mapper;
+using Pizzeria.Domain.Services.ShiftService;
 using Pizzeria.Domain.Services.StaffServcice;
 using PizzeriaAPI.Identity.Roles;
 
@@ -14,9 +16,15 @@ namespace PizzeriaAPI.Controllers
         : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<ResponseStaffDto> GetAll()
+        public IEnumerable<ResponseStaffDto> GetAll(
+            [FromQuery] int? pageNumber = null,
+            [FromQuery] int? pageSize = null
+        )
         {
-            return Mappers.MapStaffToResponseDto(staffService.GetAll(asNoTracking: true));
+            return Mappers.MapStaffToResponseDto(staffService.GetAll(
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                asNoTracking: true));
         }
 
         [HttpGet("{id:guid}")]

@@ -18,17 +18,39 @@ namespace Pizzeria.Domain.Repository
         {
             IQueryable<T> query = DbSet;
 
-            if(filter is not null) 
+            if (filter is not null)
                 query = query.Where(filter);
 
             return asNoTracking ? query.AsNoTracking() : query;
         }
-        
+
+        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null,
+            int? pageNumber = null,
+            int? pageSize = null,
+            bool asNoTracking = false)
+        {
+            IQueryable<T> query = DbSet;
+
+            if (filter is not null)
+                query = query.Where(filter);
+
+            if (pageNumber is null || pageSize is null)
+                return asNoTracking ? query.AsNoTracking() : query;
+
+            return asNoTracking ? query
+                .Skip((pageNumber.Value - 1) * pageSize.Value)
+                .Take(pageSize.Value)
+                .AsNoTracking()
+                : query
+                    .Skip((pageNumber.Value - 1) * pageSize.Value)
+                    .Take(pageSize.Value);
+        }
+
         public virtual async Task<T?> GetAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
         {
             IQueryable<T> query = DbSet;
 
-            if(filter is not null) 
+            if (filter is not null)
                 query = query.Where(filter);
 
             return asNoTracking ? await query.AsNoTracking().FirstOrDefaultAsync() : await query.FirstOrDefaultAsync();
@@ -36,7 +58,7 @@ namespace Pizzeria.Domain.Repository
 
         public virtual async Task CreateAsync(T entity)
         {
-             await DbSet.AddAsync(entity);
+            await DbSet.AddAsync(entity);
         }
 
         public virtual async Task CreateAllAsync(IEnumerable<T> entities)

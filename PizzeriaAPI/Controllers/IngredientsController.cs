@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Pizzeria.Domain.Dto.CustomerDto;
 using Pizzeria.Domain.Dto.IngredientDto;
 using Pizzeria.Domain.Mapper;
+using Pizzeria.Domain.Services.CustomerService;
 using Pizzeria.Domain.Services.IngredientService;
 using PizzeriaAPI.Identity.Roles;
 
@@ -14,9 +16,15 @@ namespace PizzeriaAPI.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public IEnumerable<ResponseIngredientDto> GetAll()
+        public IEnumerable<ResponseIngredientDto> GetAll(
+            [FromQuery] int? pageNumber = null,
+            [FromQuery] int? pageSize = null
+        )
         {
-            return Mappers.MapIngredientToResponseDto(ingredientService.GetAll(asNoTracking: true));
+            return Mappers.MapIngredientToResponseDto(ingredientService.GetAll(
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                asNoTracking: true));
         }
 
         [HttpGet("{id:guid}")]

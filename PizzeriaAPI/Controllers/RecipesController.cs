@@ -14,9 +14,15 @@ namespace PizzeriaAPI.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public IEnumerable<ResponseRecipeDto> GetAll()
+        public IEnumerable<ResponseRecipeDto> GetAll(
+            [FromQuery] int? pageNumber = null,
+            [FromQuery] int? pageSize = null
+        )
         {
-            return Mappers.MapRecipeToResponseDto(recipeService.GetAll(asNoTracking: true));
+            return Mappers.MapRecipeToResponseDto(recipeService.GetAll(
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                asNoTracking: true));
         }
 
         [HttpGet("{id:guid}")]
