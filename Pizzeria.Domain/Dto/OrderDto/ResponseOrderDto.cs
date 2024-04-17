@@ -15,8 +15,7 @@ namespace Pizzeria.Domain.Dto.OrderDto
         [Required]
         public required Guid StaffId { get; set; }
 
-        [Required]
-        public required Guid? CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
 
         [Required]
         public required ICollection<ResponseOrderItemDto> OrderItems { get; set; } 

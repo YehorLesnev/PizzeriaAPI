@@ -185,7 +185,9 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.Property(e => e.OrderId)
                 .HasDefaultValueSql("NEWID()")
                 .HasColumnName("order_id");
-            entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+            entity.Property(e => e.CustomerId)
+                .HasColumnName("customer_id")
+                .HasDefaultValue(null);
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
@@ -195,7 +197,8 @@ public partial class PizzeriaDbContext : IdentityDbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK_orders_customers");
+                .HasConstraintName("FK_orders_customers")
+                .IsRequired(false);
 
             entity.HasOne(d => d.DeliveryAddress).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.DeliveryAddressId)
