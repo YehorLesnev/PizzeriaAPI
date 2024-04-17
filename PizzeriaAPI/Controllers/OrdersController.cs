@@ -21,6 +21,11 @@ namespace PizzeriaAPI.Controllers
             [FromQuery] int? pageSize = null
         )
         {
+            var orders = orderService.GetAll(pageNumber: pageNumber,
+                pageSize: pageSize,
+                asNoTracking: true)
+                .ToList();
+
             return Mappers.MapOrderToResponseDto(orderService.GetAll(
                 pageNumber: pageNumber,
                 pageSize: pageSize,

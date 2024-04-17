@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pizzeria.Domain.Models;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Pizzeria.Domain.Repository.OrderRepository
@@ -15,7 +14,8 @@ namespace Pizzeria.Domain.Repository.OrderRepository
             if (filter is not null)
                 query = query.Where(filter);
 
-            return asNoTracking ? query.Include("OrderItems").AsNoTracking() : query.Include("OrderItems");
+            return asNoTracking ? query.Include("OrderItems").Include("OrderItems.Item").AsNoTracking() 
+                : query.Include("OrderItems").Include("OrderItems.Item");
         }
 
         public override async Task<Order?> GetAsync(Expression<Func<Order, bool>>? filter = null, bool asNoTracking = false)
@@ -25,8 +25,8 @@ namespace Pizzeria.Domain.Repository.OrderRepository
             if (filter is not null)
                 query = query.Where(filter);
 
-            return asNoTracking ? await query.Include("OrderItems").AsNoTracking().FirstOrDefaultAsync()
-                : await query.Include("OrderItems").FirstOrDefaultAsync();
+            return asNoTracking ? await query.Include("OrderItems").Include("OrderItems.Item").AsNoTracking().FirstOrDefaultAsync()
+                : await query.Include("OrderItems").Include("OrderItems.Item").FirstOrDefaultAsync();
         }
     }
 }
