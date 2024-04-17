@@ -11,11 +11,6 @@ namespace Pizzeria.Domain.Services
             return await repository.GetAsync(filter, asNoTracking);
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
-        {
-            return repository.GetAll(filter, asNoTracking);
-        }
-
         public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null,
             int? pageNumber = null,
             int? pageSize = null,

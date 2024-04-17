@@ -5,9 +5,6 @@ namespace Pizzeria.Domain.Services
     public interface IBaseService<T> where T : class
     {
         Task<T?> GetAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false);
-
-        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false);
-
         IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null,
             int? pageNumber = null,
             int? pageSize = null,

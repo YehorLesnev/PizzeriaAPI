@@ -4,8 +4,6 @@ namespace Pizzeria.Domain.Repository
 {
     public interface IBaseRepository<T> where T : class
     {
-        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false);
-
         IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null,
             int? pageNumber = null,
             int? pageSize = null,

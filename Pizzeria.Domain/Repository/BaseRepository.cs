@@ -14,16 +14,6 @@ namespace Pizzeria.Domain.Repository
             DbSet = _dbContext.Set<T>();
         }
 
-        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
-        {
-            IQueryable<T> query = DbSet;
-
-            if (filter is not null)
-                query = query.Where(filter);
-
-            return asNoTracking ? query.AsNoTracking() : query;
-        }
-
         public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null,
             int? pageNumber = null,
             int? pageSize = null,
