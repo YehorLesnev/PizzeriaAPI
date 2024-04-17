@@ -47,6 +47,13 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.Property(e => e.ShiftDate)
                 .IsRequired()
                 .HasColumnName("shift_date");
+
+            entity.Property(e => e.ShiftStartTime)
+                .HasDefaultValue(Constants.Constants.ShiftStartTime)
+                .HasColumnName("shift_start_time");
+            entity.Property(e => e.ShiftEndTime)
+                .HasDefaultValue(Constants.Constants.ShiftEndTime)
+                .HasColumnName("shift_end_time");
         });
 
         modelBuilder.Entity<ShiftStaff>(entity =>

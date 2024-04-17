@@ -41,7 +41,7 @@ namespace Pizzeria.Domain.Seeder
                 var customerList = new List<Customer>();
                 var random = new Random();
 
-                var numOfCustomers = random.Next(Constants.Constants.MinNumOfCustomers, Constants.Constants.MaxNumOfCustomers);
+                var numOfCustomers = random.Next(Constants.SeederConstants.MinNumOfCustomers, Constants.SeederConstants.MaxNumOfCustomers);
 
                 for (int i = 0; i < numOfCustomers; ++i)
                 {
@@ -62,16 +62,16 @@ namespace Pizzeria.Domain.Seeder
                 var staffList = new List<Staff>();
                 var random = new Random();
 
-                for (int i = 0; i < Constants.Constants.NumOfStaff; ++i)
+                for (int i = 0; i < Constants.SeederConstants.NumOfStaff; ++i)
                 {
-                    var iPosition = random.Next(0, Constants.Constants.StaffPositions.Count);
+                    var iPosition = random.Next(0, Constants.SeederConstants.StaffPositions.Count);
 
                     staffList.Add(new Faker<Staff>()
                         .RuleFor(x => x.FirstName, f => f.Name.FirstName())
                         .RuleFor(x => x.LastName, f => f.Name.LastName())
-                        .RuleFor(x => x.Position, Constants.Constants.StaffPositions[iPosition])
+                        .RuleFor(x => x.Position, Constants.SeederConstants.StaffPositions[iPosition])
                         .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumberFormat())
-                        .RuleFor(x => x.HourlyRate, Constants.Constants.StaffPayRates[iPosition]));
+                        .RuleFor(x => x.HourlyRate, Constants.SeederConstants.StaffPayRates[iPosition]));
                 }
 
                 return staffList;
@@ -88,7 +88,7 @@ namespace Pizzeria.Domain.Seeder
             var staff = GetStaffListAsync();
 
             // Ingredients
-            foreach (var ingrName in Constants.Constants.IngredientNames)
+            foreach (var ingrName in Constants.SeederConstants.IngredientNames)
             {
                 var isKg = _random.Next(0, 2);
 
@@ -105,7 +105,7 @@ namespace Pizzeria.Domain.Seeder
             // Items
 
             // Pizza
-            foreach (var item in Constants.Constants.PizzaItemNames)
+            foreach (var item in Constants.SeederConstants.PizzaItemNames)
             {
                 const string itemCategory = "Pizza";
 
@@ -122,7 +122,7 @@ namespace Pizzeria.Domain.Seeder
                     itemIngredients.Add(ingredient);
                 }
 
-                for (int iSize = 0; iSize < Constants.Constants.ItemSizeNames.Count; ++iSize)
+                for (int iSize = 0; iSize < Constants.SeederConstants.ItemSizeNames.Count; ++iSize)
                 {
                     var recipeId = Guid.NewGuid();
                     var recipeIngredients = new List<RecipeIngredient>();
@@ -147,22 +147,22 @@ namespace Pizzeria.Domain.Seeder
 
                     recipes.Add(new Faker<Recipe>()
                         .RuleFor(x => x.RecipeId, recipeId)
-                        .RuleFor(x => x.RecipeName, $"{itemCategory}_{item}_{Constants.Constants.ItemSizeNames[iSize]}")
+                        .RuleFor(x => x.RecipeName, $"{itemCategory}_{item}_{Constants.SeederConstants.ItemSizeNames[iSize]}")
                         .RuleFor(x => x.CookingTime, f => new TimeOnly(0, f.Random.Number(5, 55), 0))
                         .RuleFor(x => x.RecipeIngredients, recipeIngredients));
 
                     items.Add(new Faker<Item>()
                         .RuleFor(x => x.ItemName, item)
                         .RuleFor(x => x.ItemCategory, itemCategory)
-                        .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
+                        .RuleFor(x => x.ItemSize, Constants.SeederConstants.ItemSizeNames[iSize])
                         .RuleFor(x => x.ItemPrice, f => ingredientsPrice + f.Random.Number(5, 10) + f.Random.Decimal())
                         .RuleFor(x => x.RecipeId, recipeId)
-                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.Constants.ImageExtension}"));
+                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.SeederConstants.ImageExtension}"));
                 }
             }
 
             // Burger
-            foreach (var item in Constants.Constants.BurgerItemNames)
+            foreach (var item in Constants.SeederConstants.BurgerItemNames)
             {
                 const string itemCategory = "Burger";
 
@@ -179,7 +179,7 @@ namespace Pizzeria.Domain.Seeder
                     itemIngredients.Add(ingredient);
                 }
 
-                for (int iSize = 0; iSize < Constants.Constants.ItemSizeNames.Count; ++iSize)
+                for (int iSize = 0; iSize < Constants.SeederConstants.ItemSizeNames.Count; ++iSize)
                 {
                     var recipeId = Guid.NewGuid();
                     var recipeIngredients = new List<RecipeIngredient>();
@@ -204,22 +204,22 @@ namespace Pizzeria.Domain.Seeder
 
                     recipes.Add(new Faker<Recipe>()
                         .RuleFor(x => x.RecipeId, recipeId)
-                        .RuleFor(x => x.RecipeName, $"{itemCategory}_{item}_{Constants.Constants.ItemSizeNames[iSize]}")
+                        .RuleFor(x => x.RecipeName, $"{itemCategory}_{item}_{Constants.SeederConstants.ItemSizeNames[iSize]}")
                         .RuleFor(x => x.CookingTime, f => new TimeOnly(0, f.Random.Number(5, 55), 0))
                         .RuleFor(x => x.RecipeIngredients, recipeIngredients));
 
                     items.Add(new Faker<Item>()
                         .RuleFor(x => x.ItemName, item)
                         .RuleFor(x => x.ItemCategory, itemCategory)
-                        .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
+                        .RuleFor(x => x.ItemSize, Constants.SeederConstants.ItemSizeNames[iSize])
                         .RuleFor(x => x.ItemPrice, f => ingredientsPrice + f.Random.Number(5, 10) + f.Random.Decimal())
                         .RuleFor(x => x.RecipeId, recipeId)
-                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.Constants.ImageExtension}"));
+                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.SeederConstants.ImageExtension}"));
                 }
             }
 
             // Fries
-            foreach (var item in Constants.Constants.FrenchFriesItemNames)
+            foreach (var item in Constants.SeederConstants.FrenchFriesItemNames)
             {
                 const string itemCategory = "Fries";
 
@@ -236,7 +236,7 @@ namespace Pizzeria.Domain.Seeder
                     itemIngredients.Add(ingredient);
                 }
 
-                for (int iSize = 0; iSize < Constants.Constants.ItemSizeNames.Count; ++iSize)
+                for (int iSize = 0; iSize < Constants.SeederConstants.ItemSizeNames.Count; ++iSize)
                 {
                     var recipeId = Guid.NewGuid();
                     var recipeIngredients = new List<RecipeIngredient>();
@@ -261,22 +261,22 @@ namespace Pizzeria.Domain.Seeder
 
                     recipes.Add(new Faker<Recipe>()
                         .RuleFor(x => x.RecipeId, recipeId)
-                        .RuleFor(x => x.RecipeName, $"{itemCategory}_{item}_{Constants.Constants.ItemSizeNames[iSize]}")
+                        .RuleFor(x => x.RecipeName, $"{itemCategory}_{item}_{Constants.SeederConstants.ItemSizeNames[iSize]}")
                         .RuleFor(x => x.CookingTime, f => new TimeOnly(0, f.Random.Number(5, 55), 0))
                         .RuleFor(x => x.RecipeIngredients, recipeIngredients));
 
                     items.Add(new Faker<Item>()
                         .RuleFor(x => x.ItemName, item)
                         .RuleFor(x => x.ItemCategory, itemCategory)
-                        .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
+                        .RuleFor(x => x.ItemSize, Constants.SeederConstants.ItemSizeNames[iSize])
                         .RuleFor(x => x.ItemPrice, f => ingredientsPrice + f.Random.Number(5, 10) + f.Random.Decimal())
                         .RuleFor(x => x.RecipeId, recipeId)
-                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.Constants.ImageExtension}"));
+                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.SeederConstants.ImageExtension}"));
                 }
             }
 
             // Hot Dog
-            foreach (var item in Constants.Constants.HotDogItemNames)
+            foreach (var item in Constants.SeederConstants.HotDogItemNames)
             {
                 const string itemCategory = "HotDog";
 
@@ -293,7 +293,7 @@ namespace Pizzeria.Domain.Seeder
                     itemIngredients.Add(ingredient);
                 }
 
-                for (int iSize = 0; iSize < Constants.Constants.ItemSizeNames.Count; ++iSize)
+                for (int iSize = 0; iSize < Constants.SeederConstants.ItemSizeNames.Count; ++iSize)
                 {
                     var recipeId = Guid.NewGuid();
                     var recipeIngredients = new List<RecipeIngredient>();
@@ -318,17 +318,17 @@ namespace Pizzeria.Domain.Seeder
 
                     recipes.Add(new Faker<Recipe>()
                         .RuleFor(x => x.RecipeId, recipeId)
-                        .RuleFor(x => x.RecipeName, $"{itemCategory}_{item}_{Constants.Constants.ItemSizeNames[iSize]}")
+                        .RuleFor(x => x.RecipeName, $"{itemCategory}_{item}_{Constants.SeederConstants.ItemSizeNames[iSize]}")
                         .RuleFor(x => x.CookingTime, f => new TimeOnly(0, f.Random.Number(5, 55), 0))
                         .RuleFor(x => x.RecipeIngredients, recipeIngredients));
 
                     items.Add(new Faker<Item>()
                         .RuleFor(x => x.ItemName, item)
                         .RuleFor(x => x.ItemCategory, itemCategory)
-                        .RuleFor(x => x.ItemSize, Constants.Constants.ItemSizeNames[iSize])
+                        .RuleFor(x => x.ItemSize, Constants.SeederConstants.ItemSizeNames[iSize])
                         .RuleFor(x => x.ItemPrice, f => ingredientsPrice + f.Random.Number(5, 10) + f.Random.Decimal())
                         .RuleFor(x => x.RecipeId, recipeId)
-                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.Constants.ImageExtension}"));
+                        .RuleFor(x => x.ImagePath, $"static/images/items/{itemCategory}/{item.Replace(" ", "_")}.{Constants.SeederConstants.ImageExtension}"));
                 }
             }
 
@@ -344,9 +344,9 @@ namespace Pizzeria.Domain.Seeder
             // Orders
             var orders = new List<Order>();
 
-            var startDate = Constants.Constants.OrdersStartDate;
-            var startWorkingDayTime = new TimeOnly(8, 0, 0);
-            var endWorkingDayTime = new TimeOnly(22, 0, 0);
+            var startDate = Constants.SeederConstants.OrdersStartDate;
+            var startWorkingDayTime = Domain.Constants.Constants.ShiftStartTime;
+            var endWorkingDayTime = Domain.Constants.Constants.ShiftEndTime;
             var random = new Random();
 
             var itemsCount = items.Count;
