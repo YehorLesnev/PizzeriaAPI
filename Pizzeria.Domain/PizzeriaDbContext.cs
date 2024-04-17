@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Models;
 
 namespace Pizzeria.Domain;
 
-public partial class PizzeriaDbContext : IdentityDbContext
+public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRole<Guid>, Guid>
 {
     public PizzeriaDbContext()
     {
@@ -107,9 +107,6 @@ public partial class PizzeriaDbContext : IdentityDbContext
         {
             entity.ToTable("customers");
 
-            entity.Property(e => e.CustomerId)
-                .HasDefaultValueSql("NEWID()")
-                .HasColumnName("customer_id");
             entity.Property(e => e.FirstName)
                 .HasMaxLength(55)
                 .IsFixedLength()

@@ -54,7 +54,8 @@ END;");
 BEGIN
     -- Function exists, so alter it
     DROP TRIGGER dbo.UpdateOrderTotalTrigger;
-END");
+END
+");
         }
     }
 }

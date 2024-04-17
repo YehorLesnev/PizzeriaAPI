@@ -6,6 +6,7 @@ using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Pizzeria.Domain;
 using Pizzeria.Domain.Extensions;
+using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Seeder;
 using PizzeriaAPI.Extensions;
 using Serilog;
@@ -20,6 +21,11 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+builder.Services.AddDbContext<PizzeriaDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DatabaseSQL"),
+        b => b.MigrationsAssembly("Pizzeria.Domain")));
+
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
@@ -27,9 +33,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Authorization
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<PizzeriaDbContext>();
+builder.Services
+    .AddIdentityApiEndpoints<Customer>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
+    .AddRoles<IdentityRole<Guid>>()
+    .AddEntityFrameworkStores<PizzeriaDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -44,11 +52,6 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-
-builder.Services.AddDbContext<PizzeriaDbContext>(options =>
-options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DatabaseSQL"),
-    b => b.MigrationsAssembly("Pizzeria.Domain")));
 
 // Add repositories
 builder.Services.RegisterRepositories();
@@ -81,7 +84,7 @@ app.UseCors(c =>
 
 app.UseHttpsRedirection();
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<Customer>();
 
 var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
 

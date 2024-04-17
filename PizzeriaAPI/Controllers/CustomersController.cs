@@ -33,7 +33,7 @@ namespace PizzeriaAPI.Controllers
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task<ActionResult<ResponseCustomerDto>> Get(Guid id)
         {
-            var customer = await customerService.GetAsync(a => a.CustomerId.Equals(id), true);
+            var customer = await customerService.GetAsync(a => a.Id.Equals(id), true);
 
             if(customer is null) return NotFound();
 
@@ -58,12 +58,12 @@ namespace PizzeriaAPI.Controllers
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Customer}")]
         public async Task<ActionResult<ResponseCustomerDto>> Update([FromRoute] Guid id, [FromBody] RequestCustomerDto requestCustomerDto)
         {
-            var initialCustomer = await customerService.GetAsync(o => o.CustomerId.Equals(id), true);
+            var initialCustomer = await customerService.GetAsync(o => o.Id.Equals(id), true);
 
             if(initialCustomer is null) return NotFound();
 
             var updatedCustomer = Mappers.MapRequestDtoToCustomer(requestCustomerDto);
-            updatedCustomer.CustomerId = initialCustomer.CustomerId;
+            updatedCustomer.Id = initialCustomer.Id;
 
             await customerService.UpdateAsync(updatedCustomer);
             
@@ -74,7 +74,7 @@ namespace PizzeriaAPI.Controllers
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Customer}")]
         public async Task Delete([FromRoute] Guid id)
         {
-            var customer = await customerService.GetAsync(o => o.CustomerId.Equals(id));
+            var customer = await customerService.GetAsync(o => o.Id.Equals(id));
 
             if(customer is null) return;
 

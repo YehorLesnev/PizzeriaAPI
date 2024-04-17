@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Pizzeria.Domain.Models;
 using PizzeriaAPI.Identity.DTO.User;
 using PizzeriaAPI.Identity.Roles;
 
@@ -10,11 +11,11 @@ namespace PizzeriaAPI.Controllers
     [ApiController]
     [Authorize(Roles = UserRoleNames.Admin)]
     public class RolesController(
-        RoleManager<IdentityRole> roleManager,
-        UserManager<IdentityUser> userManager) : ControllerBase
+        RoleManager<IdentityRole<Guid>> roleManager,
+        UserManager<Customer> userManager) : ControllerBase
     {
         [HttpGet]
-        public ActionResult<IEnumerable<IdentityRole>> GetAllRoles()
+        public ActionResult<IEnumerable<IdentityRole<Guid>>> GetAllRoles()
         {
             return Ok(roleManager.Roles);
         }
@@ -33,7 +34,7 @@ namespace PizzeriaAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateRole([FromBody] string roleName)
         {
-            await roleManager.CreateAsync(new IdentityRole(roleName));
+            await roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
 
             return Ok();
         }
@@ -43,7 +44,7 @@ namespace PizzeriaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateUser([FromBody] RequestUserDto userDto)
         {
-            var user = new IdentityUser
+            var user = new Customer
             {
                 UserName = userDto.UserName,
                 Email = userDto.Email

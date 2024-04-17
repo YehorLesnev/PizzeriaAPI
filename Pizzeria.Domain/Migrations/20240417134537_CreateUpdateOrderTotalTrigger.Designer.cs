@@ -12,24 +12,157 @@ using Pizzeria.Domain;
 namespace Pizzeria.Domain.Migrations
 {
     [DbContext(typeof(PizzeriaDbContext))]
-    [Migration("20240401191445_AddOrderItemItemIdIndex")]
-    partial class AddOrderItemItemIdIndex
+    [Migration("20240417134537_CreateUpdateOrderTotalTrigger")]
+    partial class CreateUpdateOrderTotalTrigger
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
             modelBuilder.Entity("Pizzeria.Domain.Models.Address", b =>
                 {
                     b.Property<Guid>("AddressId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("address_id");
+                        .HasColumnName("address_id")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Address1")
                         .IsRequired()
@@ -65,9 +198,23 @@ namespace Pizzeria.Domain.Migrations
 
             modelBuilder.Entity("Pizzeria.Domain.Models.Customer", b =>
                 {
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("customer_id");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(55)
@@ -81,22 +228,62 @@ namespace Pizzeria.Domain.Migrations
                         .HasColumnName("last_name")
                         .IsFixedLength();
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(15)
+                        .HasMaxLength(25)
                         .HasColumnType("varchar")
                         .HasColumnName("phone_number")
                         .IsFixedLength();
 
-                    b.HasKey("CustomerId");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
-                    b.ToTable("customers", (string)null);
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Pizzeria.Domain.Models.Ingredient", b =>
                 {
                     b.Property<Guid>("IngredientId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("ingredient_id");
+                        .HasColumnName("ingredient_id")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("IngredientName")
                         .IsRequired()
@@ -128,8 +315,16 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Item", b =>
                 {
                     b.Property<Guid>("ItemId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("item_id");
+                        .HasColumnName("item_id")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("image_path");
 
                     b.Property<string>("ItemCategory")
                         .IsRequired()
@@ -171,8 +366,10 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Order", b =>
                 {
                     b.Property<Guid>("OrderId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("order_id");
+                        .HasColumnName("order_id")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid?>("CustomerId")
                         .HasColumnType("uniqueidentifier")
@@ -193,6 +390,10 @@ namespace Pizzeria.Domain.Migrations
                     b.Property<Guid>("StaffId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("staff_id");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(5, 2)")
+                        .HasColumnName("order_total");
 
                     b.HasKey("OrderId");
 
@@ -237,8 +438,10 @@ namespace Pizzeria.Domain.Migrations
             modelBuilder.Entity("Pizzeria.Domain.Models.Recipe", b =>
                 {
                     b.Property<Guid>("RecipeId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("recipe_id");
+                        .HasColumnName("recipe_id")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<TimeOnly>("CookingTime")
                         .HasColumnType("time")
@@ -277,11 +480,59 @@ namespace Pizzeria.Domain.Migrations
                     b.ToTable("recipe_ingredients", (string)null);
                 });
 
-            modelBuilder.Entity("Pizzeria.Domain.Models.Staff", b =>
+            modelBuilder.Entity("Pizzeria.Domain.Models.Shift", b =>
                 {
+                    b.Property<Guid>("ShiftId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("shift_id")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateOnly>("ShiftDate")
+                        .HasColumnType("date")
+                        .HasColumnName("shift_date");
+
+                    b.Property<TimeOnly>("ShiftEndTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("time")
+                        .HasDefaultValue(new TimeOnly(22, 0, 0))
+                        .HasColumnName("shift_end_time");
+
+                    b.Property<TimeOnly>("ShiftStartTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("time")
+                        .HasDefaultValue(new TimeOnly(8, 0, 0))
+                        .HasColumnName("shift_start_time");
+
+                    b.HasKey("ShiftId");
+
+                    b.ToTable("shifts", (string)null);
+                });
+
+            modelBuilder.Entity("Pizzeria.Domain.Models.ShiftStaff", b =>
+                {
+                    b.Property<Guid>("ShiftId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("shift_id");
+
                     b.Property<Guid>("StaffId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("staff_id");
+
+                    b.HasKey("ShiftId", "StaffId");
+
+                    b.HasIndex("StaffId");
+
+                    b.ToTable("shift_staff", (string)null);
+                });
+
+            modelBuilder.Entity("Pizzeria.Domain.Models.Staff", b =>
+                {
+                    b.Property<Guid>("StaffId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("staff_id")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -301,6 +552,13 @@ namespace Pizzeria.Domain.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("last_name");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("varchar")
+                        .HasColumnName("phone_number")
+                        .IsFixedLength();
+
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -311,6 +569,57 @@ namespace Pizzeria.Domain.Migrations
                     b.HasKey("StaffId");
 
                     b.ToTable("staff", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Pizzeria.Domain.Models.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.HasOne("Pizzeria.Domain.Models.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pizzeria.Domain.Models.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.HasOne("Pizzeria.Domain.Models.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Pizzeria.Domain.Models.Item", b =>
@@ -360,6 +669,7 @@ namespace Pizzeria.Domain.Migrations
                     b.HasOne("Pizzeria.Domain.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_order_items_orders");
 
@@ -373,18 +683,39 @@ namespace Pizzeria.Domain.Migrations
                     b.HasOne("Pizzeria.Domain.Models.Ingredient", "Ingredient")
                         .WithMany("RecipeIngredients")
                         .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_recipe_ingredients_ingredients");
 
                     b.HasOne("Pizzeria.Domain.Models.Recipe", "Recipe")
                         .WithMany("RecipeIngredients")
                         .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_recipe_ingredients_recipes");
 
                     b.Navigation("Ingredient");
 
                     b.Navigation("Recipe");
+                });
+
+            modelBuilder.Entity("Pizzeria.Domain.Models.ShiftStaff", b =>
+                {
+                    b.HasOne("Pizzeria.Domain.Models.Shift", "Shift")
+                        .WithMany("ShiftStaff")
+                        .HasForeignKey("ShiftId")
+                        .IsRequired()
+                        .HasConstraintName("FK_shift_staff_shift");
+
+                    b.HasOne("Pizzeria.Domain.Models.Staff", "Staff")
+                        .WithMany("ShiftStaff")
+                        .HasForeignKey("StaffId")
+                        .IsRequired()
+                        .HasConstraintName("FK_shift_staff_staff");
+
+                    b.Navigation("Shift");
+
+                    b.Navigation("Staff");
                 });
 
             modelBuilder.Entity("Pizzeria.Domain.Models.Address", b =>
@@ -419,9 +750,16 @@ namespace Pizzeria.Domain.Migrations
                     b.Navigation("RecipeIngredients");
                 });
 
+            modelBuilder.Entity("Pizzeria.Domain.Models.Shift", b =>
+                {
+                    b.Navigation("ShiftStaff");
+                });
+
             modelBuilder.Entity("Pizzeria.Domain.Models.Staff", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("ShiftStaff");
                 });
 #pragma warning restore 612, 618
         }

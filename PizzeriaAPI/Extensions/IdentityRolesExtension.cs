@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Pizzeria.Domain.Models;
 using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Extensions
@@ -11,7 +12,7 @@ namespace PizzeriaAPI.Extensions
             using var scope = app.Services.CreateScope();
 
             var roleManager =
-                scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
             var roles = new[] {
                 UserRoleNames.Admin,
@@ -23,19 +24,19 @@ namespace PizzeriaAPI.Extensions
             foreach (var role in roles)
             {
                 if (false == await roleManager.RoleExistsAsync(role))
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    await roleManager.CreateAsync(new IdentityRole<Guid>(role));
             }
 
             // Create default users
             var userManager =
-                scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                scope.ServiceProvider.GetRequiredService<UserManager<Customer>>();
 
             string adminEmail = "admin@admin.com";
             string adminPassword = "PizzeriaAdmin123!";
 
             if (await userManager.FindByEmailAsync(adminEmail) == null)
             {
-                var user = new IdentityUser
+                var user = new Customer
                 {
                     UserName = "admin",
                     Email = adminEmail
@@ -51,7 +52,7 @@ namespace PizzeriaAPI.Extensions
 
             if (await userManager.FindByEmailAsync(managerEmail) == null)
             {
-                var user = new IdentityUser
+                var user = new Customer
                 {
                     UserName = "manager",
                     Email = managerEmail
@@ -67,7 +68,7 @@ namespace PizzeriaAPI.Extensions
 
             if (await userManager.FindByEmailAsync(cashierEmail) == null)
             {
-                var user = new IdentityUser
+                var user = new Customer
                 {
                     UserName = "cashier",
                     Email = cashierEmail
@@ -83,7 +84,7 @@ namespace PizzeriaAPI.Extensions
 
             if (await userManager.FindByEmailAsync(customerEmail) == null)
             {
-                var user = new IdentityUser
+                var user = new Customer
                 {
                     UserName = "customer",
                     Email = customerEmail

@@ -18,6 +18,7 @@ namespace Pizzeria.Domain.Mapper
     public static partial class Mappers
     {
         public static partial ResponseAddressDto MapAddressToResponseDto(Address address);
+        [MapProperty(nameof(Customer.Id), nameof(ResponseCustomerDto.CustomerId))]
         public static partial ResponseCustomerDto MapCustomerToResponseDto(Customer customer);
         public static partial ResponseIngredientDto MapIngredientToResponseDto(Ingredient ingredient);
         public static partial ResponseItemDto MapItemToResponseDto(Item item);
