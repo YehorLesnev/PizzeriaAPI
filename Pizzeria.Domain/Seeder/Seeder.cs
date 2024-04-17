@@ -48,7 +48,8 @@ namespace Pizzeria.Domain.Seeder
                     customerList.Add(new Faker<Customer>()
                         .RuleFor(x => x.FirstName, f => f.Name.FirstName())
                         .RuleFor(x => x.LastName, f => f.Name.LastName())
-                        .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumberFormat()));
+                        .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumberFormat())
+                        .RuleFor(x => x.Email, f => f.Person.Email));
                 }
 
                 return customerList;

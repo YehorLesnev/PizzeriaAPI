@@ -21,12 +21,22 @@ namespace PizzeriaAPI.Controllers
             [FromQuery] int? pageSize = null
         )
         {
-            var orders = orderService.GetAll(pageNumber: pageNumber,
-                pageSize: pageSize,
-                asNoTracking: true)
-                .ToList();
-
             return Mappers.MapOrderToResponseDto(orderService.GetAll(
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                asNoTracking: true));
+        }
+
+        [HttpGet("user/{userEmail}")]
+        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Cashier}")]
+        public IEnumerable<ResponseOrderDto> GetAll(
+            [FromRoute] string userEmail,
+            [FromQuery] int? pageNumber = null,
+            [FromQuery] int? pageSize = null
+        )
+        {
+            return Mappers.MapOrderToResponseDto(orderService.GetAllByUserEmail(
+                userEmail,
                 pageNumber: pageNumber,
                 pageSize: pageSize,
                 asNoTracking: true));
