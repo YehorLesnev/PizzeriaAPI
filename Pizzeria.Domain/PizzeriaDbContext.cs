@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Models;
 
 namespace Pizzeria.Domain;
@@ -308,4 +310,13 @@ public partial class PizzeriaDbContext : IdentityDbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public IEnumerable<StaffPayrollResult> CalculateStaffPayroll(DateTime startDate, DateTime endDate)
+    {
+        // Create parameters for the procedure
+        FormattableString sqlQuery = $"EXEC CalculateStaffPayroll {startDate}, {endDate}";
+
+        // Execute the stored procedure
+        return this.Database.SqlQuery<StaffPayrollResult>(sqlQuery);
+    }
 }
