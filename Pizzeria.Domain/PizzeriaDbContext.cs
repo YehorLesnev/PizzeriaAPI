@@ -194,6 +194,9 @@ public partial class PizzeriaDbContext : IdentityDbContext
             entity.Property(e => e.Delivery).HasColumnName("delivery");
             entity.Property(e => e.DeliveryAddressId).HasColumnName("delivery_address_id");
             entity.Property(e => e.StaffId).HasColumnName("staff_id");
+            entity.Property(e => e.Total)
+                .HasColumnType("decimal(5, 2)")
+                .HasColumnName("order_total");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)

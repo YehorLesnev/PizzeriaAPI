@@ -18,7 +18,10 @@ namespace Pizzeria.Domain.Dto.OrderDto
         public Guid? CustomerId { get; set; }
 
         [Required]
-        public required ICollection<ResponseOrderItemDto> OrderItems { get; set; } 
+        public required ICollection<ResponseOrderItemDto> OrderItems { get; set; }
+
+        [Required]
+        public required decimal Total { get; set; }
 
         [DefaultValue(false)]
         public bool Delivery { get; set; } = false;

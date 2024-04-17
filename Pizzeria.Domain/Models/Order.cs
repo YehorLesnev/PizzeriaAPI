@@ -14,6 +14,8 @@ public partial class Order
 
     public Guid? DeliveryAddressId { get; set; }
 
+    public decimal Total { get; set; }
+
     public virtual Customer? Customer { get; set; }
 
     public virtual Address? DeliveryAddress { get; set; }
