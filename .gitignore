@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 *.sql
 /PizzeriaAPI/.logs
+/PizzeriaAPI/Static
