@@ -199,7 +199,8 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
                 .HasConstraintName("FK_orders_customers")
-                .IsRequired(false);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
 
             entity.HasOne(d => d.DeliveryAddress).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.DeliveryAddressId)
