@@ -38,8 +38,8 @@ namespace Pizzeria.Domain.Repository.RecipeRepository
             if (filter is not null)
                 query = query.Where(filter);
 
-            return asNoTracking ? await query.Include("RecipeIngredients").AsNoTracking().FirstOrDefaultAsync()
-                    : await query.Include("RecipeIngredients").FirstOrDefaultAsync();
+            return asNoTracking ? await query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient").AsNoTracking().FirstOrDefaultAsync()
+                    : await query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient").FirstOrDefaultAsync();
         }
     }
 }
