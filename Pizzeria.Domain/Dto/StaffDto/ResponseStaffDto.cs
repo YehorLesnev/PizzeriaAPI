@@ -10,6 +10,9 @@ namespace Pizzeria.Domain.Dto.StaffDto
         [Required, MaxLength(55)]
         public required string FirstName { get; set; }
 
+        [MaxLength(25)]
+        public string? PhoneNumber { get; set; }
+
         [MaxLength(55)]
         public string LastName { get; set; } = null!;
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Mapper;
+using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Services.RecipeService;
 using PizzeriaAPI.Identity.Roles;
 
@@ -29,7 +30,7 @@ namespace PizzeriaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [AllowAnonymous]
-        public async Task<ActionResult<ResponseRecipeDto>> Get(Guid id)
+        public async Task<ActionResult<ResponseRecipeDto>> GetAsync(Guid id)
         {
             var recipe = await recipeService.GetAsync(a => a.RecipeId.Equals(id), true);
 
@@ -52,7 +53,7 @@ namespace PizzeriaAPI.Controllers
             if(createdRecipe is null)
                 return BadRequest("Couldn't create recipe");
 
-            return Created(nameof(Get), Mappers.MapRecipeToResponseDto(createdRecipe));
+            return Created(nameof(GetAsync), Mappers.MapRecipeToResponseDto(createdRecipe));
         }
 
         [HttpPut("{id:guid}")]
@@ -60,16 +61,25 @@ namespace PizzeriaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ResponseRecipeDto>> Update([FromRoute] Guid id, [FromBody] RequestRecipeDto requestRecipeDto)
         {
-            var initialRecipe = await recipeService.GetAsync(o => o.RecipeId.Equals(id), true);
+            var initialRecipe = await recipeService.GetAsync(o => o.RecipeId.Equals(id), false);
 
-            if(initialRecipe is null) return NotFound();
+            if(initialRecipe is null) return NotFound("Couldn't find recipe with specified id");
 
             var updatedRecipe = Mappers.MapRequestDtoToRecipe(requestRecipeDto);
-            updatedRecipe.RecipeId = initialRecipe.RecipeId;
 
-            await recipeService.UpdateAsync(updatedRecipe);
-            
-            return Ok(Mappers.MapRecipeToResponseDto(updatedRecipe));
+            initialRecipe.RecipeIngredients.Clear();
+            initialRecipe.RecipeName = updatedRecipe.RecipeName;
+            initialRecipe.CookingTime = updatedRecipe.CookingTime;
+
+            foreach(var recipeIngredient in updatedRecipe.RecipeIngredients)
+            {
+                recipeIngredient.RecipeId = id;
+                initialRecipe.RecipeIngredients.Add(recipeIngredient);
+            }
+
+            await recipeService.UpdateAsync(initialRecipe);
+
+            return await GetAsync(id);
         }
 
         [HttpDelete("{id:guid}")]

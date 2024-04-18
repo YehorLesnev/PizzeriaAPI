@@ -177,7 +177,8 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.ToTable("orders");
+            entity.ToTable("orders", 
+                tb => tb.UseSqlOutputClause(false));
 
             entity.Property(e => e.OrderId)
                 .HasDefaultValueSql("NEWID()")
@@ -221,7 +222,8 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
         {
             entity.HasKey(e => new { e.OrderId, e.ItemId });
 
-            entity.ToTable("order_items");
+            entity.ToTable("order_items", 
+                tb => tb.UseSqlOutputClause(false));
 
             entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.ItemId).HasColumnName("item_id");

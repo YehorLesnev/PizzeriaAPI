@@ -4,7 +4,7 @@ namespace Pizzeria.Domain.Models
 {
     public class ShiftStaff
     {
-        public Guid ShiftId { get; init; }
+        public Guid ShiftId { get; set; }
 
         public Guid StaffId { get; init; }
 

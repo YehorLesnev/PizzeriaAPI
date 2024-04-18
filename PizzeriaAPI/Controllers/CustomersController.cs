@@ -63,16 +63,17 @@ namespace PizzeriaAPI.Controllers
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Customer}")]
         public async Task<ActionResult<ResponseCustomerDto>> Update([FromRoute] Guid id, [FromBody] RequestCustomerDto requestCustomerDto)
         {
-            var initialCustomer = await customerService.GetAsync(o => o.Id.Equals(id), true);
+            var initialCustomer = await customerService.GetAsync(o => o.Id.Equals(id), false);
 
             if(initialCustomer is null) return NotFound();
 
-            var updatedCustomer = Mappers.MapRequestDtoToCustomer(requestCustomerDto);
-            updatedCustomer.Id = initialCustomer.Id;
+            initialCustomer.PhoneNumber = requestCustomerDto.PhoneNumber;
+            initialCustomer.FirstName = requestCustomerDto.FirstName;
+            initialCustomer.LastName = requestCustomerDto.LastName;
 
-            await customerService.UpdateAsync(updatedCustomer);
+            await customerService.UpdateAsync(initialCustomer);
             
-            return Ok(Mappers.MapCustomerToResponseDto(updatedCustomer));
+            return Ok(Mappers.MapCustomerToResponseDto(initialCustomer));
         }
 
         [HttpDelete("{id:guid}")]

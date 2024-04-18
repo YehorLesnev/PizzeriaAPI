@@ -27,7 +27,7 @@ namespace PizzeriaAPI.Extensions
                     Status = statusCode,
                     Type = "Server error",
                     Title = "Server error",
-                    Detail = $"An internal server has occured: {ex.Message}"
+                    Detail = $"An internal server error has occured: {ex.Message}"
                 };
 
                 var json = JsonSerializer.Serialize(problemDetails);

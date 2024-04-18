@@ -48,7 +48,7 @@ namespace PizzeriaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Cashier}")]
-        public async Task<ActionResult<ResponseOrderDto>> Get(Guid id)
+        public async Task<ActionResult<ResponseOrderDto>> GetAsync(Guid id)
         {
             var order = await orderService.GetAsync(a => a.OrderId.Equals(id), true);
 
@@ -71,7 +71,7 @@ namespace PizzeriaAPI.Controllers
             if(createdOrder is null)
                 return BadRequest("Couldn't create order");
 
-            return Created(nameof(Get), Mappers.MapOrderToResponseDto(createdOrder));
+            return Created(nameof(GetAsync), Mappers.MapOrderToResponseDto(createdOrder));
         }
 
         [HttpPut("{id:guid}")]
@@ -80,16 +80,23 @@ namespace PizzeriaAPI.Controllers
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task<ActionResult<ResponseOrderDto>> Update([FromRoute] Guid id, [FromBody] RequestOrderDto requestOrderDto)
         {
-            var initialOrder = await orderService.GetAsync(o => o.OrderId.Equals(id), true);
+            var initialOrder = await orderService.GetAsync(o => o.OrderId.Equals(id), false);
 
             if(initialOrder is null) return NotFound();
 
-            var updatedOrder = Mappers.MapRequestDtoToOrder(requestOrderDto);
-            updatedOrder.OrderId = initialOrder.OrderId;
+            initialOrder.OrderItems.Clear();
 
-            await orderService.UpdateAsync(updatedOrder);
-            
-            return Ok(Mappers.MapOrderToResponseDto(updatedOrder));
+            var updatedOrder = Mappers.MapRequestDtoToOrder(requestOrderDto);
+
+            foreach(var orderItem in updatedOrder.OrderItems)
+            {
+                orderItem.OrderId = id;
+                initialOrder.OrderItems.Add(orderItem);
+            }
+
+            await orderService.UpdateAsync(initialOrder);
+
+            return await GetAsync(id);
         }
 
         [HttpDelete("{id:guid}")]

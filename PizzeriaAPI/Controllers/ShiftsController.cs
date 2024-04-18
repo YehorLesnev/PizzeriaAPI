@@ -62,16 +62,23 @@ namespace PizzeriaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ResponseShiftDto>> Update([FromRoute] Guid id, [FromBody] RequestShiftDto requestShiftDto)
         {
-            var initialShift = await shiftService.GetAsync(o => o.ShiftId.Equals(id), true);
+            var initialShift = await shiftService.GetAsync(o => o.ShiftId.Equals(id), false);
 
             if(initialShift is null) return NotFound();
 
             var updatedShift = Mappers.MapRequestDtoToShift(requestShiftDto);
-            updatedShift.ShiftId = initialShift.ShiftId;
 
-            await shiftService.UpdateAsync(updatedShift);
+            initialShift.ShiftStaff.Clear();
+
+            foreach(var staff in updatedShift.ShiftStaff)
+            {
+                staff.ShiftId = id;
+                initialShift.ShiftStaff.Add(staff);
+            }
+
+            await shiftService.UpdateAsync(initialShift);
             
-            return Ok(Mappers.MapShiftToResponseDto(updatedShift));
+            return Ok(Mappers.MapShiftToResponseDto(initialShift));
         }
 
         [HttpDelete("{id:guid}")]

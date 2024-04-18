@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.ItemDto;
 using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Mapper;
+using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Services.ItemService;
 using Pizzeria.Domain.Services.RecipeService;
 using PizzeriaAPI.Identity.Roles;
@@ -76,7 +77,7 @@ namespace PizzeriaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
-        public async Task<ActionResult<ResponseItemDto>> Update([FromRoute] Guid id, [FromBody] RequestItemDto requestItemDto)
+        public async Task<ActionResult<ResponseItemDto>> Update([FromRoute] Guid id, [FromForm] RequestItemDto requestItemDto)
         {
             var initialItem = await itemService.GetAsync(o => o.ItemId.Equals(id), true);
 
@@ -84,6 +85,11 @@ namespace PizzeriaAPI.Controllers
 
             var updatedItem = Mappers.MapRequestDtoToItem(requestItemDto);
             updatedItem.ItemId = initialItem.ItemId;
+
+            updatedItem.ImagePath = await itemService.SaveItemImageAsync(
+                requestItemDto.Image,
+                requestItemDto.ItemCategory,
+                requestItemDto.ItemName);
 
             await itemService.UpdateAsync(updatedItem);
 
