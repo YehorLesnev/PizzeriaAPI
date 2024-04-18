@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Pizzeria.Domain.Identity.DTO.User;
+using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Models;
-using PizzeriaAPI.Identity.DTO.User;
-using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
 {

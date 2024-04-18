@@ -1,4 +1,4 @@
-﻿namespace PizzeriaAPI.Identity.Roles
+﻿namespace Pizzeria.Domain.Identity.Roles
 {
     public static class UserRoleNames
     {

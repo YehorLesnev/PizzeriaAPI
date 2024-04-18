@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Seeder;
-using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace PizzeriaAPI.Identity.DTO.User
+﻿namespace Pizzeria.Domain.Identity.DTO.User
 {
     public class RequestUserDto
     {

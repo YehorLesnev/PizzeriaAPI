@@ -19,14 +19,14 @@ namespace Pizzeria.Domain.Services
             return repository.GetAll(filter, pageNumber, pageSize, asNoTracking);
         }
 
-        public Task CreateAsync(T entity)
+        public virtual Task CreateAsync(T entity)
         {
             repository.CreateAsync(entity);
 
             return repository.SaveAsync();
         }
 
-        public Task CreateAllAsync(IEnumerable<T> entities)
+        public virtual Task CreateAllAsync(IEnumerable<T> entities)
         {
             repository.CreateAllAsync(entities);
 

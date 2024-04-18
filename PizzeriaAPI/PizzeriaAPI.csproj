@@ -40,4 +40,9 @@
     <ProjectReference Include="..\Pizzeria.Domain\Pizzeria.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\DTO\User\" />
+    <Folder Include="Identity\Roles\" />
+  </ItemGroup>
+
 </Project>

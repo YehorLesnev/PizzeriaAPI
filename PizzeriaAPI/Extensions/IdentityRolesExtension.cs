@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Models;
-using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Extensions
 {
