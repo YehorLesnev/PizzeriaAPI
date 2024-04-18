@@ -18,6 +18,10 @@ namespace Pizzeria.Domain.Repository.ShiftRepository
             if (filter is not null)
                 query = query.Where(filter);
 
+            if (pageNumber is null || pageSize is null)
+                return asNoTracking ? query.Include("ShiftStaff").AsNoTracking()
+                    : query.Include("ShiftStaff");
+
             return asNoTracking ? query.Include("ShiftStaff")
                 .Skip((pageNumber.Value - 1) * pageSize.Value)
                 .Take(pageSize.Value)

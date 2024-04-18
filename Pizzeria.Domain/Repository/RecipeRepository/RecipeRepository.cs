@@ -8,7 +8,7 @@ namespace Pizzeria.Domain.Repository.RecipeRepository
         : BaseRepository<Recipe>(dbContext), IRecipeRepository
     {
         public override IEnumerable<Recipe> GetAll(
-            Expression<Func<Recipe, bool>>? filter = null, 
+            Expression<Func<Recipe, bool>>? filter = null,
             int? pageNumber = null,
             int? pageSize = null,
             bool asNoTracking = false)
@@ -18,10 +18,14 @@ namespace Pizzeria.Domain.Repository.RecipeRepository
             if (filter is not null)
                 query = query.Where(filter);
 
+            if (pageNumber is null || pageSize is null)
+                return asNoTracking ? query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient").AsNoTracking()
+                : query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient");
+
             return asNoTracking ? query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient")
                 .Skip((pageNumber.Value - 1) * pageSize.Value)
                 .Take(pageSize.Value)
-                .AsNoTracking() 
+                .AsNoTracking()
                 : query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient")
                     .Skip((pageNumber.Value - 1) * pageSize.Value)
                     .Take(pageSize.Value);
