@@ -70,6 +70,7 @@ namespace PizzeriaAPI.Controllers
             initialCustomer.PhoneNumber = requestCustomerDto.PhoneNumber;
             initialCustomer.FirstName = requestCustomerDto.FirstName;
             initialCustomer.LastName = requestCustomerDto.LastName;
+            initialCustomer.Email = requestCustomerDto.Email;
 
             await customerService.UpdateAsync(initialCustomer);
             

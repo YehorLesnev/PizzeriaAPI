@@ -12,5 +12,7 @@ namespace Pizzeria.Domain.Dto.CustomerDto
 
         [MaxLength(25)]
         public string? PhoneNumber { get; set; }
+
+        public string? Email { get; set; }
     }
 }

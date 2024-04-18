@@ -42,14 +42,22 @@ namespace Pizzeria.Domain.Seeder
                 var random = new Random();
 
                 var numOfCustomers = random.Next(Constants.SeederConstants.MinNumOfCustomers, Constants.SeederConstants.MaxNumOfCustomers);
+                string email, normalizedEmail;
 
                 for (int i = 0; i < numOfCustomers; ++i)
                 {
+                    email = new Faker().Person.Email;
+                    normalizedEmail = email.ToUpper();
+
                     customerList.Add(new Faker<Customer>()
                         .RuleFor(x => x.FirstName, f => f.Name.FirstName())
                         .RuleFor(x => x.LastName, f => f.Name.LastName())
                         .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumberFormat())
-                        .RuleFor(x => x.Email, f => f.Person.Email));
+                        .RuleFor(x => x.Email, f => email)
+                        .RuleFor(x => x.NormalizedEmail, f => normalizedEmail)
+                        .RuleFor(x => x.UserName, f => email)
+                        .RuleFor(x => x.NormalizedUserName, f => normalizedEmail)
+                        );
                 }
 
                 return customerList;
