@@ -18,6 +18,7 @@ using Pizzeria.Domain.Services.StaffServcice;
 using Pizzeria.Domain.Services.RecipeService;
 using Pizzeria.Domain.Services.ShiftService;
 using Pizzeria.Domain.Repository.StatisticsRepository;
+using Pizzeria.Domain.Services.Statistics;
 
 namespace Pizzeria.Domain.Extensions
 {
@@ -54,6 +55,7 @@ namespace Pizzeria.Domain.Extensions
             serviceCollection.AddScoped<IStaffService, StaffService>();
             serviceCollection.AddScoped<IRecipeService, RecipeService>();
             serviceCollection.AddScoped<IShiftService, ShiftService>();
+            serviceCollection.AddScoped<IStatisticsService, StatisticsService>();
 
             return serviceCollection;
         }
