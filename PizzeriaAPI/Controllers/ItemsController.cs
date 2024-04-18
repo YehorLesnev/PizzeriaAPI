@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.ItemDto;
+using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.ItemService;
+using Pizzeria.Domain.Services.RecipeService;
 using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
@@ -53,6 +55,7 @@ namespace PizzeriaAPI.Controllers
         public async Task<ActionResult<ResponseItemDto>> Create([FromForm] RequestItemDto requestItemDto)
         {
             var item = Mappers.MapRequestDtoToItem(requestItemDto);
+            item.ItemId = Guid.NewGuid();
 
             item.ImagePath = await itemService.SaveItemImageAsync(
                 requestItemDto.Image,
@@ -61,7 +64,12 @@ namespace PizzeriaAPI.Controllers
 
             await itemService.CreateAsync(item);
 
-            return Ok(Mappers.MapItemToResponseDto(item));
+            var createdItem = await itemService.GetAsync(r => r.ItemId == item.ItemId);
+
+            if(createdItem is null)
+                return BadRequest("Couldn't create item");
+
+            return Created(nameof(Get), Mappers.MapItemToResponseDto(createdItem));
         }
 
         [HttpPut("{id:guid}")]

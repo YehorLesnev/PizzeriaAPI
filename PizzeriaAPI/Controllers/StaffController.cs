@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Dto.ShiftDto;
 using Pizzeria.Domain.Dto.StaffDto;
 using Pizzeria.Domain.Mapper;
+using Pizzeria.Domain.Services.RecipeService;
 using Pizzeria.Domain.Services.ShiftService;
 using Pizzeria.Domain.Services.StaffServcice;
 using PizzeriaAPI.Identity.Roles;
@@ -44,10 +46,15 @@ namespace PizzeriaAPI.Controllers
         public async Task<ActionResult<ResponseStaffDto>> Create([FromBody] RequestStaffDto requestStaffDto)
         {
             var staff = Mappers.MapRequestDtoToStaff(requestStaffDto);
-            
+            staff.StaffId = Guid.NewGuid();
             await staffService.CreateAsync(staff);
 
-            return Ok(Mappers.MapStaffToResponseDto(staff));
+            var createdStaff = await staffService.GetAsync(r => r.StaffId == staff.StaffId);
+
+            if(createdStaff is null)
+                return BadRequest("Couldn't create staff");
+
+            return Created(nameof(Get), Mappers.MapStaffToResponseDto(createdStaff));
         }
 
         [HttpPut("{id:guid}")]

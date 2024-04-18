@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.IngredientDto;
 using Pizzeria.Domain.Dto.OrderDto;
+using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.IngredientService;
 using Pizzeria.Domain.Services.OrderService;
+using Pizzeria.Domain.Services.RecipeService;
 using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
@@ -61,10 +63,15 @@ namespace PizzeriaAPI.Controllers
         public async Task<ActionResult<ResponseOrderDto>> Create([FromBody] RequestOrderDto requestOrderDto)
         {
             var order = Mappers.MapRequestDtoToOrder(requestOrderDto);
-            
+            order.OrderId = Guid.NewGuid();
             await orderService.CreateAsync(order);
 
-            return Ok(Mappers.MapOrderToResponseDto(order));
+            var createdOrder = await orderService.GetAsync(r => r.OrderId == order.OrderId);
+
+            if(createdOrder is null)
+                return BadRequest("Couldn't create order");
+
+            return Created(nameof(Get), Mappers.MapOrderToResponseDto(createdOrder));
         }
 
         [HttpPut("{id:guid}")]

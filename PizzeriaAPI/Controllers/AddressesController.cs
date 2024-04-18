@@ -47,10 +47,16 @@ namespace PizzeriaAPI.Controllers
         public async Task<ActionResult<ResponseAddressDto>> Create([FromBody] RequestAddressDto requestAddressDto)
         {
             var address = Mappers.MapRequestDtoToAddress(requestAddressDto);
-            
+            address.AddressId = Guid.NewGuid();
+
             await addressService.CreateAsync(address);
 
-            return Ok(Mappers.MapAddressToResponseDto(address));
+            var createdAddress = await addressService.GetAsync(r => r.AddressId == address.AddressId);
+
+            if(createdAddress is null)
+                return BadRequest("Couldn't create address");
+
+            return Created(nameof(Get), Mappers.MapAddressToResponseDto(createdAddress));
         }
 
         [HttpPut("{id:guid}")]

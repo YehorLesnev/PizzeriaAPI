@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.CustomerDto;
 using Pizzeria.Domain.Dto.IngredientDto;
+using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.CustomerService;
 using Pizzeria.Domain.Services.IngredientService;
+using Pizzeria.Domain.Services.RecipeService;
 using PizzeriaAPI.Identity.Roles;
 
 namespace PizzeriaAPI.Controllers
@@ -46,10 +48,15 @@ namespace PizzeriaAPI.Controllers
         public async Task<ActionResult<ResponseIngredientDto>> Create([FromBody] RequestIngredientDto requestIngredientDto)
         {
             var ingredient = Mappers.MapRequestDtoToIngredient(requestIngredientDto);
-            
+            ingredient.IngredientId = Guid.NewGuid();
             await ingredientService.CreateAsync(ingredient);
 
-            return Ok(Mappers.MapIngredientToResponseDto(ingredient));
+            var createdIngredient = await ingredientService.GetAsync(r => r.IngredientId == ingredient.IngredientId);
+
+            if(createdIngredient is null)
+                return BadRequest("Couldn't create ingredient");
+
+            return Created(nameof(Get), Mappers.MapIngredientToResponseDto(createdIngredient));
         }
 
         [HttpPut("{id:guid}")]

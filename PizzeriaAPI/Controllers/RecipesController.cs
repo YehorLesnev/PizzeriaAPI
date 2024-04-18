@@ -43,10 +43,16 @@ namespace PizzeriaAPI.Controllers
         public async Task<ActionResult<ResponseRecipeDto>> Create([FromBody] RequestRecipeDto requestRecipeDto)
         {
             var recipe = Mappers.MapRequestDtoToRecipe(requestRecipeDto);
-            
+            recipe.RecipeId = Guid.NewGuid();
+
             await recipeService.CreateAsync(recipe);
 
-            return Ok(Mappers.MapRecipeToResponseDto(recipe));
+            var createdRecipe = await recipeService.GetAsync(r => r.RecipeId == recipe.RecipeId);
+
+            if(createdRecipe is null)
+                return BadRequest("Couldn't create recipe");
+
+            return Created(nameof(Get), Mappers.MapRecipeToResponseDto(createdRecipe));
         }
 
         [HttpPut("{id:guid}")]
