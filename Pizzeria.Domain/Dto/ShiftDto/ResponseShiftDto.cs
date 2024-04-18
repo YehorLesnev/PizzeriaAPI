@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Pizzeria.Domain.Dto.ShiftStaffDto;
+using Pizzeria.Domain.Dto.StaffDto;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.ShiftDto
 {
@@ -11,6 +13,6 @@ namespace Pizzeria.Domain.Dto.ShiftDto
         public required DateOnly ShiftDate { get; init; }
 
         [Required]
-        public required ICollection<ShiftStaffDto.ResponseShiftStaffDto> ShiftStaff { get; init; } = new List<ShiftStaffDto.ResponseShiftStaffDto>();
+        public required ICollection<ResponseShiftStaffDto> ShiftStaff { get; init; } = new List<ResponseShiftStaffDto>();
     }
 }

@@ -29,9 +29,14 @@ namespace Pizzeria.Domain.Mapper
 
         [MapProperty(nameof(RecipeIngredient.Ingredient), nameof(ResponseRecipeIngredientDto.Ingredient))]
         public static partial ResponseRecipeIngredientDto MapRecipeIngredientToResponseDto(RecipeIngredient recipeIngredient);
+        [MapProperty(nameof(Staff.FirstName), nameof(ResponseStaffDto.FirstName))]
         public static partial ResponseStaffDto MapStaffToResponseDto(Staff staff);
-        public static partial ResponseShiftDto MapShiftToResponseDto(Shift shift);
+
+        [MapProperty(nameof(ShiftStaff.Staff), nameof(ResponseShiftStaffDto.Staff))]
         public static partial ResponseShiftStaffDto MapShiftStaffToResponseDto(ShiftStaff shiftStaff);
+
+        [MapProperty(nameof(Shift.ShiftStaff), nameof(ResponseShiftDto.ShiftStaff))]
+        public static partial ResponseShiftDto MapShiftToResponseDto(Shift shift);
 
         public static partial IEnumerable<ResponseAddressDto> MapAddressToResponseDto(IEnumerable<Address> addresses);
         public static partial IEnumerable<ResponseCustomerDto> MapCustomerToResponseDto(IEnumerable<Customer> customers);
@@ -42,8 +47,10 @@ namespace Pizzeria.Domain.Mapper
         public static partial IEnumerable<ResponseRecipeDto> MapRecipeToResponseDto(IEnumerable<Recipe> recipes);
         public static partial IEnumerable<ResponseRecipeIngredientDto> MapRecipeIngredientToResponseDto(IEnumerable<RecipeIngredient> recipeIngredients);
         public static partial IEnumerable<ResponseStaffDto> MapStaffToResponseDto(IEnumerable<Staff> staff);
-        public static partial IEnumerable<ResponseShiftDto> MapShiftToResponseDto(IEnumerable<Shift> shifts);
+        [MapProperty(nameof(ShiftStaff.Staff), nameof(ResponseShiftStaffDto.Staff))]
         public static partial IEnumerable<ResponseShiftStaffDto> MapShiftStaffToResponseDto(IEnumerable<ShiftStaff> shiftStaff);
+        [MapProperty(nameof(Shift.ShiftStaff), nameof(ResponseShiftDto.ShiftStaff))]
+        public static partial IEnumerable<ResponseShiftDto> MapShiftToResponseDto(IEnumerable<Shift> shifts);
 
         public static partial Address MapRequestDtoToAddress(RequestAddressDto requestAddress);
         public static partial Customer MapRequestDtoToCustomer(RequestCustomerDto requestCustomer);

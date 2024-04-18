@@ -5,21 +5,21 @@ namespace Pizzeria.Domain.Dto.StaffDto
     public class ResponseStaffDto
     {
         [Required]
-        public required Guid StaffId { get; set; }
+        public Guid StaffId { get; set; }
 
         [Required, MaxLength(55)]
-        public required string FirstName { get; set; }
-
-        [MaxLength(25)]
-        public string? PhoneNumber { get; set; }
+        public string FirstName { get; set; }
 
         [MaxLength(55)]
         public string LastName { get; set; } = null!;
 
         [Required, MaxLength(100)]
-        public required string Position { get; set; } = null!;
+        public string Position { get; set; } = null!;
+
+        [MaxLength(25)]
+        public string PhoneNumber { get; set; } = null!;
 
         [Required]
-        public required decimal HourlyRate { get; set; }
+        public decimal HourlyRate { get; set; }
     }
 }

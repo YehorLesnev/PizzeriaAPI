@@ -18,7 +18,7 @@ namespace PizzeriaAPI.Controllers
         : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<ResponseStaffDto> GetAll(
+        public IEnumerable<ResponseStaffDto> GetAllAsync(
             [FromQuery] int? pageNumber = null,
             [FromQuery] int? pageSize = null
         )
@@ -32,7 +32,7 @@ namespace PizzeriaAPI.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResponseStaffDto>> Get(Guid id)
+        public async Task<ActionResult<ResponseStaffDto>> GetAsync(Guid id)
         {
             var staff = await staffService.GetAsync(a => a.StaffId.Equals(id), true);
 
@@ -54,7 +54,7 @@ namespace PizzeriaAPI.Controllers
             if(createdStaff is null)
                 return BadRequest("Couldn't create staff");
 
-            return Created(nameof(Get), Mappers.MapStaffToResponseDto(createdStaff));
+            return Created(nameof(GetAsync), Mappers.MapStaffToResponseDto(createdStaff));
         }
 
         [HttpPut("{id:guid}")]

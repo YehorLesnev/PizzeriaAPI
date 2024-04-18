@@ -19,14 +19,14 @@ namespace Pizzeria.Domain.Repository.ShiftRepository
                 query = query.Where(filter);
 
             if (pageNumber is null || pageSize is null)
-                return asNoTracking ? query.Include("ShiftStaff").AsNoTracking()
-                    : query.Include("ShiftStaff");
+                return asNoTracking ? query.Include("ShiftStaff").Include("ShiftStaff.Staff").AsNoTracking()
+                    : query.Include("ShiftStaff").Include("ShiftStaff.Staff");
 
-            return asNoTracking ? query.Include("ShiftStaff")
+            return asNoTracking ? query.Include("ShiftStaff").Include("ShiftStaff.Staff")
                 .Skip((pageNumber.Value - 1) * pageSize.Value)
                 .Take(pageSize.Value)
                 .AsNoTracking()
-                : query.Include("ShiftStaff")
+                : query.Include("ShiftStaff").Include("ShiftStaff.Staff")
                     .Skip((pageNumber.Value - 1) * pageSize.Value)
                     .Take(pageSize.Value);
         }
@@ -38,8 +38,8 @@ namespace Pizzeria.Domain.Repository.ShiftRepository
             if (filter is not null)
                 query = query.Where(filter);
 
-            return asNoTracking ? await query.Include("ShiftStaff").AsNoTracking().FirstOrDefaultAsync()
-                : await query.Include("ShiftStaff").FirstOrDefaultAsync();
+            return asNoTracking ? await query.Include("ShiftStaff").Include("ShiftStaff.Staff").AsNoTracking().FirstOrDefaultAsync()
+                : await query.Include("ShiftStaff").Include("ShiftStaff.Staff").FirstOrDefaultAsync();
         }
     }
 }

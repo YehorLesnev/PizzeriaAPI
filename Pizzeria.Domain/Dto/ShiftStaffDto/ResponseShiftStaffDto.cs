@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Pizzeria.Domain.Dto.StaffDto;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.ShiftStaffDto
 {
     public class ResponseShiftStaffDto
     {
         [Required]
-        public required Guid StaffId { get; init; }
+        public ResponseStaffDto Staff { get; set; }
     }
 }

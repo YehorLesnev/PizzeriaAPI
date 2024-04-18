@@ -32,7 +32,7 @@ namespace PizzeriaAPI.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ResponseShiftDto>> Get(Guid id)
+        public async Task<ActionResult<ResponseShiftDto>> GetAsync(Guid id)
         {
             var shift = await shiftService.GetAsync(a => a.ShiftId.Equals(id), true);
 
@@ -54,7 +54,7 @@ namespace PizzeriaAPI.Controllers
             if(createdShift is null)
                 return BadRequest("Couldn't create shift");
 
-            return Created(nameof(Get), Mappers.MapShiftToResponseDto(createdShift));
+            return Created(nameof(GetAsync), Mappers.MapShiftToResponseDto(createdShift));
         }
 
         [HttpPut("{id:guid}")]
@@ -78,7 +78,7 @@ namespace PizzeriaAPI.Controllers
 
             await shiftService.UpdateAsync(initialShift);
             
-            return Ok(Mappers.MapShiftToResponseDto(initialShift));
+            return await GetAsync(id);;
         }
 
         [HttpDelete("{id:guid}")]
