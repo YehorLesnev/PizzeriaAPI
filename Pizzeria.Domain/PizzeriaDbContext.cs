@@ -69,8 +69,8 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
 
             entity.HasOne(d => d.Shift).WithMany(p => p.ShiftStaff)
                 .HasForeignKey(d => d.ShiftId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_shift_staff_shift");
+                .HasConstraintName("FK_shift_staff_shift")
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.Staff).WithMany(p => p.ShiftStaff)
                 .HasForeignKey(d => d.StaffId)

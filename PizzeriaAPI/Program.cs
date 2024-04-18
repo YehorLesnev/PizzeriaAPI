@@ -24,7 +24,8 @@ builder.Host.UseSerilog();
 builder.Services.AddDbContext<PizzeriaDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DatabaseSQL"),
-        b => b.MigrationsAssembly("Pizzeria.Domain")));
+        b => b.MigrationsAssembly("Pizzeria.Domain"))
+    .EnableSensitiveDataLogging());
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
