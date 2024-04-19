@@ -6,7 +6,7 @@ public partial class Order
 
     public DateTime Date { get; set; }
     
-    public Guid StaffId { get; set; }
+    public Guid? StaffId { get; set; }
 
     public Guid? CustomerId { get; set; }
 
@@ -22,5 +22,5 @@ public partial class Order
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-    public virtual Staff Staff { get; set; } = null!;
+    public virtual Staff? Staff { get; set; }
 }

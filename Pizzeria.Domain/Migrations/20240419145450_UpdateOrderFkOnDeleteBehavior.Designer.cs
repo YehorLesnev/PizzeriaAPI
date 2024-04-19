@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pizzeria.Domain;
 
@@ -11,9 +12,11 @@ using Pizzeria.Domain;
 namespace Pizzeria.Domain.Migrations
 {
     [DbContext(typeof(PizzeriaDbContext))]
-    partial class PizzeriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240419145450_UpdateOrderFkOnDeleteBehavior")]
+    partial class UpdateOrderFkOnDeleteBehavior
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -714,7 +717,6 @@ namespace Pizzeria.Domain.Migrations
                     b.HasOne("Pizzeria.Domain.Models.Staff", "Staff")
                         .WithMany("ShiftStaff")
                         .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_shift_staff_staff");
 
