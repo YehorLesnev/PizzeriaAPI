@@ -24,5 +24,13 @@ namespace PizzeriaAPI.Controllers
         {
             return Ok(statisticsService.GetTotalSalesRevenueByDay(dateStart, dateEnd));
         }
+
+        [HttpGet("AverageOrderTotalDays")]
+        public ActionResult<IEnumerable<AverageOrderTotalValueDay>> GetAverageOrderValueByDays(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            return Ok(statisticsService.GetAverageOrderValueByDays(dateStart, dateEnd));
+        }
     }
 }

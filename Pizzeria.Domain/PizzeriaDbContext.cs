@@ -335,4 +335,13 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
         // Execute the stored procedure
         return this.Database.SqlQuery<TotalSalesDay>(sqlQuery);
     }
+    
+    public IEnumerable<AverageOrderTotalValueDay> GetAverageOrderValueByDays(DateTime startDate, DateTime endDate)
+    {
+        // Create parameters for the procedure
+        FormattableString sqlQuery = $"EXEC GetAverageOrderValueByDays {startDate.Date}, {endDate.Date}";
+       
+        // Execute the stored procedure
+        return this.Database.SqlQuery<AverageOrderTotalValueDay>(sqlQuery);
+    }
 }

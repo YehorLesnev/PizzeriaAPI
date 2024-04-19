@@ -9,5 +9,6 @@ namespace Pizzeria.Domain.Repository.StatisticsRepository
 
         IEnumerable<TotalSalesDay> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate);
 
+        IEnumerable<AverageOrderTotalValueDay> GetAverageOrderValueByDays(DateTime startDate, DateTime endDate);
     }
 }
