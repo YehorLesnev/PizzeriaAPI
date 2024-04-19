@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.CustomerDto
 {
-    public class RequestCustomerDto
+    public class RequestUpdateCustomerDto
     {
         [MaxLength(55)]
         public string? FirstName { get; set; }
@@ -12,10 +12,5 @@ namespace Pizzeria.Domain.Dto.CustomerDto
 
         [MaxLength(25)]
         public string? PhoneNumber { get; set; }
-
-        [EmailAddress(ErrorMessage = "Invalid email")]
-        public string? Email { get; set; }
-
-        public string Password {get; set;} = null!;
     }
 }

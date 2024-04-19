@@ -1,14 +1,18 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pizzeria.Domain;
 using Pizzeria.Domain.Extensions;
 using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Seeder;
 using PizzeriaAPI.Extensions;
+using PizzeriaAPI.Identity.JwtConfig;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -27,18 +31,25 @@ builder.Services.AddDbContext<PizzeriaDbContext>(options =>
         b => b.MigrationsAssembly("Pizzeria.Domain"))
     .EnableSensitiveDataLogging());
 
-// Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+builder.Services.Configure<JwtTokenConfig>(
+    builder.Configuration.GetSection(nameof(JwtTokenConfig)));
+
+builder.Services.AddSingleton<IJwtTokenConfig>(x =>
+    x.GetRequiredService<IOptions<JwtTokenConfig>>().Value);
+
+// Identity
+builder.Services.AddIdentity<Customer, IdentityRole<Guid>>()
+    .AddEntityFrameworkStores<PizzeriaDbContext>()
+    .AddDefaultTokenProviders();
+
+// Authentication
+builder.Services.AddJwtAuthentication(
+    builder.Configuration.GetValue<string>($"{nameof(JwtTokenConfig)}:JwtIssuer"),
+    builder.Configuration.GetValue<string>($"{nameof(JwtTokenConfig)}:JwtAudience"),
+    builder.Configuration.GetValue<string>($"{nameof(JwtTokenConfig)}:JwtKey"));
 
 // Authorization
 builder.Services.AddAuthorization();
-
-builder.Services
-    .AddIdentityApiEndpoints<Customer>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
-    .AddRoles<IdentityRole<Guid>>()
-    .AddEntityFrameworkStores<PizzeriaDbContext>()
-    .AddDefaultTokenProviders();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -47,7 +58,7 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
-        Name = "Auth",
+        Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
 
@@ -84,8 +95,6 @@ app.UseCors(c =>
 });
 
 app.UseHttpsRedirection();
-
-app.MapIdentityApi<Customer>();
 
 var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
 

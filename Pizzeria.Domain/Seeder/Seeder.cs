@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Microsoft.AspNetCore.Identity;
 using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Services.CustomerService;
 using Pizzeria.Domain.Services.IngredientService;
@@ -345,7 +346,7 @@ namespace Pizzeria.Domain.Seeder
             await itemService.CreateAllAsync(items);
 
             await staffService.CreateAllAsync(staff.Result);
-            await customerService.CreateAllAsync(customers.Result);
+            await customerService.CreateAllAsync(customers.Result, "Password123!");
 
             // Shifts
             var shifts = new List<Shift>();

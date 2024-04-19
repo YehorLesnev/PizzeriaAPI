@@ -6,7 +6,7 @@ namespace Pizzeria.Domain.Services
     public abstract class BaseService<T>(IBaseRepository<T> repository)
         where T : class
     {
-        public async Task<T?> GetAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
+        public virtual async Task<T?> GetAsync(Expression<Func<T, bool>>? filter = null, bool asNoTracking = false)
         {
             return await repository.GetAsync(filter, asNoTracking);
         }
@@ -33,14 +33,14 @@ namespace Pizzeria.Domain.Services
             return repository.SaveAsync();
         }
 
-        public async Task UpdateAsync(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
             repository.Update(entity);
 
             await repository.SaveAsync();
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual async Task DeleteAsync(T entity)
         {
             repository.Delete(entity);
 

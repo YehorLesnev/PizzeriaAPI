@@ -43,13 +43,23 @@ namespace PizzeriaAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<ResponseCustomerDto>> Create([FromBody] RequestCustomerDto requestCustomerDto)
+        public async Task<ActionResult<ResponseCustomerDto>> CreateAsync([FromBody] RequestCustomerDto requestCustomerDto)
         {
             var customer = Mappers.MapRequestDtoToCustomer(requestCustomerDto);
-            customer.Id = Guid.NewGuid();
-            await customerService.CreateAsync(customer);
 
-            var createdCustomer = await customerService.GetAsync(r => r.Id == customer.Id);
+            if(await customerService.GetAsync(c => c.Email == requestCustomerDto.Email) is not null)
+                return BadRequest("Customer with specified email is already exists");
+
+            try
+            {
+                await customerService.CreateAsync(customer, requestCustomerDto.Password);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest("The password must contain capital letters, numbers and special symbol");
+            }
+
+            var createdCustomer = await customerService.GetAsync(r => r.Email == customer.Email);
 
             if(createdCustomer is null)
                 return BadRequest("Couldn't create customer");
@@ -61,7 +71,7 @@ namespace PizzeriaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Customer}")]
-        public async Task<ActionResult<ResponseCustomerDto>> Update([FromRoute] Guid id, [FromBody] RequestCustomerDto requestCustomerDto)
+        public async Task<ActionResult<ResponseCustomerDto>> Update([FromRoute] Guid id, [FromBody] RequestUpdateCustomerDto requestCustomerDto)
         {
             var initialCustomer = await customerService.GetAsync(o => o.Id.Equals(id), false);
 
@@ -70,7 +80,6 @@ namespace PizzeriaAPI.Controllers
             initialCustomer.PhoneNumber = requestCustomerDto.PhoneNumber;
             initialCustomer.FirstName = requestCustomerDto.FirstName;
             initialCustomer.LastName = requestCustomerDto.LastName;
-            initialCustomer.Email = requestCustomerDto.Email;
 
             await customerService.UpdateAsync(initialCustomer);
             
