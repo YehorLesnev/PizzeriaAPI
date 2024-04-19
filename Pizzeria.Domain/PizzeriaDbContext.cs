@@ -74,8 +74,8 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
 
             entity.HasOne(d => d.Staff).WithMany(p => p.ShiftStaff)
                 .HasForeignKey(d => d.StaffId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_shift_staff_staff");
+                .HasConstraintName("FK_shift_staff_staff")
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Address>(entity =>
@@ -204,12 +204,13 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
 
             entity.HasOne(d => d.DeliveryAddress).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.DeliveryAddressId)
-                .HasConstraintName("FK_orders_address");
+                .HasConstraintName("FK_orders_address")
+                .OnDelete(DeleteBehavior.SetNull);
 
             entity.HasOne(d => d.Staff).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.StaffId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_orders_staff");
+                .HasConstraintName("FK_orders_staff")
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Indexes
             entity.HasIndex(e => e.Date)
@@ -233,7 +234,7 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
             entity.HasOne(d => d.Item).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.ItemId)
                 .HasConstraintName("FK_order_items_items")
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
@@ -324,5 +325,14 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
 
         // Execute the stored procedure
         return this.Database.SqlQuery<StaffPayrollResult>(sqlQuery);
+    }
+
+    public IEnumerable<TotalSalesDay> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate)
+    {
+        // Create parameters for the procedure
+        FormattableString sqlQuery = $"EXEC GetTotalSalesRevenueByDay {startDate.Date}, {endDate.Date}";
+       
+        // Execute the stored procedure
+        return this.Database.SqlQuery<TotalSalesDay>(sqlQuery);
     }
 }

@@ -9,5 +9,10 @@ namespace Pizzeria.Domain.Services.Statistics
         {
             return statisticsRepository.CalculateStaffPayroll(startDate, endDate);
         }
+
+        public IEnumerable<TotalSalesDay> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate)
+        {
+            return statisticsRepository.GetTotalSalesRevenueByDay(startDate, endDate);
+        }
     }
 }

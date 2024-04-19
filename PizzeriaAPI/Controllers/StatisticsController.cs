@@ -17,12 +17,12 @@ namespace PizzeriaAPI.Controllers
             return Ok(statisticsService.CalculateStaffPayroll(dateStart, dateEnd));
         }
 
-        //[HttpGet("sales")]
-        //public ActionResult<IEnumerable<>> GetDatePeriodSales(
-        //    [FromQuery] DateTime dateStart,
-        //    [FromQuery] DateTime dateEnd)
-        //{
-        //    return Ok();
-        //}
+        [HttpGet("Sales")]
+        public ActionResult<IEnumerable<TotalSalesDay>> GetDatePeriodSales(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            return Ok(statisticsService.GetTotalSalesRevenueByDay(dateStart, dateEnd));
+        }
     }
 }
