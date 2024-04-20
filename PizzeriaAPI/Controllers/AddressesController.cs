@@ -65,11 +65,12 @@ namespace PizzeriaAPI.Controllers
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Cashier}, {UserRoleNames.Customer}")]
         public async Task<ActionResult<ResponseAddressDto>> Update([FromRoute] Guid id, [FromBody] RequestAddressDto requestAddressDto)
         {
-            var initialAddress = await addressService.GetAsync(o => o.AddressId.Equals(id), false);
+            var initialAddress = await addressService.GetAsync(o => o.AddressId.Equals(id), true);
 
             if(initialAddress is null) return NotFound();
 
             var updatedAddress = Mappers.MapRequestDtoToAddress(requestAddressDto);
+            updatedAddress.AddressId = id;
 
             await addressService.UpdateAsync(updatedAddress);
             
