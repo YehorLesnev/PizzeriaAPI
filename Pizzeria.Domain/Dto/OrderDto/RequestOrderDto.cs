@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.OrderDto
 {
-    public class RequestOrderDto
+    public record RequestOrderDto
     {
         [Required]
         public required DateTime Date { get; set; }

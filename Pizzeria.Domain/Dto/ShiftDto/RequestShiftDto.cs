@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.ShiftDto
 {
-    public class RequestShiftDto
+    public record RequestShiftDto
     {   
         [Required]
         public required DateOnly ShiftDate { get; init; }

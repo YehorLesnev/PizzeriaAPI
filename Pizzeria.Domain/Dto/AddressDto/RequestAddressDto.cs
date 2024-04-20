@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.AddressDto
 {
-    public class RequestAddressDto
+    public record RequestAddressDto
     {
         [Required, MaxLength(200)]
         public required string Address1 { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.CustomerDto
 {
-    public class RequestUpdateCustomerDto
+    public record RequestUpdateCustomerDto
     {
         [MaxLength(55)]
         public string? FirstName { get; set; }

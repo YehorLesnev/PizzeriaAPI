@@ -4,7 +4,7 @@ using Pizzeria.Domain.Dto.OrderItemDto;
 
 namespace Pizzeria.Domain.Dto.OrderDto
 {
-    public class ResponseOrderDto
+    public record ResponseOrderDto
     {
         [Required]
         public required Guid OrderId { get; set; }

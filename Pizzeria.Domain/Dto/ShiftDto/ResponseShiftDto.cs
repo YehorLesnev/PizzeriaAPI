@@ -1,10 +1,9 @@
 ﻿using Pizzeria.Domain.Dto.ShiftStaffDto;
-using Pizzeria.Domain.Dto.StaffDto;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.ShiftDto
 {
-    public class ResponseShiftDto
+    public record ResponseShiftDto
     {
         [Required]
         public required Guid ShiftId { get; init; }

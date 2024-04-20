@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.AddressDto
 {
-    public class ResponseAddressDto
+    public record ResponseAddressDto
     {
         [Required]
         public required Guid AddressId { get; set; }

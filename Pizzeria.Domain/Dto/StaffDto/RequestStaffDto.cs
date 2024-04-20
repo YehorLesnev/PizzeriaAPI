@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.StaffDto
 {
-    public class RequestStaffDto
+    public record RequestStaffDto
     {
         [Required, MaxLength(55)]
         public required string FirstName { get; set; }

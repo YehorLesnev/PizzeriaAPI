@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.Auth
 {
-    public class ResponseLoginDto
+    public record ResponseLoginDto
     {
         [Required]
         public string Email { get; set; }

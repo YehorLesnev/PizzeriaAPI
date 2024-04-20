@@ -3,7 +3,7 @@ using Pizzeria.Domain.Dto.RecipeIngredientDto;
 
 namespace Pizzeria.Domain.Dto.RecipeDto
 {
-    public class RequestRecipeDto
+    public record RequestRecipeDto
     {
         [Required, MaxLength(55)]
         public required string RecipeName { get; set; }

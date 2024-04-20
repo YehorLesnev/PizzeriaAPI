@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.Auth
 {
-    public class RequestLoginDto
+    public record RequestLoginDto
     {
         [Required]
         [EmailAddress(ErrorMessage = "InvalidEmail")]

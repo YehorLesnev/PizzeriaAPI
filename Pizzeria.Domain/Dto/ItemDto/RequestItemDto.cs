@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.ItemDto
 {
-    public class RequestItemDto
+    public record RequestItemDto
     {
         [Required, MaxLength(100)]
         public required string ItemName { get; set; } = null!;

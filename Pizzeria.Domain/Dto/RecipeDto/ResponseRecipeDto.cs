@@ -3,7 +3,7 @@ using Pizzeria.Domain.Dto.RecipeIngredientDto;
 
 namespace Pizzeria.Domain.Dto.RecipeDto
 {
-    public class ResponseRecipeDto
+    public record ResponseRecipeDto
     {
         [Required]
         public required Guid RecipeId { get; set; }

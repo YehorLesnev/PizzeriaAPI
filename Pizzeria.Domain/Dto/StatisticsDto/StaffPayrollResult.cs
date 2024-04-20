@@ -1,6 +1,6 @@
 ﻿namespace Pizzeria.Domain.Dto.StatisticsDto
 {
-    public class StaffPayrollResult
+    public record StaffPayrollResult
     {
         public Guid StaffId { get; set; }
         public string FirstName { get; set; }

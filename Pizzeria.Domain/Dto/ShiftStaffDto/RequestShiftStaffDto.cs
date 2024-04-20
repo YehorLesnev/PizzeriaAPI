@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.ShiftStaffDto
 {
-    public class RequestShiftStaffDto
+    public record RequestShiftStaffDto
     {
         [Required]
         public required Guid StaffId { get; init; }

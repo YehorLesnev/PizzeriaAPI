@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pizzeria.Domain.Dto.OrderDto;
-using Pizzeria.Domain.Dto.RecipeDto;
 using Pizzeria.Domain.Dto.ShiftDto;
 using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Mapper;
-using Pizzeria.Domain.Services.OrderService;
-using Pizzeria.Domain.Services.RecipeService;
 using Pizzeria.Domain.Services.ShiftService;
 
 namespace PizzeriaAPI.Controllers

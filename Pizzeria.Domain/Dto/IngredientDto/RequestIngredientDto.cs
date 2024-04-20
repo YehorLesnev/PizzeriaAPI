@@ -2,7 +2,7 @@
 
 namespace Pizzeria.Domain.Dto.IngredientDto
 {
-    public class RequestIngredientDto
+    public record RequestIngredientDto
     {
         [Required, MaxLength(100)]
         public required string IngredientName { get; set; }

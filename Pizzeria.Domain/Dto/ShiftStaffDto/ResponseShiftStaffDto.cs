@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.ShiftStaffDto
 {
-    public class ResponseShiftStaffDto
+    public record ResponseShiftStaffDto
     {
         [Required]
         public ResponseStaffDto Staff { get; set; }

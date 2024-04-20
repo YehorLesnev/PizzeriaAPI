@@ -1,9 +1,8 @@
-﻿using Pizzeria.Domain.Dto.IngredientDto;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.RecipeIngredientDto
 {
-    public class ResponseRecipeIngredientDto
+    public record ResponseRecipeIngredientDto
     {
         [Required]
         public RecipeIngredientInfoDto Ingredient { get; set; }
