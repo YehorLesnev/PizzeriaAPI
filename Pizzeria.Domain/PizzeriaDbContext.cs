@@ -56,6 +56,11 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
             entity.Property(e => e.ShiftEndTime)
                 .HasDefaultValue(Constants.Constants.ShiftEndTime)
                 .HasColumnName("shift_end_time");
+
+            // Indexes
+            entity.HasIndex(e => e.ShiftDate)
+                .IncludeProperties(p => new { p.ShiftId, p.ShiftStartTime, p.ShiftEndTime })
+                .IsUnique(false);
         });
 
         modelBuilder.Entity<ShiftStaff>(entity =>
@@ -101,6 +106,11 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("zipcode");
+
+            // Indexes
+            entity.HasIndex(e => e.City)
+                .IncludeProperties(p => new { p.AddressId, p.Address1, p.Address2, p.Zipcode })
+                .IsUnique(false);
         });
 
         modelBuilder.Entity<Customer>(entity =>
@@ -119,6 +129,11 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
                 .HasMaxLength(25)
                 .IsFixedLength()
                 .HasColumnName("phone_number");
+
+            // Indexes
+            entity.HasIndex(e => new { e.FirstName, e.LastName })
+                .IncludeProperties(p => new { p.Id, p.PhoneNumber })
+                .IsUnique(false);
         });
 
         modelBuilder.Entity<Ingredient>(entity =>
@@ -139,9 +154,13 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("ingredient_weight_measure");
-            
+
             entity.Property(e => e.QuantityInStock)
                 .HasColumnName("quantity_in_stock");
+
+            // Indexes
+            entity.HasIndex(e => e.IngredientName)
+                .IncludeProperties(p => new { p.IngredientId, p.IngredientPrice, p.IngredientWeightMeasure, p.QuantityInStock });
         });
 
         modelBuilder.Entity<Item>(entity =>
@@ -173,11 +192,19 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
                 .HasForeignKey<Item>(d => d.RecipeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_items_recipes");
+
+            // Indexes
+            entity.HasIndex(e => e.ItemName)
+                .IncludeProperties(p => new { p.ItemId, p.ItemCategory, p.ItemSize, p.ItemPrice, p.ImagePath });
+
+            entity.HasIndex(e => e.ItemCategory)
+                .IncludeProperties(p => new { p.ItemId, p.ItemName, p.ItemSize, p.ItemPrice, p.ImagePath })
+                .IsUnique(false);
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.ToTable("orders", 
+            entity.ToTable("orders",
                 tb => tb.UseSqlOutputClause(false));
 
             entity.Property(e => e.OrderId)
@@ -214,17 +241,24 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
 
             // Indexes
             entity.HasIndex(e => e.Date)
-            .IncludeProperties(p => new { p.OrderId, p.CustomerId, p.StaffId });
+            .IncludeProperties(p => new { p.OrderId, p.CustomerId, p.StaffId })
+            .IsUnique(false);
 
             entity.HasIndex(e => e.StaffId)
-            .IncludeProperties(p => new { p.OrderId, p.Date, p.CustomerId });
+            .IncludeProperties(p => new { p.OrderId, p.Date, p.CustomerId })
+            .IsUnique(false);
+
+            entity.HasIndex(e => e.CustomerId)
+                .IncludeProperties(p => new { p.OrderId, p.Date, p.StaffId })
+                .IsUnique(false);
+
         });
 
         modelBuilder.Entity<OrderItem>(entity =>
         {
             entity.HasKey(e => new { e.OrderId, e.ItemId });
 
-            entity.ToTable("order_items", 
+            entity.ToTable("order_items",
                 tb => tb.UseSqlOutputClause(false));
 
             entity.Property(e => e.OrderId).HasColumnName("order_id");
@@ -259,6 +293,10 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
                 .HasMaxLength(55)
                 .IsUnicode(false)
                 .HasColumnName("recipe_name");
+
+            //Indexes
+            entity.HasIndex(e => e.RecipeName)
+                .IncludeProperties(p => new { p.RecipeId, p.CookingTime });
         });
 
         modelBuilder.Entity<RecipeIngredient>(entity =>
@@ -310,6 +348,11 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
                 .HasMaxLength(25)
                 .IsFixedLength()
                 .HasColumnName("phone_number");
+
+            //Indexes
+            entity.HasIndex(e => new { e.FirstName, e.LastName })
+                .IncludeProperties(p => new { p.StaffId, p.Position, p.HourlyRate })
+                .IsUnique(false);
         });
 
         OnModelCreatingPartial(modelBuilder);
@@ -331,16 +374,16 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
     {
         // Create parameters for the procedure
         FormattableString sqlQuery = $"EXEC GetTotalSalesRevenueByDay {startDate.Date}, {endDate.Date}";
-       
+
         // Execute the stored procedure
         return this.Database.SqlQuery<TotalSalesDay>(sqlQuery);
     }
-    
+
     public IEnumerable<AverageOrderTotalValueDay> GetAverageOrderValueByDays(DateTime startDate, DateTime endDate)
     {
         // Create parameters for the procedure
         FormattableString sqlQuery = $"EXEC GetAverageOrderValueByDays {startDate.Date}, {endDate.Date}";
-       
+
         // Execute the stored procedure
         return this.Database.SqlQuery<AverageOrderTotalValueDay>(sqlQuery);
     }
