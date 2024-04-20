@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Models;
+using System.Linq.Expressions;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Pizzeria.Domain.Repository.CustomerRepository
@@ -8,6 +11,30 @@ namespace Pizzeria.Domain.Repository.CustomerRepository
     public class CustomerRepository(PizzeriaDbContext dbContext, UserManager<Customer> userManager) 
         : BaseRepository<Customer>(dbContext), ICustomerRepository
     {
+        public override IEnumerable<Customer> GetAll(Expression<Func<Customer, bool>>? filter = null,
+            int? pageNumber = null,
+            int? pageSize = null,
+            bool asNoTracking = false)
+        {
+            IQueryable<Customer> query = DbSet;
+
+            if (filter is not null)
+                query = query.Where(filter);
+
+            if (pageNumber is null || pageSize is null)
+                return asNoTracking ? query.AsNoTracking() : query;
+
+            query = query.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
+
+            return asNoTracking ? query
+                    .Skip((pageNumber.Value - 1) * pageSize.Value)
+                    .Take(pageSize.Value)
+                    .AsNoTracking()
+                : query
+                    .Skip((pageNumber.Value - 1) * pageSize.Value)
+                    .Take(pageSize.Value);
+        }
+
         public async Task CreateAsync(Customer entity, string password)
         {
             var normalizedEmail = entity.Email.ToUpper();

@@ -18,6 +18,8 @@ namespace Pizzeria.Domain.Repository.RecipeRepository
             if (filter is not null)
                 query = query.Where(filter);
 
+            query = query.OrderBy(x => x.RecipeName);
+
             if (pageNumber is null || pageSize is null)
                 return asNoTracking ? query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient").AsNoTracking()
                 : query.Include("RecipeIngredients").Include("RecipeIngredients.Ingredient");

@@ -18,6 +18,8 @@ namespace Pizzeria.Domain.Repository.OrderRepository
             if (filter is not null)
                 query = query.Where(filter);
 
+            query = query.OrderByDescending(x => x.Date);
+
             if (pageNumber is null || pageSize is null)
                 return asNoTracking ? query.Include("OrderItems").Include("OrderItems.Item").AsNoTracking()
                     : query.Include("OrderItems").Include("OrderItems.Item");
@@ -42,6 +44,8 @@ namespace Pizzeria.Domain.Repository.OrderRepository
 
             if (filter is not null)
                 query = query.Where(filter);
+
+            query = query.OrderByDescending(x => x.Date);
 
             query = asNoTracking ? query.Include("OrderItems").Include("OrderItems.Item").Include("Customer").AsNoTracking()
                 : query.Include("OrderItems").Include("OrderItems.Item").Include("Customer");
