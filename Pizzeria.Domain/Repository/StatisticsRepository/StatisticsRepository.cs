@@ -14,6 +14,11 @@ namespace Pizzeria.Domain.Repository.StatisticsRepository
             return dbContext.GetTotalSalesRevenueByDay(startDate, endDate);
         }
 
+        public IEnumerable<TotalSales> GetSalesDistributionByCategoryAndDay(string itemCategory, DateTime startDate, DateTime endDate)
+        {
+            return dbContext.GetSalesDistributionByCategoryAndDay(itemCategory, startDate, endDate);
+        }
+
         public IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByDay(DateTime startDate, DateTime endDate)
         {
             return dbContext.GetAverageOrderValueByDays(startDate, endDate);

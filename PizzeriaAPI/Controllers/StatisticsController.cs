@@ -20,25 +20,28 @@ namespace PizzeriaAPI.Controllers
         [HttpGet("Sales/Days")]
         public ActionResult<IEnumerable<TotalSales>> GetDatePeriodSalesByDays(
             [FromQuery] DateTime dateStart,
-            [FromQuery] DateTime dateEnd)
+            [FromQuery] DateTime dateEnd,
+            [FromQuery] string? itemCategory = null)
         {
-            return Ok(statisticsService.GetTotalSalesRevenueByDay(dateStart, dateEnd));
+            return Ok(statisticsService.GetTotalSalesRevenueByDay(dateStart, dateEnd, itemCategory));
         }
         
         [HttpGet("Sales/Months")]
         public ActionResult<IEnumerable<TotalSales>> GetDatePeriodSalesByMonth(
             [FromQuery] DateTime dateStart,
-            [FromQuery] DateTime dateEnd)
+            [FromQuery] DateTime dateEnd,
+            [FromQuery] string? itemCategory = null)
         {
-            return Ok(statisticsService.GetTotalSalesRevenueByMonth(dateStart, dateEnd));
+            return Ok(statisticsService.GetTotalSalesRevenueByMonth(dateStart, dateEnd, itemCategory));
         }
 
         [HttpGet("Sales/Years")]
         public ActionResult<IEnumerable<TotalSales>> GetDatePeriodSalesByYear(
             [FromQuery] DateTime dateStart,
-            [FromQuery] DateTime dateEnd)
+            [FromQuery] DateTime dateEnd,
+            [FromQuery] string? itemCategory = null)
         {
-            return Ok(statisticsService.GetTotalSalesRevenueByYear(dateStart, dateEnd));
+            return Ok(statisticsService.GetTotalSalesRevenueByYear(dateStart, dateEnd, itemCategory));
         }
 
         [HttpGet("AverageOrderTotal/Days")]

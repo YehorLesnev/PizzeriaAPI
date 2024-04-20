@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Models;
@@ -395,5 +396,12 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
         FormattableString sqlQuery = $"EXEC GetAverageOrderValueByYear {startDate.Date}, {endDate.Date}";
 
         return this.Database.SqlQuery<AverageOrderTotalValue>(sqlQuery);
+    }
+    
+    public IEnumerable<TotalSales> GetSalesDistributionByCategoryAndDay(string itemCategory, DateTime startDate, DateTime endDate)
+    {
+        FormattableString sqlQuery = $"EXEC GetSalesDistributionByCategoryAndDay {itemCategory}, {startDate}, {endDate.Date}";
+
+        return this.Database.SqlQuery<TotalSales>(sqlQuery);
     }
 }

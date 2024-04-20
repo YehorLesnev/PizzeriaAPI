@@ -6,9 +6,9 @@ namespace Pizzeria.Domain.Services.Statistics
     {
         IEnumerable<StaffPayrollResult> CalculateStaffPayroll(DateTime startDate, DateTime endDate);
 
-        IEnumerable<TotalSales> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate);
-        IEnumerable<TotalSales> GetTotalSalesRevenueByMonth(DateTime startDate, DateTime endDate);
-        IEnumerable<TotalSales> GetTotalSalesRevenueByYear(DateTime startDate, DateTime endDate);
+        IEnumerable<TotalSales> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate, string? itemCategory = null);
+        IEnumerable<TotalSales> GetTotalSalesRevenueByMonth(DateTime startDate, DateTime endDate, string? itemCategory = null);
+        IEnumerable<TotalSales> GetTotalSalesRevenueByYear(DateTime startDate, DateTime endDate, string? itemCategory = null);
 
         IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByDay(DateTime startDate, DateTime endDate);
         IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByMonth(DateTime startDate, DateTime endDate);
