@@ -5,19 +5,18 @@
 namespace Pizzeria.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateGetAverageOrderValueByDaysProcedure : Migration
+    public partial class AddGetAverageOrderValueByYearProcedure : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"IF OBJECT_ID('dbo.GetAverageOrderValueByDay', 'P') IS NOT NULL
+            migrationBuilder.Sql(@"IF OBJECT_ID('dbo.GetAverageOrderValueByYear', 'P') IS NOT NULL
 BEGIN
-    -- Function exists, so alter it
-    DROP PROCEDURE dbo.GetAverageOrderValueByDay;
+    DROP PROCEDURE dbo.GetAverageOrderValueByYear;
 END
-
 GO
-CREATE PROCEDURE GetAverageOrderValueByDay
+
+CREATE PROCEDURE GetAverageOrderValueByYear
     @StartDate DATE,
     @EndDate DATE
 AS
@@ -31,10 +30,11 @@ BEGIN
 
     INSERT INTO #AverageOrderValue (Date, AverageOrderTotal)
     SELECT
-        CONVERT(DATE, orders.date) AS Date,
+        DATEFROMPARTS(YEAR(orders.date), 1, 1) AS Date,
         AVG(orders.order_total) AS AverageOrderTotal
     FROM orders
-    GROUP BY CONVERT(DATE, orders.date);
+    WHERE orders.date BETWEEN @StartDate AND @EndDate
+    GROUP BY YEAR(orders.date);
 
     SELECT * FROM #AverageOrderValue ORDER BY Date;
 
@@ -45,10 +45,9 @@ END;");
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"IF OBJECT_ID('dbo.GetAverageOrderValueByDay', 'P') IS NOT NULL
+            migrationBuilder.Sql(@"IF OBJECT_ID('dbo.GetAverageOrderValueByYear', 'P') IS NOT NULL
 BEGIN
-    -- Function exists, so alter it
-    DROP PROCEDURE dbo.GetAverageOrderValueByDay;
+    DROP PROCEDURE dbo.GetAverageOrderValueByYear;
 END");
         }
     }

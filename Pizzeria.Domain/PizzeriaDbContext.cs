@@ -370,21 +370,30 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
         return this.Database.SqlQuery<StaffPayrollResult>(sqlQuery);
     }
 
-    public IEnumerable<TotalSalesDay> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate)
+    public IEnumerable<TotalSales> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate)
     {
-        // Create parameters for the procedure
         FormattableString sqlQuery = $"EXEC GetTotalSalesRevenueByDay {startDate.Date}, {endDate.Date}";
 
-        // Execute the stored procedure
-        return this.Database.SqlQuery<TotalSalesDay>(sqlQuery);
+        return this.Database.SqlQuery<TotalSales>(sqlQuery);
     }
 
-    public IEnumerable<AverageOrderTotalValueDay> GetAverageOrderValueByDays(DateTime startDate, DateTime endDate)
+    public IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByDays(DateTime startDate, DateTime endDate)
     {
-        // Create parameters for the procedure
         FormattableString sqlQuery = $"EXEC GetAverageOrderValueByDays {startDate.Date}, {endDate.Date}";
 
-        // Execute the stored procedure
-        return this.Database.SqlQuery<AverageOrderTotalValueDay>(sqlQuery);
+        return this.Database.SqlQuery<AverageOrderTotalValue>(sqlQuery);
+    }
+
+    public IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByMonth(DateTime startDate, DateTime endDate)
+    {
+        FormattableString sqlQuery = $"EXEC GetAverageOrderValueByMonth {startDate.Date}, {endDate.Date}";
+
+        return this.Database.SqlQuery<AverageOrderTotalValue>(sqlQuery);
+    }
+    public IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByYear(DateTime startDate, DateTime endDate)
+    {
+        FormattableString sqlQuery = $"EXEC GetAverageOrderValueByYear {startDate.Date}, {endDate.Date}";
+
+        return this.Database.SqlQuery<AverageOrderTotalValue>(sqlQuery);
     }
 }

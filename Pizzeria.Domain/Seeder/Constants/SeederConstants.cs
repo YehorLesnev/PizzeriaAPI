@@ -2,7 +2,7 @@
 {
     public static class SeederConstants
     {
-        public static readonly DateTime OrdersStartDate = new(2024, 4, 10, 8, 0, 0);
+        public static readonly DateTime OrdersStartDate = new(2023, 1, 1, 8, 0, 0);
 
         public const int NumOfStaff = 70;
         public const int MinNumOfCustomers = 100;

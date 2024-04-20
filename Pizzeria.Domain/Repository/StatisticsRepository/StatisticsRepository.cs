@@ -6,17 +6,27 @@ namespace Pizzeria.Domain.Repository.StatisticsRepository
     {
         public IEnumerable<StaffPayrollResult> CalculateStaffPayroll(DateTime startDate, DateTime endDate)
         {
-            return dbContext.CalculateStaffPayroll(startDate, endDate);    
+            return dbContext.CalculateStaffPayroll(startDate, endDate);
         }
 
-        public IEnumerable<TotalSalesDay> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate)
+        public IEnumerable<TotalSales> GetTotalSalesRevenueByDay(DateTime startDate, DateTime endDate)
         {
-            return dbContext.GetTotalSalesRevenueByDay(startDate, endDate);    
+            return dbContext.GetTotalSalesRevenueByDay(startDate, endDate);
         }
-        
-        public IEnumerable<AverageOrderTotalValueDay> GetAverageOrderValueByDays(DateTime startDate, DateTime endDate)
+
+        public IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByDay(DateTime startDate, DateTime endDate)
         {
-            return dbContext.GetAverageOrderValueByDays(startDate, endDate);    
+            return dbContext.GetAverageOrderValueByDays(startDate, endDate);
+        }
+
+        public IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByMonth(DateTime startDate, DateTime endDate)
+        {
+            return dbContext.GetAverageOrderValueByMonth(startDate, endDate);
+        }
+
+        public IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByYear(DateTime startDate, DateTime endDate)
+        {
+            return dbContext.GetAverageOrderValueByYear(startDate, endDate);
         }
     }
 }
