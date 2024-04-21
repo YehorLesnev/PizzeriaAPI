@@ -25,7 +25,7 @@ namespace PizzeriaAPI.Controllers
         {
             return Ok(statisticsService.GetTotalSalesRevenueByDay(dateStart, dateEnd, itemCategory));
         }
-        
+
         [HttpGet("Sales/Months")]
         public ActionResult<IEnumerable<TotalSales>> GetDatePeriodSalesByMonth(
             [FromQuery] DateTime dateStart,
@@ -44,22 +44,32 @@ namespace PizzeriaAPI.Controllers
             return Ok(statisticsService.GetTotalSalesRevenueByYear(dateStart, dateEnd, itemCategory));
         }
 
+        [HttpGet("GetProductOfMonth")]
+        public ActionResult<ProductOfMonth> GetProductOfMonth(
+            [FromQuery] int year,
+            [FromQuery] int month)
+        {
+            var result = statisticsService.GetProductOfMonth(year, month);
+
+            return result is null ? NotFound() : Ok(result);
+        }
+
         [HttpGet("AverageOrderTotal/Days")]
         public ActionResult<IEnumerable<AverageOrderTotalValue>> GetAverageOrderValueByDay(
             [FromQuery] DateTime dateStart,
             [FromQuery] DateTime dateEnd)
         {
             return Ok(statisticsService.GetAverageOrderValueByDay(dateStart, dateEnd));
-        } 
-        
+        }
+
         [HttpGet("AverageOrderTotal/Months")]
         public ActionResult<IEnumerable<AverageOrderTotalValue>> GetAverageOrderValueByMonth(
             [FromQuery] DateTime dateStart,
             [FromQuery] DateTime dateEnd)
         {
             return Ok(statisticsService.GetAverageOrderValueByMonth(dateStart, dateEnd));
-        } 
-        
+        }
+
         [HttpGet("AverageOrderTotal/Years")]
         public ActionResult<IEnumerable<AverageOrderTotalValue>> GetAverageOrderValueByYear(
             [FromQuery] DateTime dateStart,

@@ -66,5 +66,8 @@ namespace Pizzeria.Domain.Services.Statistics
             statisticsRepository.GetAverageOrderValueByYear(
                 new DateTime(startDate.Year, 1, 1),
                 new DateTime(endDate.Year, 12, DateTime.DaysInMonth(endDate.Year, 12)));
+
+        public ProductOfMonth? GetProductOfMonth(int year, int month) =>
+            statisticsRepository.GetProductOfMonth(year, month);
     }
 }

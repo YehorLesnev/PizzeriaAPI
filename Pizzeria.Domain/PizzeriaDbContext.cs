@@ -404,4 +404,11 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
 
         return this.Database.SqlQuery<TotalSales>(sqlQuery);
     }
+    
+    public ProductOfMonth? GetProductOfMonth(int year, int month)
+    {
+        FormattableString sqlQuery = $"EXEC GetProductOfMonth {year}, {month}";
+
+        return this.Database.SqlQuery<ProductOfMonth>(sqlQuery).AsEnumerable().FirstOrDefault();
+    }
 }
