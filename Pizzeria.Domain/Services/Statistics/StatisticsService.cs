@@ -1,9 +1,12 @@
 ﻿using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Repository.StatisticsRepository;
+using Pizzeria.Domain.Services.OrderService;
 
 namespace Pizzeria.Domain.Services.Statistics
 {
-    public class StatisticsService(IStatisticsRepository statisticsRepository) : IStatisticsService
+    public class StatisticsService(
+        IStatisticsRepository statisticsRepository,
+        IOrderService orderService) : IStatisticsService
     {
         public IEnumerable<StaffPayrollResult> CalculateStaffPayroll(DateTime startDate, DateTime endDate) =>
             statisticsRepository.CalculateStaffPayroll(startDate, endDate);
@@ -69,5 +72,20 @@ namespace Pizzeria.Domain.Services.Statistics
 
         public ProductOfMonth? GetProductOfMonth(int year, int month) =>
             statisticsRepository.GetProductOfMonth(year, month);
+
+        public IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByDay(DateTime startDate, DateTime endDate)
+        {
+            var orders = orderService.GetAll(x => x.Date >= startDate && x.Date <= endDate).ToList();
+
+            return orders
+                .GroupBy(x => new DateOnly(x.Date.Year, x.Date.Month, x.Date.Day))
+                .Select(g => new OrderDeliveryInfo
+                {
+                    Date = g.Key,
+                    NumberOfOrders = orders.Count(x => new DateOnly(x.Date.Year, x.Date.Month, x.Date.Day) == g.Key),
+                    NumberOfDelivery = orders
+                        .Count(x => new DateOnly(x.Date.Year, x.Date.Month, x.Date.Day) == g.Key && x.Delivery)
+                });
+        }
     }
 }

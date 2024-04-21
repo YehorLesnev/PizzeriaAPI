@@ -77,5 +77,13 @@ namespace PizzeriaAPI.Controllers
         {
             return Ok(statisticsService.GetAverageOrderValueByYear(dateStart, dateEnd));
         }
+
+        [HttpGet("GetOrderDeliveryInfo/Days")]
+        public ActionResult<IEnumerable<OrderDeliveryInfo>> GetOrderDeliveryInfoByDay(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            return Ok(statisticsService.GetOrderDeliveryInfoByDay(dateStart, dateEnd));
+        }
     }
 }

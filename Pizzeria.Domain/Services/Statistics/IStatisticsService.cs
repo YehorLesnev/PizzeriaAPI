@@ -15,5 +15,7 @@ namespace Pizzeria.Domain.Services.Statistics
         IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByYear(DateTime startDate, DateTime endDate);
 
         ProductOfMonth? GetProductOfMonth(int year, int month);
+
+        IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByDay(DateTime startDate, DateTime endDate);
     }
 }
