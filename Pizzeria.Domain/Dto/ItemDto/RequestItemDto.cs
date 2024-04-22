@@ -17,7 +17,6 @@ namespace Pizzeria.Domain.Dto.ItemDto
         [Required]
         public required decimal ItemPrice { get; set; }
 
-        [Required]
         public required IFormFile Image {get; set;}
 
         [Required]
