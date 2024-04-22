@@ -55,7 +55,7 @@ namespace PizzeriaAPI.Controllers
             var item = Mappers.MapRequestDtoToItem(requestItemDto);
             item.ItemId = Guid.NewGuid();
 
-            item.ImagePath = await itemService.SaveItemImageAsync(
+            item.ImagePath = "static/images/items/" + await itemService.SaveItemImageAsync(
                 requestItemDto.Image,
                 requestItemDto.ItemCategory,
                 requestItemDto.ItemName);
@@ -83,7 +83,7 @@ namespace PizzeriaAPI.Controllers
             var updatedItem = Mappers.MapRequestDtoToItem(requestItemDto);
             updatedItem.ItemId = initialItem.ItemId;
 
-            updatedItem.ImagePath = await itemService.SaveItemImageAsync(
+            updatedItem.ImagePath = "static/images/items/" + await itemService.SaveItemImageAsync(
                 requestItemDto.Image,
                 requestItemDto.ItemCategory,
                 requestItemDto.ItemName);
