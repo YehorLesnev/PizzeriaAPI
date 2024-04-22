@@ -385,6 +385,11 @@ namespace Pizzeria.Domain.Seeder
             // Create orders
             for (var date = startDate; date < DateTime.Now; date = date.AddMinutes(random.Next(1, 5)))
             {
+                if(random.Next(0, 16) == 0)
+                {
+                    continue;
+                }
+
                 if (TimeOnly.FromDateTime(date) > endWorkingDayTime)
                 {
                     date = new DateTime(DateOnly.FromDateTime(date).AddDays(1), startWorkingDayTime);
