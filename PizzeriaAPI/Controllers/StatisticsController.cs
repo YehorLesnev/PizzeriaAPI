@@ -42,8 +42,32 @@ namespace PizzeriaAPI.Controllers
         {
             return Ok(statisticsService.GetTotalSalesRevenueByYear(dateStart, dateEnd, itemCategory));
         }
+        
+        [HttpGet("NumberOfOrders/Days")]
+        public ActionResult<IEnumerable<NumberOfOrdersInfo>> GetNumberOfOrdersByDay(
+            [FromQuery] DateOnly dateStart,
+            [FromQuery] DateOnly dateEnd)
+        {
+            return Ok(statisticsService.GetNumberOfOrdersByDay(dateStart, dateEnd));
+        } 
+        
+        [HttpGet("NumberOfOrders/Month")]
+        public ActionResult<IEnumerable<NumberOfOrdersInfo>> GetNumberOfOrdersByMonth(
+            [FromQuery] DateOnly dateStart,
+            [FromQuery] DateOnly dateEnd)
+        {
+            return Ok(statisticsService.GetNumberOfOrdersByMonth(dateStart, dateEnd));
+        } 
+        
+        [HttpGet("NumberOfOrders/Years")]
+        public ActionResult<IEnumerable<NumberOfOrdersInfo>> GetNumberOfOrdersByYear(
+            [FromQuery] DateOnly dateStart,
+            [FromQuery] DateOnly dateEnd)
+        {
+            return Ok(statisticsService.GetNumberOfOrdersByYear(dateStart, dateEnd));
+        }
 
-        [HttpGet("GetProductOfMonth")]
+        [HttpGet("ProductOfMonth")]
         public ActionResult<ProductOfMonth> GetProductOfMonth(
             [FromQuery] int year,
             [FromQuery] int month)
@@ -77,7 +101,7 @@ namespace PizzeriaAPI.Controllers
             return Ok(statisticsService.GetAverageOrderValueByYear(dateStart, dateEnd));
         }
 
-        [HttpGet("GetOrderDeliveryInfo/Days")]
+        [HttpGet("OrderDeliveryInfo/Days")]
         public ActionResult<IEnumerable<OrderDeliveryInfo>> GetOrderDeliveryInfoByDay(
             [FromQuery] DateTime dateStart,
             [FromQuery] DateTime dateEnd)
@@ -85,7 +109,7 @@ namespace PizzeriaAPI.Controllers
             return Ok(statisticsService.GetOrderDeliveryInfoByDay(dateStart, dateEnd));
         }
 
-        [HttpGet("GetOrderDeliveryInfo/Months")]
+        [HttpGet("OrderDeliveryInfo/Months")]
         public ActionResult<IEnumerable<OrderDeliveryInfo>> GetOrderDeliveryInfoByMonth(
             [FromQuery] DateTime dateStart,
             [FromQuery] DateTime dateEnd)
@@ -93,7 +117,7 @@ namespace PizzeriaAPI.Controllers
             return Ok(statisticsService.GetOrderDeliveryInfoByMonth(dateStart, dateEnd));
         }
 
-        [HttpGet("GetOrderDeliveryInfo/Years")]
+        [HttpGet("OrderDeliveryInfo/Years")]
         public ActionResult<IEnumerable<OrderDeliveryInfo>> GetOrderDeliveryInfoByYear(
             [FromQuery] DateTime dateStart,
             [FromQuery] DateTime dateEnd)
@@ -101,19 +125,19 @@ namespace PizzeriaAPI.Controllers
             return Ok(statisticsService.GetOrderDeliveryInfoByYear(dateStart, dateEnd));
         }
 
-        [HttpGet("GetStaffOrdersInfo/Days")]
+        [HttpGet("StaffOrdersInfo/Days")]
         public ActionResult<IEnumerable<OrderDeliveryInfo>> GetStaffOrdersInfoByDay([FromQuery] DateOnly date)
         {
             return Ok(statisticsService.GetStaffOrdersInfoByDay(date));
         }
 
-        [HttpGet("GetStaffOrdersInfo/Months")]
+        [HttpGet("StaffOrdersInfo/Months")]
         public ActionResult<IEnumerable<OrderDeliveryInfo>> GetStaffOrdersInfoByMonth([FromQuery] DateOnly date)
         {
             return Ok(statisticsService.GetStaffOrdersInfoByMonth(date));
         }
 
-        [HttpGet("GetStaffOrdersInfo/Years")]
+        [HttpGet("StaffOrdersInfo/Years")]
         public ActionResult<IEnumerable<OrderDeliveryInfo>> GetStaffOrdersInfoByYear([FromQuery] DateOnly date)
         {
             return Ok(statisticsService.GetStaffOrdersInfoByYear(date));

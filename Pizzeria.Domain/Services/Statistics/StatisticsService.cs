@@ -1,9 +1,9 @@
 ﻿using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Mapper;
-using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Repository.StaffRepository;
 using Pizzeria.Domain.Repository.StatisticsRepository;
 using Pizzeria.Domain.Services.OrderService;
+using System;
 
 namespace Pizzeria.Domain.Services.Statistics
 {
@@ -79,7 +79,9 @@ namespace Pizzeria.Domain.Services.Statistics
 
         public IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByDay(DateTime startDate, DateTime endDate)
         {
-            var orders = orderService.GetAll(x => x.Date >= startDate && x.Date <= endDate).ToList();
+            var orders = orderService
+                .GetAll(x => x.Date >= startDate && x.Date <= endDate, asNoTracking: true)
+                .ToList();
 
             return orders
                 .GroupBy(x => new DateOnly(x.Date.Year, x.Date.Month, x.Date.Day))
@@ -97,7 +99,9 @@ namespace Pizzeria.Domain.Services.Statistics
             startDate = new DateTime(startDate.Year, startDate.Month, 1);
             endDate = new DateTime(endDate.Year, endDate.Month, DateTime.DaysInMonth(endDate.Year, endDate.Month));
 
-            var orders = orderService.GetAll(x => x.Date >= startDate && x.Date <= endDate).ToList();
+            var orders = orderService
+                .GetAll(x => x.Date >= startDate && x.Date <= endDate, asNoTracking: true)
+                .ToList();
 
             return orders
                 .GroupBy(x => new DateOnly(x.Date.Year, x.Date.Month, 1))
@@ -115,7 +119,9 @@ namespace Pizzeria.Domain.Services.Statistics
             startDate = new DateTime(startDate.Year, 1, 1);
             endDate = new DateTime(endDate.Year, 12, DateTime.DaysInMonth(endDate.Year, 12));
 
-            var orders = orderService.GetAll(x => x.Date >= startDate && x.Date <= endDate).ToList();
+            var orders = orderService
+                .GetAll(x => x.Date >= startDate && x.Date <= endDate, asNoTracking: true)
+                .ToList();
 
             return orders
                 .GroupBy(x => x.Date.Year)
@@ -130,7 +136,7 @@ namespace Pizzeria.Domain.Services.Statistics
 
         public IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByDay(DateOnly date)
         {
-            var staff = staffRepository.GetAllWithOrders().ToList();
+            var staff = staffRepository.GetAllWithOrders(asNoTracking: true).ToList();
 
             return staff.Select(x => new StaffOrdersInfo
             {
@@ -151,7 +157,7 @@ namespace Pizzeria.Domain.Services.Statistics
 
         public IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByMonth(DateOnly date)
         {
-            var staff = staffRepository.GetAllWithOrders();
+            var staff = staffRepository.GetAllWithOrders(asNoTracking: true);
 
             return staff.Select(x => new StaffOrdersInfo
             {
@@ -172,7 +178,7 @@ namespace Pizzeria.Domain.Services.Statistics
 
         public IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByYear(DateOnly date)
         {
-            var staff = staffRepository.GetAllWithOrders();
+            var staff = staffRepository.GetAllWithOrders(asNoTracking: true);
 
             return staff.Select(x => new StaffOrdersInfo
             {
@@ -189,6 +195,55 @@ namespace Pizzeria.Domain.Services.Statistics
                     .Average()
             })
             .OrderByDescending(x => x.NumberOfOrders);
+        }
+
+        public IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByDay(DateOnly dateStart, DateOnly dateEnd)
+        {
+            var orders = orderService
+                .GetAll(o => DateOnly.FromDateTime(o.Date) >= dateStart && DateOnly.FromDateTime(o.Date) <= dateEnd,
+                    asNoTracking: true)
+                .ToList();
+
+            return orders.GroupBy(o => DateOnly.FromDateTime(o.Date))
+                .Select(g => new NumberOfOrdersInfo
+                {
+                    Date = g.Key,
+                    NumberOfOrders = orders.Count(o => DateOnly.FromDateTime(o.Date) == g.Key)
+                });
+        }
+
+        public IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByMonth(DateOnly dateStart, DateOnly dateEnd)
+        {
+            var orders = orderService
+                .GetAll(o =>
+                    o.Date.Year >= dateStart.Year && o.Date.Month >= dateStart.Month &&
+                    o.Date.Year <= dateEnd.Year && o.Date.Month <= dateEnd.Month,
+                    asNoTracking: true)
+                .ToList();
+
+            return orders.GroupBy(o => new DateOnly(o.Date.Year, o.Date.Month, 1))
+                .Select(g => new NumberOfOrdersInfo
+                {
+                    Date = g.Key,
+                    NumberOfOrders = orders.Count(o => new DateOnly(o.Date.Year, o.Date.Month, 1) == g.Key)
+                });
+        }
+
+        public IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByYear(DateOnly dateStart, DateOnly dateEnd)
+        {
+            var orders = orderService
+                .GetAll(o =>
+                    o.Date.Year >= dateStart.Year &&
+                    o.Date.Year <= dateEnd.Year,
+                    asNoTracking: true)
+                .ToList();
+
+            return orders.GroupBy(o => o.Date.Year)
+                .Select(g => new NumberOfOrdersInfo
+                {
+                    Date = new DateOnly(g.Key, 1, 1),
+                    NumberOfOrders = orders.Count(o => o.Date.Year == g.Key)
+                });
         }
     }
 }

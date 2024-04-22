@@ -10,6 +10,10 @@ namespace Pizzeria.Domain.Services.Statistics
         IEnumerable<TotalSales> GetTotalSalesRevenueByMonth(DateTime startDate, DateTime endDate, string? itemCategory = null);
         IEnumerable<TotalSales> GetTotalSalesRevenueByYear(DateTime startDate, DateTime endDate, string? itemCategory = null);
 
+        IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByDay(DateOnly dateStart, DateOnly dateEnd);
+        IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByMonth(DateOnly dateStart, DateOnly dateEnd);
+        IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByYear(DateOnly dateStart, DateOnly dateEnd);
+
         IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByDay(DateTime startDate, DateTime endDate);
         IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByMonth(DateTime startDate, DateTime endDate);
         IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByYear(DateTime startDate, DateTime endDate);
