@@ -4,12 +4,15 @@ using Pizzeria.Domain.Dto.OrderDto;
 using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.OrderService;
+using Pizzeria.Domain.Services.StaffServcice;
 
 namespace PizzeriaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class OrdersController(IOrderService orderService)
+    public class OrdersController(
+        IOrderService orderService,
+        IStaffService staffService)
         : ControllerBase
     {
         [HttpGet]
@@ -58,6 +61,9 @@ namespace PizzeriaAPI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ResponseOrderDto>> Create([FromBody] RequestOrderDto requestOrderDto)
         {
+            if(await staffService.GetAsync(x => x.StaffId == requestOrderDto.StaffId) is null)
+                return BadRequest("No staff with specified id found");
+
             var order = Mappers.MapRequestDtoToOrder(requestOrderDto);
             order.OrderId = Guid.NewGuid();
             await orderService.CreateAsync(order);
@@ -76,6 +82,9 @@ namespace PizzeriaAPI.Controllers
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
         public async Task<ActionResult<ResponseOrderDto>> Update([FromRoute] Guid id, [FromBody] RequestOrderDto requestOrderDto)
         {
+            if(await staffService.GetAsync(x => x.StaffId == requestOrderDto.StaffId) is null)
+                return BadRequest("No staff with specified id found");
+
             var initialOrder = await orderService.GetAsync(o => o.OrderId.Equals(id), false);
 
             if(initialOrder is null) return NotFound();
