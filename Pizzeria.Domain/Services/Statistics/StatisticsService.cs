@@ -1,4 +1,7 @@
 ﻿using Pizzeria.Domain.Dto.StatisticsDto;
+using Pizzeria.Domain.Mapper;
+using Pizzeria.Domain.Models;
+using Pizzeria.Domain.Repository.StaffRepository;
 using Pizzeria.Domain.Repository.StatisticsRepository;
 using Pizzeria.Domain.Services.OrderService;
 
@@ -6,7 +9,8 @@ namespace Pizzeria.Domain.Services.Statistics
 {
     public class StatisticsService(
         IStatisticsRepository statisticsRepository,
-        IOrderService orderService) : IStatisticsService
+        IOrderService orderService,
+        IStaffRepository staffRepository) : IStatisticsService
     {
         public IEnumerable<StaffPayrollResult> CalculateStaffPayroll(DateTime startDate, DateTime endDate) =>
             statisticsRepository.CalculateStaffPayroll(startDate, endDate);
@@ -86,6 +90,105 @@ namespace Pizzeria.Domain.Services.Statistics
                     NumberOfDelivery = orders
                         .Count(x => new DateOnly(x.Date.Year, x.Date.Month, x.Date.Day) == g.Key && x.Delivery)
                 });
+        }
+
+        public IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByMonth(DateTime startDate, DateTime endDate)
+        {
+            startDate = new DateTime(startDate.Year, startDate.Month, 1);
+            endDate = new DateTime(endDate.Year, endDate.Month, DateTime.DaysInMonth(endDate.Year, endDate.Month));
+
+            var orders = orderService.GetAll(x => x.Date >= startDate && x.Date <= endDate).ToList();
+
+            return orders
+                .GroupBy(x => new DateOnly(x.Date.Year, x.Date.Month, 1))
+                .Select(g => new OrderDeliveryInfo
+                {
+                    Date = g.Key,
+                    NumberOfOrders = orders.Count(x => new DateOnly(x.Date.Year, x.Date.Month, 1) == g.Key),
+                    NumberOfDelivery = orders
+                        .Count(x => x.Delivery && new DateOnly(x.Date.Year, x.Date.Month, 1) == g.Key)
+                });
+        }
+
+        public IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByYear(DateTime startDate, DateTime endDate)
+        {
+            startDate = new DateTime(startDate.Year, 1, 1);
+            endDate = new DateTime(endDate.Year, 12, DateTime.DaysInMonth(endDate.Year, 12));
+
+            var orders = orderService.GetAll(x => x.Date >= startDate && x.Date <= endDate).ToList();
+
+            return orders
+                .GroupBy(x => x.Date.Year)
+                .Select(g => new OrderDeliveryInfo
+                {
+                    Date = new DateOnly(g.Key, 1, 1),
+                    NumberOfOrders = orders.Count(x => x.Date.Year == g.Key),
+                    NumberOfDelivery = orders
+                        .Count(x => x.Delivery && x.Date.Year == g.Key)
+                });
+        }
+
+        public IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByDay(DateOnly date)
+        {
+            var staff = staffRepository.GetAllWithOrders().ToList();
+
+            return staff.Select(x => new StaffOrdersInfo
+            {
+                Staff = Mappers.MapStaffToResponseDto(x),
+                Date = date,
+                NumberOfOrders = x.Orders.Count(o => DateOnly.FromDateTime(o.Date) == date),
+                OrdersTotalSum = x.Orders.Where(o => DateOnly.FromDateTime(o.Date) == date)
+                    .Select(o => o.Total)
+                    .DefaultIfEmpty()
+                    .Sum(),
+                AverageOrderTotal = x.Orders.Where(o => DateOnly.FromDateTime(o.Date) == date)
+                    .Select(o => o.Total)
+                    .DefaultIfEmpty()
+                    .Average()
+            })
+                .OrderByDescending(x => x.NumberOfOrders);
+        }
+
+        public IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByMonth(DateOnly date)
+        {
+            var staff = staffRepository.GetAllWithOrders();
+
+            return staff.Select(x => new StaffOrdersInfo
+            {
+                Staff = Mappers.MapStaffToResponseDto(x),
+                Date = date,
+                NumberOfOrders = x.Orders.Count(o => o.Date.Month == date.Month && o.Date.Year == date.Year),
+                OrdersTotalSum = x.Orders.Where(o => o.Date.Month == date.Month && o.Date.Year == date.Year)
+                    .Select(o => o.Total)
+                    .DefaultIfEmpty()
+                    .Sum(),
+                AverageOrderTotal = x.Orders.Where(o => o.Date.Month == date.Month && o.Date.Year == date.Year)
+                    .Select(o => o.Total)
+                    .DefaultIfEmpty()
+                    .Average()
+            })
+            .OrderByDescending(x => x.NumberOfOrders);
+        }
+
+        public IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByYear(DateOnly date)
+        {
+            var staff = staffRepository.GetAllWithOrders();
+
+            return staff.Select(x => new StaffOrdersInfo
+            {
+                Staff = Mappers.MapStaffToResponseDto(x),
+                Date = date,
+                NumberOfOrders = x.Orders.Count(o => o.Date.Year == date.Year),
+                OrdersTotalSum = x.Orders.Where(o => o.Date.Year == date.Year)
+                    .Select(o => o.Total)
+                    .DefaultIfEmpty()
+                    .Sum(),
+                AverageOrderTotal = x.Orders.Where(o => o.Date.Year == date.Year)
+                    .Select(o => o.Total)
+                    .DefaultIfEmpty()
+                    .Average()
+            })
+            .OrderByDescending(x => x.NumberOfOrders);
         }
     }
 }

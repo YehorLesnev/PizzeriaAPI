@@ -17,5 +17,11 @@ namespace Pizzeria.Domain.Services.Statistics
         ProductOfMonth? GetProductOfMonth(int year, int month);
 
         IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByDay(DateTime startDate, DateTime endDate);
+        IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByMonth(DateTime startDate, DateTime endDate);
+        IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByYear(DateTime startDate, DateTime endDate);
+
+        IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByDay(DateOnly date);
+        IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByMonth(DateOnly date);
+        IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByYear(DateOnly date);
     }
 }

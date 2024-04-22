@@ -1,8 +1,10 @@
 ﻿using Pizzeria.Domain.Dto.StatisticsDto;
+using Pizzeria.Domain.Repository.StaffRepository;
 
 namespace Pizzeria.Domain.Repository.StatisticsRepository
 {
-    public class StatisticsRepository(PizzeriaDbContext dbContext) : IStatisticsRepository
+    public class StatisticsRepository(
+        PizzeriaDbContext dbContext) : IStatisticsRepository
     {
         public IEnumerable<StaffPayrollResult> CalculateStaffPayroll(DateTime startDate, DateTime endDate) =>
             dbContext.CalculateStaffPayroll(startDate, endDate);
