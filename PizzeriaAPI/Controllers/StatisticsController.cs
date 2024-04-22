@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.StatisticsDto;
+using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Services.Statistics;
 
 namespace PizzeriaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize(Roles = UserRoleNames.Manager)]
     public class StatisticsController(IStatisticsService statisticsService) : ControllerBase
     {
         [HttpGet("GetStaffPayroll")]

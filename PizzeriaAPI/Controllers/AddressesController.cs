@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.AddressDto;
-using Pizzeria.Domain.Dto.StaffDto;
 using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Mapper;
 using Pizzeria.Domain.Services.AddressService;
-using Pizzeria.Domain.Services.StaffServcice;
 
 namespace PizzeriaAPI.Controllers
 {
