@@ -64,7 +64,7 @@ namespace PizzeriaAPI.Controllers
 
             var createdItem = await itemService.GetAsync(r => r.ItemId == item.ItemId);
 
-            if(createdItem is null)
+            if (createdItem is null)
                 return BadRequest("Couldn't create item");
 
             return Created(nameof(Get), Mappers.MapItemToResponseDto(createdItem));
@@ -83,10 +83,17 @@ namespace PizzeriaAPI.Controllers
             var updatedItem = Mappers.MapRequestDtoToItem(requestItemDto);
             updatedItem.ItemId = initialItem.ItemId;
 
-            updatedItem.ImagePath = "static/images/items/" + await itemService.SaveItemImageAsync(
-                requestItemDto.Image,
-                requestItemDto.ItemCategory,
-                requestItemDto.ItemName);
+            if (requestItemDto.Image is not null)
+            {
+                updatedItem.ImagePath = "static/images/items/" + await itemService.SaveItemImageAsync(
+                    requestItemDto.Image,
+                    requestItemDto.ItemCategory,
+                    requestItemDto.ItemName);
+            }
+            else
+            {
+                updatedItem.ImagePath = initialItem.ImagePath;
+            }
 
             await itemService.UpdateAsync(updatedItem);
 
