@@ -10,7 +10,7 @@ namespace PizzeriaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    //[Authorize(Roles = UserRoleNames.Manager)]
+    [Authorize(Roles = UserRoleNames.Manager)]
     public class DownloadsController(IStatisticsService statisticsService) : ControllerBase
     {
         [HttpGet("PDF/StaffPayroll")]
