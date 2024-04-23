@@ -9,6 +9,7 @@ using Pizzeria.Domain.Models;
 using Pizzeria.Domain.Seeder;
 using PizzeriaAPI.Extensions;
 using PizzeriaAPI.Identity.JwtConfig;
+using PizzeriaAPI.Middleware;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -23,9 +24,9 @@ builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<PizzeriaDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DatabaseSQL"),
-        b => b.MigrationsAssembly("Pizzeria.Domain"))
-    .EnableSensitiveDataLogging());
+            builder.Configuration.GetConnectionString("DatabaseSQL"),
+            b => b.MigrationsAssembly("Pizzeria.Domain"))
+        .EnableSensitiveDataLogging());
 
 builder.Services.Configure<JwtTokenConfig>(
     builder.Configuration.GetSection(nameof(JwtTokenConfig)));
@@ -119,3 +120,7 @@ app.MapControllers();
 await app.AddIdentityRoles();
 
 app.Run();
+
+namespace PizzeriaAPI
+{
+}

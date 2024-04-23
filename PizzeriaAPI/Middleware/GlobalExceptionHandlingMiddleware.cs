@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace PizzeriaAPI.Extensions
+namespace PizzeriaAPI.Middleware
 {
     public class GlobalExceptionHandlingMiddleware : IMiddleware
     {
@@ -13,21 +13,22 @@ namespace PizzeriaAPI.Extensions
             {
                 await next(context);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error(ex, ex.Message);
-                
-                const int statusCode = (int) HttpStatusCode.InternalServerError;
+
+                const int statusCode = (int)HttpStatusCode.InternalServerError;
 
                 context.Response.StatusCode = statusCode;
-                    
+
 
                 ProblemDetails problemDetails = new()
                 {
                     Status = statusCode,
                     Type = "Server error",
                     Title = "Server error",
-                    Detail = $"An internal server error has occured: {ex.Message}"
+                    Detail = $"An internal server error has occured: {ex.Message}. " +
+                        ex.InnerException is null ? "" : $" Inner exception message: ex.InnerException.Message"
                 };
 
                 var json = JsonSerializer.Serialize(problemDetails);
