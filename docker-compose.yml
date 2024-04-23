@@ -27,6 +27,7 @@ services:
     environment:
       - SA_PASSWORD=StrongPassword123!
       - ACCEPT_EULA=Y
+    platform: linux/amd64
     ports:
       - "1401:1433"
 

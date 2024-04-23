@@ -120,7 +120,3 @@ app.MapControllers();
 await app.AddIdentityRoles();
 
 app.Run();
-
-namespace PizzeriaAPI
-{
-}
