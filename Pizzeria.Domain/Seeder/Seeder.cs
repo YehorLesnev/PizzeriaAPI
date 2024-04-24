@@ -425,7 +425,7 @@ namespace Pizzeria.Domain.Seeder
                     .RuleFor(x => x.Date, date)
                     .RuleFor(x => x.StaffId, f =>
                         f.PickRandom(shifts.FirstOrDefault(s => s.ShiftDate.Equals(DateOnly.FromDateTime(date))).ShiftStaff).StaffId)
-                    .RuleFor(x => x.CustomerId, f => f.PickRandom(customers.Result).Id)
+                    .RuleFor(x => x.CustomerId, f => f.Random.Bool(0.75f) ? f.PickRandom(customers.Result).Id : null)
                     .RuleFor(x => x.Delivery, isDelivery == 0)
                     .RuleFor(x => x.DeliveryAddress, deliveryAddress)
                     .RuleFor(x => x.DeliveryAddressId, deliveryAddress?.AddressId)
