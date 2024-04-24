@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text;
+using System.Text.Json;
+using System.Xml.Serialization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Services.Statistics;
 
@@ -85,5 +89,50 @@ namespace PizzeriaAPI.Controllers
 
             return File(stream.ToArray(), "application/pdf", "staff_payroll.pdf");
         }
+
+        [HttpGet("XML/StaffPayroll")]
+        public ActionResult GetStaffPayrollXml(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            var staffPayrollResults = 
+                statisticsService.CalculateStaffPayroll(dateStart, dateEnd)
+                .ToList();
+
+            // Create XML serializer for the StaffPayrollResult type
+            var serializer = new XmlSerializer(typeof(List<StaffPayrollResult>));
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                // Serialize the list of StaffPayrollResult objects to XML
+                serializer.Serialize(stream, staffPayrollResults);
+
+                // Reset the stream position to the beginning
+                stream.Seek(0, SeekOrigin.Begin);
+
+                // Set content type to XML and return the stream as a file
+                return File(stream.ToArray(), "application/xml", "staff_payroll.xml");
+            }
+        }
+
+        [HttpGet("JSON/StaffPayroll")]
+        public ActionResult GetStaffPayrollJson(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            var staffPayrollResults = 
+                statisticsService.CalculateStaffPayroll(dateStart, dateEnd)
+                .ToList();
+
+            // Serialize the list of StaffPayrollResult objects to JSON
+            var json = JsonSerializer.Serialize(staffPayrollResults);
+
+            // Convert the JSON string to bytes
+            var data = Encoding.UTF8.GetBytes(json);
+
+            // Set content type to JSON and return the data as a file
+            return File(data, "application/json", "staff_payroll.json");
+        }
+
     }
 }
