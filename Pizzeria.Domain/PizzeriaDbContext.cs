@@ -400,7 +400,7 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
     
     public IEnumerable<TotalSales> GetSalesDistributionByCategoryAndDay(string itemCategory, DateTime startDate, DateTime endDate)
     {
-        FormattableString sqlQuery = $"EXEC GetSalesDistributionByCategoryAndDay {itemCategory}, {startDate}, {endDate.Date}";
+        FormattableString sqlQuery = $"EXEC GetSalesDistributionByCategoryAndDay {itemCategory}, {startDate.Date}, {endDate.Date}";
 
         return this.Database.SqlQuery<TotalSales>(sqlQuery);
     }

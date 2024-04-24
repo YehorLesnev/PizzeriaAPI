@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Bogus;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Domain.Dto.OrderDto;
 using Pizzeria.Domain.Identity.Roles;
@@ -51,7 +52,7 @@ namespace PizzeriaAPI.Controllers
         {
             var order = await orderService.GetAsync(a => a.OrderId.Equals(id), true);
 
-            if(order is null) return NotFound();
+            if (order is null) return NotFound();
 
             return Ok(Mappers.MapOrderToResponseDto(order));
         }
@@ -61,16 +62,17 @@ namespace PizzeriaAPI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ResponseOrderDto>> Create([FromBody] RequestOrderDto requestOrderDto)
         {
-            if(await staffService.GetAsync(x => x.StaffId == requestOrderDto.StaffId) is null)
-                return BadRequest("No staff with specified id found");
-
             var order = Mappers.MapRequestDtoToOrder(requestOrderDto);
             order.OrderId = Guid.NewGuid();
+
+            // Set random staff id
+            order.StaffId = new Faker().PickRandom(staffService.GetAll().Select(x => x.StaffId)); 
+
             await orderService.CreateAsync(order);
 
             var createdOrder = await orderService.GetAsync(r => r.OrderId == order.OrderId);
 
-            if(createdOrder is null)
+            if (createdOrder is null)
                 return BadRequest("Couldn't create order");
 
             return Created(nameof(GetAsync), Mappers.MapOrderToResponseDto(createdOrder));
@@ -80,20 +82,20 @@ namespace PizzeriaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}")]
-        public async Task<ActionResult<ResponseOrderDto>> Update([FromRoute] Guid id, [FromBody] RequestOrderDto requestOrderDto)
+        public async Task<ActionResult<ResponseOrderDto>> Update([FromRoute] Guid id, [FromBody] RequestUpdateOrderDto requestOrderDto)
         {
-            if(await staffService.GetAsync(x => x.StaffId == requestOrderDto.StaffId) is null)
+            if (await staffService.GetAsync(x => x.StaffId == requestOrderDto.StaffId) is null)
                 return BadRequest("No staff with specified id found");
 
             var initialOrder = await orderService.GetAsync(o => o.OrderId.Equals(id), false);
 
-            if(initialOrder is null) return NotFound();
+            if (initialOrder is null) return NotFound();
 
             initialOrder.OrderItems.Clear();
 
             var updatedOrder = Mappers.MapRequestDtoToOrder(requestOrderDto);
 
-            foreach(var orderItem in updatedOrder.OrderItems)
+            foreach (var orderItem in updatedOrder.OrderItems)
             {
                 orderItem.OrderId = id;
                 initialOrder.OrderItems.Add(orderItem);
@@ -110,7 +112,7 @@ namespace PizzeriaAPI.Controllers
         {
             var order = await orderService.GetAsync(o => o.OrderId.Equals(id));
 
-            if(order is null) return;
+            if (order is null) return;
 
             await orderService.DeleteAsync(order);
         }

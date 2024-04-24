@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pizzeria.Domain.Dto.OrderDto
 {
-    public record RequestOrderDto
+    public record RequestUpdateOrderDto
     {
         [Required]
         public required DateTime Date { get; set; }
+
+        [Required]
+        public required Guid StaffId { get; set; }
 
         public Guid? CustomerId { get; set; }
 

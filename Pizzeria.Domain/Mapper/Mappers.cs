@@ -57,6 +57,7 @@ namespace Pizzeria.Domain.Mapper
         public static partial Ingredient MapRequestDtoToIngredient(RequestIngredientDto requestIngredient);
         public static partial Item MapRequestDtoToItem(RequestItemDto requestItem);
         public static partial Order MapRequestDtoToOrder(RequestOrderDto requestOrder);
+        public static partial Order MapRequestDtoToOrder(RequestUpdateOrderDto requestOrder);
         public static partial OrderItem MapDtoToOrderItem(RequestOrderItemDto orderItem);
         public static partial Recipe MapRequestDtoToRecipe(RequestRecipeDto requestRecipe);
         public static partial RecipeIngredient MapRequestDtoToRecipeIngredient(RequestRecipeIngredientDto responseRecipeIngredient);
