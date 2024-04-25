@@ -70,5 +70,52 @@ namespace Pizzeria.Domain.Repository.OrderRepository
             return asNoTracking ? await query.Include("OrderItems").Include("OrderItems.Item").AsNoTracking().FirstOrDefaultAsync()
                 : await query.Include("OrderItems").Include("OrderItems.Item").FirstOrDefaultAsync();
         }
+
+        public IEnumerable<Order> GetAllWithFullInfo(
+            Expression<Func<Order, bool>>? filter = null,
+            int? pageNumber = null,
+            int? pageSize = null,
+            bool asNoTracking = false)
+        {
+            IQueryable<Order> query = DbSet;
+
+            if (filter is not null)
+                query = query.Where(filter);
+
+            query = query.OrderByDescending(x => x.Date);
+
+            if (pageNumber is null || pageSize is null)
+                return asNoTracking ? query
+                    .Include("OrderItems")
+                    .Include("OrderItems.Item")
+                    .Include("Customer")
+                    .Include("Staff")
+                    .Include("DeliveryAddress")
+                    .AsNoTracking()
+                    : query
+                        .Include("OrderItems")
+                        .Include("OrderItems.Item")
+                        .Include("Customer")
+                        .Include("Staff")
+                        .Include("DeliveryAddress");
+
+            return asNoTracking ? query
+                    .Include("OrderItems")
+                    .Include("OrderItems.Item")
+                    .Include("Customer")
+                    .Include("Staff")
+                    .Include("DeliveryAddress")
+                    .Skip((pageNumber.Value - 1) * pageSize.Value)
+                    .Take(pageSize.Value)
+                    .AsNoTracking()
+                : query
+                    .Include("OrderItems")
+                    .Include("OrderItems.Item")
+                    .Include("Customer")
+                    .Include("Staff")
+                    .Include("DeliveryAddress")
+                    .Skip((pageNumber.Value - 1) * pageSize.Value)
+                    .Take(pageSize.Value);
+        }
     }
 }

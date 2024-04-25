@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using Pizzeria.Domain.Dto.OrderDto;
 using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Identity.Roles;
+using Pizzeria.Domain.Mapper;
+using Pizzeria.Domain.Services.OrderService;
 using Pizzeria.Domain.Services.Statistics;
 
 namespace PizzeriaAPI.Controllers
@@ -16,7 +19,9 @@ namespace PizzeriaAPI.Controllers
     [Route("[controller]")]
     [ApiController]
     [Authorize(Roles = UserRoleNames.Manager)]
-    public class DownloadsController(IStatisticsService statisticsService) : ControllerBase
+    public class DownloadsController(
+        IStatisticsService statisticsService,
+        IOrderService orderService) : ControllerBase
     {
         [HttpGet("PDF/StaffPayroll")]
         public ActionResult GetStaffPayrollPdf(
@@ -24,8 +29,8 @@ namespace PizzeriaAPI.Controllers
         [FromQuery] DateTime dateEnd)
         {
             var staffPayrollResults = statisticsService.CalculateStaffPayroll(dateStart, dateEnd).ToList();
-            
-            if(staffPayrollResults.IsNullOrEmpty())
+
+            if (staffPayrollResults.IsNullOrEmpty())
                 return BadRequest("Please specify correct start and end date");
 
             using MemoryStream stream = new MemoryStream();
@@ -96,24 +101,23 @@ namespace PizzeriaAPI.Controllers
             [FromQuery] DateTime dateStart,
             [FromQuery] DateTime dateEnd)
         {
-            var staffPayrollResults = 
+            var staffPayrollResults =
                 statisticsService.CalculateStaffPayroll(dateStart, dateEnd)
                 .ToList();
 
             // Create XML serializer for the StaffPayrollResult type
             var serializer = new XmlSerializer(typeof(List<StaffPayrollResult>));
 
-            using (MemoryStream stream = new MemoryStream())
-            {
-                // Serialize the list of StaffPayrollResult objects to XML
-                serializer.Serialize(stream, staffPayrollResults);
+            using MemoryStream stream = new MemoryStream();
 
-                // Reset the stream position to the beginning
-                stream.Seek(0, SeekOrigin.Begin);
+            // Serialize the list of StaffPayrollResult objects to XML
+            serializer.Serialize(stream, staffPayrollResults);
 
-                // Set content type to XML and return the stream as a file
-                return File(stream.ToArray(), "application/xml", "staff_payroll.xml");
-            }
+            // Reset the stream position to the beginning
+            stream.Seek(0, SeekOrigin.Begin);
+
+            // Set content type to XML and return the stream as a file
+            return File(stream.ToArray(), "application/xml", "staff_payroll.xml");
         }
 
         [HttpGet("JSON/StaffPayroll")]
@@ -121,7 +125,7 @@ namespace PizzeriaAPI.Controllers
             [FromQuery] DateTime dateStart,
             [FromQuery] DateTime dateEnd)
         {
-            var staffPayrollResults = 
+            var staffPayrollResults =
                 statisticsService.CalculateStaffPayroll(dateStart, dateEnd)
                 .ToList();
 
@@ -139,35 +143,34 @@ namespace PizzeriaAPI.Controllers
         public ActionResult GetStaffOrdersInfoXml(
             [FromQuery] DateOnly date)
         {
-            var staffOrdersInfos = 
+            var staffOrdersInfos =
                 statisticsService.GetStaffOrdersInfoByMonth(date)
                     .ToList();
 
             // Create XML serializer for the StaffPayrollResult type
             var serializer = new XmlSerializer(typeof(List<StaffOrdersInfo>));
 
-            using (MemoryStream stream = new MemoryStream())
-            {
-                // Serialize the list of StaffPayrollResult objects to XML
-                serializer.Serialize(stream, staffOrdersInfos);
+            using MemoryStream stream = new MemoryStream();
 
-                // Reset the stream position to the beginning
-                stream.Seek(0, SeekOrigin.Begin);
+            // Serialize the list of StaffPayrollResult objects to XML
+            serializer.Serialize(stream, staffOrdersInfos);
 
-                // Set content type to XML and return the stream as a file
-                return File(stream.ToArray(), "application/xml", "staff_orders_info.xml");
-            }
+            // Reset the stream position to the beginning
+            stream.Seek(0, SeekOrigin.Begin);
+
+            // Set content type to XML and return the stream as a file
+            return File(stream.ToArray(), "application/xml", "staff_orders_info.xml");
         }
 
         [HttpGet("PDF/StaffOrdersInfo")]
         public ActionResult GetStaffPayrollPdf(
         [FromQuery] DateOnly date)
         {
-            var staffOrdersInfos = 
+            var staffOrdersInfos =
                 statisticsService.GetStaffOrdersInfoByMonth(date)
                 .ToList();
-            
-            if(staffOrdersInfos.IsNullOrEmpty())
+
+            if (staffOrdersInfos.IsNullOrEmpty())
                 return BadRequest("Please specify correct start and end date");
 
             using MemoryStream stream = new MemoryStream();
@@ -237,7 +240,7 @@ namespace PizzeriaAPI.Controllers
         public ActionResult GetStaffOrdersInfoJson(
             [FromQuery] DateOnly date)
         {
-            var staffOrdersInfos = 
+            var staffOrdersInfos =
                 statisticsService.GetStaffOrdersInfoByMonth(date)
                     .ToList();
 
@@ -249,6 +252,84 @@ namespace PizzeriaAPI.Controllers
 
             // Set content type to JSON and return the data as a file
             return File(data, "application/json", "staff_orders_info.json");
+        }
+
+        [HttpGet("XML/Orders")]
+        public ActionResult GetOrdersXml(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            var orders =
+                Mappers.MapOrderToResponseDto(
+                    orderService.GetAllWithFullInfo(
+                        o => o.Date >= dateStart && o.Date < dateEnd,
+                        asNoTracking: true))
+                    .ToList();
+
+            // Create XML serializer for the StaffPayrollResult type
+            var serializer = new XmlSerializer(typeof(List<ResponseOrderDto>));
+
+            using MemoryStream stream = new MemoryStream();
+
+            // Serialize the list of StaffPayrollResult objects to XML
+            serializer.Serialize(stream, orders);
+
+            // Reset the stream position to the beginning
+            stream.Seek(0, SeekOrigin.Begin);
+
+            // Set content type to XML and return the stream as a file
+            return File(stream.ToArray(), "application/xml", "orders.xml");
+        }
+
+        [HttpGet("JSON/Orders")]
+        public ActionResult GetOrdersJson(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            var orders =
+                Mappers.MapOrderToResponseDto(
+                    orderService.GetAllWithFullInfo(
+                        o => o.Date >= dateStart && o.Date < dateEnd,
+                        asNoTracking: true))
+                    .ToList();
+
+            // Serialize the list of StaffPayrollResult objects to JSON
+            var json = JsonSerializer.Serialize(orders);
+
+            // Convert the JSON string to bytes
+            var data = Encoding.UTF8.GetBytes(json);
+
+            return File(data, "application/json", "orders.json");
+        }
+
+        [HttpGet("CSV/Orders")]
+        public IActionResult GetOrdersCsv(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            // Retrieve the orders from your database
+            var orders =
+                Mappers.MapOrderToResponseDto(
+                    orderService.GetAll(
+                        o => o.Date >= dateStart && o.Date < dateEnd,
+                    asNoTracking: true))
+                        .ToList();
+
+            // Construct the CSV header
+            var csv = new StringBuilder();
+            csv.AppendLine("Order ID,Date,Staff ID,Customer ID,Delivery,Delivery Address ID");
+
+            // Append each order to the CSV
+            foreach (var order in orders)
+            {
+                csv.AppendLine($"{order.OrderId},{order.Date},{order.StaffId},{order.CustomerId},{order.Delivery},{order.DeliveryAddressId}");
+            }
+
+            // Convert the CSV string to bytes using UTF-8 encoding
+            var data = Encoding.UTF8.GetBytes(csv.ToString());
+
+            // Set content type to CSV and return the data as a file
+            return File(data, "text/csv", "orders.csv");
         }
     }
 }

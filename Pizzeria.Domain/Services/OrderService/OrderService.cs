@@ -15,5 +15,14 @@ namespace Pizzeria.Domain.Services.OrderService
         {
             return orderRepository.GetAllByUserEmail(userEmail, filter, pageNumber, pageSize, asNoTracking);
         }
+
+        public IEnumerable<Order> GetAllWithFullInfo(
+            Expression<Func<Order, bool>>? filter = null,
+            int? pageNumber = null,
+            int? pageSize = null,
+            bool asNoTracking = false)
+        {
+            return orderRepository.GetAllWithFullInfo(filter, pageNumber, pageSize, asNoTracking);
+        }
     }
 }

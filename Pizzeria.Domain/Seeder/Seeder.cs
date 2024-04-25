@@ -433,7 +433,6 @@ namespace Pizzeria.Domain.Seeder
             }
 
             await orderService.CreateAllAsync(orders);
-
             await shiftService.CreateAllAsync(shifts);
 
             // Clean up
@@ -442,6 +441,7 @@ namespace Pizzeria.Domain.Seeder
             items = null;
             customers = null;
             staff = null;
+            orders = null;
         }
     }
 }

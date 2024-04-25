@@ -11,5 +11,11 @@ namespace Pizzeria.Domain.Repository.OrderRepository
             int? pageNumber = null,
             int? pageSize = null,
             bool asNoTracking = false);
+
+        IEnumerable<Order> GetAllWithFullInfo(
+            Expression<Func<Order, bool>>? filter = null,
+            int? pageNumber = null,
+            int? pageSize = null,
+            bool asNoTracking = false);
     }
 }
