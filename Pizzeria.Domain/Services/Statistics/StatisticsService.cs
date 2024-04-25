@@ -214,10 +214,11 @@ namespace Pizzeria.Domain.Services.Statistics
 
         public IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByMonth(DateOnly dateStart, DateOnly dateEnd)
         {
+            var start = new DateTime(dateStart.Year, dateStart.Month, 1);
+            var end = new DateTime(dateEnd.Year, dateEnd.Month, DateTime.DaysInMonth(dateEnd.Year, dateEnd.Month));
+
             var orders = orderService
-                .GetAll(o =>
-                    o.Date.Year >= dateStart.Year && o.Date.Month >= dateStart.Month &&
-                    o.Date.Year <= dateEnd.Year && o.Date.Month <= dateEnd.Month,
+                .GetAll(o => o.Date >= start && o.Date <= end,
                     asNoTracking: true)
                 .ToList();
 
