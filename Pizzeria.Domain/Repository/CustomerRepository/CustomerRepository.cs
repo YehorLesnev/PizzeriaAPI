@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Models;
 using System.Linq.Expressions;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Pizzeria.Domain.Repository.CustomerRepository
 {
@@ -55,8 +53,10 @@ namespace Pizzeria.Domain.Repository.CustomerRepository
             entity.UserName = entity.Email;
             entity.NormalizedUserName = normalizedEmail;
 
-            await userManager.CreateAsync(entity, "Password123!");
-            await userManager.AddToRoleAsync(entity, UserRoleNames.Customer);
+            if ((await userManager.CreateAsync(entity, Constants.Constants.DefaultUserPassword)).Succeeded)
+            {
+                await userManager.AddToRoleAsync(entity, UserRoleNames.Customer);
+            }
         }
 
         public override async Task CreateAllAsync(IEnumerable<Customer> entities)
@@ -69,8 +69,10 @@ namespace Pizzeria.Domain.Repository.CustomerRepository
                 entity.UserName = entity.Email;
                 entity.NormalizedUserName = normalizedEmail;
 
-                await userManager.CreateAsync(entity, "Password123!");
-                await userManager.AddToRoleAsync(entity, UserRoleNames.Customer);
+                if ((await userManager.CreateAsync(entity, Constants.Constants.DefaultUserPassword)).Succeeded)
+                {
+                    await userManager.AddToRoleAsync(entity, UserRoleNames.Customer);
+                }
             } 
         }
 
@@ -83,9 +85,11 @@ namespace Pizzeria.Domain.Repository.CustomerRepository
                 entity.NormalizedEmail = normalizedEmail;
                 entity.UserName = entity.Email;
                 entity.NormalizedUserName = normalizedEmail;
-
-                await userManager.CreateAsync(entity, usersPassword);
-                await userManager.AddToRoleAsync(entity, UserRoleNames.Customer);
+                
+                if ((await userManager.CreateAsync(entity, usersPassword)).Succeeded)
+                {
+                    await userManager.AddToRoleAsync(entity, UserRoleNames.Customer);
+                }
             } 
         }
 
