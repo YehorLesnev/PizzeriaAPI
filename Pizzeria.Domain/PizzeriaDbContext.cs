@@ -380,7 +380,7 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
 
     public IEnumerable<AverageOrderTotalValue> GetAverageOrderValueByDays(DateTime startDate, DateTime endDate)
     {
-        FormattableString sqlQuery = $"EXEC GetAverageOrderValueByDays {startDate.Date}, {endDate.Date}";
+        FormattableString sqlQuery = $"EXEC GetAverageOrderValueByDay {startDate.Date}, {endDate.Date}";
 
         return this.Database.SqlQuery<AverageOrderTotalValue>(sqlQuery);
     }

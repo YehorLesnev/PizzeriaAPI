@@ -54,7 +54,7 @@ namespace PizzeriaAPI.Controllers
             return Ok(statisticsService.GetNumberOfOrdersByDay(dateStart, dateEnd));
         } 
         
-        [HttpGet("NumberOfOrders/Month")]
+        [HttpGet("NumberOfOrders/Months")]
         public ActionResult<IEnumerable<NumberOfOrdersInfo>> GetNumberOfOrdersByMonth(
             [FromQuery] DateOnly dateStart,
             [FromQuery] DateOnly dateEnd)

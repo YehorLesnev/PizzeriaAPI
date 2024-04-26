@@ -91,7 +91,8 @@ namespace Pizzeria.Domain.Services.Statistics
                     NumberOfOrders = orders.Count(x => new DateOnly(x.Date.Year, x.Date.Month, x.Date.Day) == g.Key),
                     NumberOfDelivery = orders
                         .Count(x => new DateOnly(x.Date.Year, x.Date.Month, x.Date.Day) == g.Key && x.Delivery)
-                });
+                })
+                .OrderBy(o => o.Date);;
         }
 
         public IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByMonth(DateTime startDate, DateTime endDate)
@@ -111,7 +112,8 @@ namespace Pizzeria.Domain.Services.Statistics
                     NumberOfOrders = orders.Count(x => new DateOnly(x.Date.Year, x.Date.Month, 1) == g.Key),
                     NumberOfDelivery = orders
                         .Count(x => x.Delivery && new DateOnly(x.Date.Year, x.Date.Month, 1) == g.Key)
-                });
+                })
+                .OrderBy(o => o.Date);;
         }
 
         public IEnumerable<OrderDeliveryInfo> GetOrderDeliveryInfoByYear(DateTime startDate, DateTime endDate)
@@ -131,7 +133,8 @@ namespace Pizzeria.Domain.Services.Statistics
                     NumberOfOrders = orders.Count(x => x.Date.Year == g.Key),
                     NumberOfDelivery = orders
                         .Count(x => x.Delivery && x.Date.Year == g.Key)
-                });
+                })
+                .OrderBy(o => o.Date);;
         }
 
         public IEnumerable<StaffOrdersInfo> GetStaffOrdersInfoByDay(DateOnly date)
@@ -209,7 +212,8 @@ namespace Pizzeria.Domain.Services.Statistics
                 {
                     Date = g.Key,
                     NumberOfOrders = orders.Count(o => DateOnly.FromDateTime(o.Date) == g.Key)
-                });
+                })
+                .OrderBy(o => o.Date);
         }
 
         public IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByMonth(DateOnly dateStart, DateOnly dateEnd)
@@ -227,7 +231,8 @@ namespace Pizzeria.Domain.Services.Statistics
                 {
                     Date = g.Key,
                     NumberOfOrders = orders.Count(o => new DateOnly(o.Date.Year, o.Date.Month, 1) == g.Key)
-                });
+                })
+                .OrderBy(o => o.Date);;
         }
 
         public IEnumerable<NumberOfOrdersInfo> GetNumberOfOrdersByYear(DateOnly dateStart, DateOnly dateEnd)
@@ -244,7 +249,8 @@ namespace Pizzeria.Domain.Services.Statistics
                 {
                     Date = new DateOnly(g.Key, 1, 1),
                     NumberOfOrders = orders.Count(o => o.Date.Year == g.Key)
-                });
+                })
+                .OrderBy(o => o.Date);;
         }
     }
 }
