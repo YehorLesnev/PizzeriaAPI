@@ -55,9 +55,7 @@ BEGIN
 
     -- Drop the temporary table
     DROP TABLE #StaffPayroll;
-END;
-
-EXEC CalculateStaffPayroll @StartDate = '2024-04-01', @EndDate = '2024-04-30';");
+END;");
         }
 
         /// <inheritdoc />
