@@ -42,24 +42,25 @@ namespace Pizzeria.Domain.Repository.OrderRepository
         {
             IQueryable<Order> query = DbSet;
 
+            query = query.Where(x => x.Customer != null 
+                && x.Customer.Email != null
+                && x.Customer.Email.Equals(userEmail));
+
             if (filter is not null)
                 query = query.Where(filter);
-
-            query = query.OrderByDescending(x => x.Date);
 
             query = asNoTracking ? query.Include("OrderItems").Include("OrderItems.Item").Include("Customer").AsNoTracking()
                 : query.Include("OrderItems").Include("OrderItems.Item").Include("Customer");
 
             if (pageNumber is not null && pageSize is not null)
             {
-                return query.AsEnumerable().Where(x => x.Customer?.Email != null
-                    && x.Customer.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase))
+                return query
                     .Skip((pageNumber.Value - 1) * pageSize.Value)
-                    .Take(pageSize.Value);
-
+                    .Take(pageSize.Value)
+                    .OrderByDescending(x => x.Date);
             }
 
-            return query.AsEnumerable().Where(x => x.Customer?.Email != null && x.Customer.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase));
+            return query.OrderByDescending(x => x.Date);
         }
 
         public override async Task<Order?> GetAsync(Expression<Func<Order, bool>>? filter = null, bool asNoTracking = false)
