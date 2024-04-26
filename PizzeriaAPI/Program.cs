@@ -15,11 +15,6 @@ using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Logger
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .CreateLogger();
-
 builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<PizzeriaDbContext>(options =>
@@ -83,6 +78,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Developmen
 }
 
 app.ApplyMigrations();
+
+app.AddSerilog();
 
 app.UseCors(c =>
 {
