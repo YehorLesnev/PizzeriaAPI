@@ -19,6 +19,8 @@ using Pizzeria.Domain.Services.RecipeService;
 using Pizzeria.Domain.Services.ShiftService;
 using Pizzeria.Domain.Repository.StatisticsRepository;
 using Pizzeria.Domain.Services.Statistics;
+using Pizzeria.Domain.Services.LogService;
+using Pizzeria.Domain.Repository.LogRepository;
 
 namespace Pizzeria.Domain.Extensions
 {
@@ -39,6 +41,7 @@ namespace Pizzeria.Domain.Extensions
             serviceCollection.AddScoped<IStaffRepository, StaffRepository>();
             serviceCollection.AddScoped<IShiftRepository, ShiftRepository>();
             serviceCollection.AddScoped<IStatisticsRepository, StatisticsRepository>();
+            serviceCollection.AddScoped<ILogRepository, LogRepository>();
 
             return serviceCollection;
         }
@@ -56,6 +59,7 @@ namespace Pizzeria.Domain.Extensions
             serviceCollection.AddScoped<IRecipeService, RecipeService>();
             serviceCollection.AddScoped<IShiftService, ShiftService>();
             serviceCollection.AddScoped<IStatisticsService, StatisticsService>();
+            serviceCollection.AddScoped<ILogService, LogService>();
 
             return serviceCollection;
         }

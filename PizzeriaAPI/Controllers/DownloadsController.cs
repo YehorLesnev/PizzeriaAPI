@@ -11,6 +11,8 @@ using Pizzeria.Domain.Dto.OrderDto;
 using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Identity.Roles;
 using Pizzeria.Domain.Mapper;
+using Pizzeria.Domain.Models;
+using Pizzeria.Domain.Services.LogService;
 using Pizzeria.Domain.Services.OrderService;
 using Pizzeria.Domain.Services.Statistics;
 
@@ -21,7 +23,8 @@ namespace PizzeriaAPI.Controllers
     [Authorize(Roles = UserRoleNames.Manager)]
     public class DownloadsController(
         IStatisticsService statisticsService,
-        IOrderService orderService) : ControllerBase
+        IOrderService orderService,
+        ILogService logService) : ControllerBase
     {
         [HttpGet("PDF/StaffPayroll")]
         public ActionResult GetStaffPayrollPdf(
@@ -330,6 +333,87 @@ namespace PizzeriaAPI.Controllers
 
             // Set content type to CSV and return the data as a file
             return File(data, "text/csv", "orders.csv");
+        }
+
+        [HttpGet("CSV/Logs")]
+        [Authorize(Roles = $"{UserRoleNames.Manager}, {UserRoleNames.Admin}")]
+        public IActionResult GetLogsCsv(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            // Retrieve the orders from your database
+            var logs =
+                    logService.GetAll(
+                        x => x.TimeStamp >= dateStart && x.TimeStamp < dateEnd,
+                    asNoTracking: true)
+                        .ToList();
+
+            // Construct the CSV header
+            var csv = new StringBuilder();
+            csv.AppendLine("Id,Message,MessageTemplate,Level,TimeStamp,Exception,Properties");
+
+            // Append each order to the CSV
+            foreach (var log in logs)
+            {
+                csv.AppendLine($"{log.Id},{log.Message},{log.MessageTemplate},{log.Level},{log.TimeStamp},{log.Exception},{log.Properties}");
+            }
+
+            // Convert the CSV string to bytes using UTF-8 encoding
+            var data = Encoding.UTF8.GetBytes(csv.ToString());
+
+            // Set content type to CSV and return the data as a file
+            return File(data, "text/csv", "logs.csv");
+        }
+        
+        [HttpGet("JSON/Logs")]
+        [Authorize(Roles = $"{UserRoleNames.Manager}, {UserRoleNames.Admin}")]
+        public IActionResult GetLogsJson(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            // Retrieve the orders from your database
+            var logs =
+                    logService.GetAll(
+                        x => x.TimeStamp >= dateStart && x.TimeStamp < dateEnd,
+                    asNoTracking: true)
+                        .ToList();
+
+            if(logs.Count >= 58000) throw new OverflowException("Too much log entry objects. Enter shorter time period.");
+
+            var json = JsonSerializer.Serialize(logs);
+
+            // Convert the JSON string to bytes
+            var data = Encoding.UTF8.GetBytes(json);
+
+            return File(data, "application/json", "logs.json");
+        }
+
+        [HttpGet("XML/Logs")]
+        [Authorize(Roles = $"{UserRoleNames.Manager}, {UserRoleNames.Admin}")]
+        public IActionResult GetLogsXml(
+            [FromQuery] DateTime dateStart,
+            [FromQuery] DateTime dateEnd)
+        {
+            // Retrieve the orders from your database
+            var logs =
+                    logService.GetAll(
+                        x => x.TimeStamp >= dateStart && x.TimeStamp < dateEnd,
+                    asNoTracking: true)
+                        .ToList();
+
+            // Create XML serializer for the StaffPayrollResult type
+            var serializer = new XmlSerializer(typeof(List<Log>));
+
+            using MemoryStream stream = new MemoryStream();
+
+            // Serialize the list of StaffPayrollResult objects to XML
+            serializer.Serialize(stream, logs);
+
+            // Reset the stream position to the beginning
+            stream.Seek(0, SeekOrigin.Begin);
+
+            // Set content type to XML and return the stream as a file
+            return File(stream.ToArray(), "application/xml", "logs.xml");
         }
     }
 }

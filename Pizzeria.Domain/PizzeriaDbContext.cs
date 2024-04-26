@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Pizzeria.Domain.Dto.StatisticsDto;
 using Pizzeria.Domain.Models;
@@ -38,6 +37,7 @@ public partial class PizzeriaDbContext : IdentityDbContext<Customer, IdentityRol
     public virtual DbSet<Shift> Shifts { get; set; }
     public virtual DbSet<ShiftStaff> ShiftStaff { get; set; }
 
+    public virtual DbSet<Log> Logs { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Shift>(entity =>
