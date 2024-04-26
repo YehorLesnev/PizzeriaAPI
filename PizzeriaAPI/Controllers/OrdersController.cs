@@ -30,7 +30,7 @@ namespace PizzeriaAPI.Controllers
         }
 
         [HttpGet("user/{userEmail}")]
-        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Cashier}")]
+        [Authorize(Roles = $"{UserRoleNames.Admin}, {UserRoleNames.Manager}, {UserRoleNames.Cashier}, {UserRoleNames.Customer}")]
         public IEnumerable<ResponseOrderDto> GetAll(
             [FromRoute] string userEmail,
             [FromQuery] int? pageNumber = null,

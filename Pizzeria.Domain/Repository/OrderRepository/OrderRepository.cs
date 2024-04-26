@@ -52,12 +52,14 @@ namespace Pizzeria.Domain.Repository.OrderRepository
 
             if (pageNumber is not null && pageSize is not null)
             {
-                query = query
+                return query.AsEnumerable().Where(x => x.Customer?.Email != null
+                    && x.Customer.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase))
                     .Skip((pageNumber.Value - 1) * pageSize.Value)
                     .Take(pageSize.Value);
+
             }
 
-            return query.AsEnumerable().Where(x => x.Customer is not null && x.Customer.Email is not null && x.Customer.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase));
+            return query.AsEnumerable().Where(x => x.Customer?.Email != null && x.Customer.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase));
         }
 
         public override async Task<Order?> GetAsync(Expression<Func<Order, bool>>? filter = null, bool asNoTracking = false)
