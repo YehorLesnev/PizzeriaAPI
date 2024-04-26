@@ -28,7 +28,7 @@ namespace PizzeriaAPI.Middleware
                     Type = "Server error",
                     Title = "Server error",
                     Detail = $"An internal server error has occured: {ex.Message}. " +
-                        ex.InnerException is null ? "" : $" Inner exception message: ex.InnerException.Message"
+                        ex.InnerException is null ? "" : $" Inner exception message: {ex.InnerException.Message}"
                 };
 
                 var json = JsonSerializer.Serialize(problemDetails);
