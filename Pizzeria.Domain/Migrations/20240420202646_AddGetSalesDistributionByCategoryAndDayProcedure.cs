@@ -24,6 +24,7 @@ AS
 BEGIN
     SELECT
        DATEFROMPARTS(YEAR(date), MONTH(date), DAY(date)) AS SalesDate,
+        SUM(oi.quantity) AS Quantity,
         SUM(oi.quantity * i.item_price) AS TotalRevenue
     FROM
         orders o

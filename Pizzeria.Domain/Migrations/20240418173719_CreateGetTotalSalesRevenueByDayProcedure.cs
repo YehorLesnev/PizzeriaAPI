@@ -23,6 +23,7 @@ AS
 BEGIN
     SELECT
         CONVERT(DATE, o.date) AS SalesDate,
+        SUM(oi.quantity) AS Quantity,
         SUM(oi.quantity * i.item_price) AS TotalRevenue
     FROM
         orders o

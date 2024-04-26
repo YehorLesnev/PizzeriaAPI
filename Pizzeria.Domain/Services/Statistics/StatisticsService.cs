@@ -37,6 +37,7 @@ namespace Pizzeria.Domain.Services.Statistics
                 .Select(g => new TotalSales
                 {
                     SalesDate = new DateTime(g.Key.Year, g.Key.Month, DateTime.DaysInMonth(g.Key.Year, g.Key.Month)),
+                    Quantity = g.Sum(s => s.Quantity),
                     TotalRevenue = g.Sum(s => s.TotalRevenue)
                 });
         }
@@ -55,6 +56,7 @@ namespace Pizzeria.Domain.Services.Statistics
                 .Select(g => new TotalSales
                 {
                     SalesDate = new DateTime(g.Key, 12, DateTime.DaysInMonth(g.Key, 12)),
+                    Quantity = g.Sum(s => s.Quantity),
                     TotalRevenue = g.Sum(s => s.TotalRevenue)
                 });
         }
