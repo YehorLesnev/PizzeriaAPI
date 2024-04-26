@@ -21,14 +21,15 @@ namespace PizzeriaAPI.Middleware
 
                 context.Response.StatusCode = statusCode;
 
+                var innerExceptionMessage = ex.InnerException == null ? "" : $" Inner exception message: {ex.InnerException.Message}";
 
                 ProblemDetails problemDetails = new()
                 {
                     Status = statusCode,
                     Type = "Server error",
                     Title = "Server error",
-                    Detail = $"An internal server error has occured: {ex.Message}. " +
-                        ex.InnerException is null ? "" : $" Inner exception message: {ex.InnerException.Message}"
+                    Detail = $"An internal server error has occured: {ex.Message}. {innerExceptionMessage}"
+                       
                 };
 
                 var json = JsonSerializer.Serialize(problemDetails);
