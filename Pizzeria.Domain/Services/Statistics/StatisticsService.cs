@@ -13,7 +13,7 @@ namespace Pizzeria.Domain.Services.Statistics
         IStaffRepository staffRepository) : IStatisticsService
     {
         public IEnumerable<StaffPayrollResult> CalculateStaffPayroll(DateTime startDate, DateTime endDate) =>
-            statisticsRepository.CalculateStaffPayroll(startDate, endDate).OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
+            statisticsRepository.CalculateStaffPayroll(startDate, endDate).OrderByDescending(x => x.HoursWorked);
 
         public IEnumerable<TotalSales> GetTotalSalesRevenueByDay(
             DateTime startDate,

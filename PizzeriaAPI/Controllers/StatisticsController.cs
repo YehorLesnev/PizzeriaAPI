@@ -8,7 +8,7 @@ namespace PizzeriaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles = UserRoleNames.Manager)]
+    [Authorize(Roles = $"{UserRoleNames.Manager},{UserRoleNames.Admin}")]
     public class StatisticsController(IStatisticsService statisticsService) : ControllerBase
     {
         [HttpGet("GetStaffPayroll")]
