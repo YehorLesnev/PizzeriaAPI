@@ -55,9 +55,9 @@ namespace Pizzeria.Domain.Repository.OrderRepository
             if (pageNumber is not null && pageSize is not null)
             {
                 return query
+                    .OrderByDescending(x => x.Date)
                     .Skip((pageNumber.Value - 1) * pageSize.Value)
-                    .Take(pageSize.Value)
-                    .OrderByDescending(x => x.Date);
+                    .Take(pageSize.Value);
             }
 
             return query.OrderByDescending(x => x.Date);

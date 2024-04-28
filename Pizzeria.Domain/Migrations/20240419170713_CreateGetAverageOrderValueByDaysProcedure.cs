@@ -34,6 +34,7 @@ BEGIN
         CONVERT(DATE, orders.date) AS Date,
         AVG(orders.order_total) AS AverageOrderTotal
     FROM orders
+	WHERE orders.date BETWEEN @StartDate AND @EndDate
     GROUP BY CONVERT(DATE, orders.date);
 
     SELECT * FROM #AverageOrderValue ORDER BY Date;
